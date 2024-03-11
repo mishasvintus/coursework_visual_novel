@@ -18,12 +18,17 @@
 
 **Функции (псевдокод прототипов, приближенный к C++):**
 
-  `void set_background_picture(const Picture& picture);                                           // Настройка фона
-  void set_slot_picture(const size_t slot_number, const Picture& picture),                       // Настройка слотов фона
-  void set_dialogue_box(const string& speaker, const string& replica, ...),                      // Настройка диалогового окна
-  void set_actions(const pair<double, double> first_coors, const string& first_action_text, const pair<double, double> second_coors, const string& second_action_text),     // Настройка выбора действий
-  void set_sound(const Sound& sound, const size_t num_sound_road),                               // Настройка звукового сопровождения
-  void make_transition(const Picture& picture, const string& text, const time_t time).           // Осуществление перехода между сценами`
+  `void set_background_picture(const Picture& picture);                                           // Настройка фона`
+  
+  `void set_slot_picture(const size_t slot_number, const Picture& picture),                       // Настройка слотов фона`
+  
+  `void set_dialogue_box(const string& speaker, const string& replica, ...),                      // Настройка диалогового окна`
+  
+  `void set_actions(const pair<double, double> first_coors, const string& first_action_text, const pair<double, double> second_coors, const string& second_action_text),     // Настройка выбора действий`
+  
+  `void set_sound(const Sound& sound, const size_t num_sound_road),                               // Настройка звукового сопровождения`
+  
+  `void make_transition(const Picture& picture, const string& text, const time_t time).           // Осуществление перехода между сценами`
   
 
 **Прототипы классов:**
