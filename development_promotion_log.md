@@ -18,7 +18,7 @@
 
 **Функции (псевдокод прототипов, приближенный к C++):**
 
-  void set_background_picture(const Picture& picture);                                           // Настройка фона 
+  `void set_background_picture(const Picture& picture);                                           // Настройка фона `
   
   void set_slot_picture(const size_t slot_number, const Picture& picture),                       // Настройка слотов фона
   
