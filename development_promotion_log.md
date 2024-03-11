@@ -4,7 +4,7 @@
 
 (TODO: сделать иерархию классов, чтобы использовать наследование методов отрисовки и т.п.)
 
-Классы: 
+**Классы:**
 
   Scene (сцена), 
   
@@ -16,76 +16,135 @@
   
   Scenario (сценарий).
 
-Функции (псевдокод прототипов, приближенный к C++): 
-  set_background_picture(const Picture& picture);                                           // Настройка фона 
-  set_slot_picture(const size_t slot_number, const Picture& picture),                       // Настройка слотов фона
-  set_dialogue_box(const string& speaker, const string& replica, ...),                      // Настройка диалогового окна
-  set_actions(const pair<double, double> first_coors, const string& first_action_text,      // Настройка выбора действий
-              const pair<double, double> second_coors, const string& second_action_text),
-  set_sound(const Sound& sound, const size_t num_sound_road),                               // Настройка звукового сопровождения
-  make_transition(const Picture& picture, const string& text, const time_t time).           // Осуществление перехода между сценами
+**Функции (псевдокод прототипов, приближенный к C++):**
 
-Прототипы классов:
+  set_background_picture(const Picture& picture);                                           // Настройка фона 
+  
+  set_slot_picture(const size_t slot_number, const Picture& picture),                       // Настройка слотов фона
+  
+  set_dialogue_box(const string& speaker, const string& replica, ...),                      // Настройка диалогового окна
+  
+  set_actions(const pair<double, double> first_coors, const string& first_action_text,      // Настройка выбора действий
+  
+              const pair<double, double> second_coors, const string& second_action_text),
+              
+  set_sound(const Sound& sound, const size_t num_sound_road),                               // Настройка звукового сопровождения
+  
+  make_transition(const Picture& picture, const string& text, const time_t time).           // Осуществление перехода между сценами
+  
+
+**Прототипы классов:**
 
 class DialogueBox {
+
 public:
+
     //// КОНСТРУКТОРЫ, ДЕСТРУКТОР ////
+    
 private:
+
     //// МЕТОДЫ ////
+    
     void SetSpeaker(...);
+    
     void SetReplica(...);
+    
     //// ПОЛЯ КЛАССА ////
+    
     string speaker_;      // возможно, лучше string_view
+    
     string replica_;      // возможно, лучше string_view
+    
 };
 
 class Slot {
+
 public:
+
     //// КОНСТРУКТОРЫ, ДЕСТРУКТОР ////
+    
 private:
+
     //// МЕТОДЫ ////
+    
     void SetPicture(const Picture& picture);
+    
     //// ПОЛЯ КЛАССА ////
+    
     Picture picture_;
+    
 };
 
 template <typename T = size_t>
+
 class Buttom {
+
 public:
+
     //// КОНСТРУКТОРЫ, ДЕСТРУКТОР ////
+    
 private:
+
     //// МЕТОДЫ ////
+    
     TODO
+    
     //// ПОЛЯ КЛАССА ////
+    
     Picture picture_;
+    
     std::function<T> functor_; 
+    
 };
 
 class Scene {
+
 public:
+
     //// КОНСТРУКТОРЫ, ДЕСТРУКТОР////
+    
 private:
+
     //// МЕТОДЫ ////
+    
     void SetBackGround(...);
+    
     void SetSlot(..., size_t number);
+    
     void SetDialogueBox(...);
+    
     void SetButtom(...);
+    
     ////ПОЛЯ КЛАССА////
+    
     Picture background_;
+    
     DialoguBox dialogue_box_;
+    
     std::vector<Slot> slots_;
+    
     std::vector<Buttom> buttoms_;
+    
 };
 
 class Scenario {
+
 public:
+
     //// КОНСТРУКТОРЫ, ДЕСТРУКТОР ////
+    
 private:
+
     //// МЕТОДЫ ////
+    
     void Update(const std::string& new_text);
+    
     (TODO: персистентность)
+    
     //// ПОЛЯ КЛАССА ////
+    
     std::vector<std::string> scenario;
+    
 };
 
 -------------------------------------------------------------------------------------------
