@@ -18,7 +18,7 @@
 
 **Функции (псевдокод прототипов, приближенный к C++):**
 
-  `void set_background_picture(const Picture& picture);                                           // Настройка фона `
+  `void set_background_picture(const Picture& picture);                                           // Настройка фона 
   
   void set_slot_picture(const size_t slot_number, const Picture& picture),                       // Настройка слотов фона
   
@@ -28,7 +28,7 @@
               
   void set_sound(const Sound& sound, const size_t num_sound_road),                               // Настройка звукового сопровождения
   
-  void make_transition(const Picture& picture, const string& text, const time_t time).           // Осуществление перехода между сценами
+  void make_transition(const Picture& picture, const string& text, const time_t time).           // Осуществление перехода между сценами`
   
 
 **Прототипы классов:**
