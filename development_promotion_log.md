@@ -28,7 +28,7 @@
   void make_transition(const Picture& picture, const string& text, const time_t time).           // Осуществление перехода между сценами
 ```
 
-**Прототипы классов:**
+**Прототипы классов (псевдокод прототипов, приближенный к C++):**
 ```
 class DialogueBox {
 
