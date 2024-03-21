@@ -1,13 +1,19 @@
 #include <SFML/Graphics.hpp>
 
-void Start(const std::string& project_name) {
-    sf::Window window(sf::VideoMode::getDesktopMode(), project_name);
-    while (window.isOpen()) {
-        sf::Event event{};
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
-    }
-}
+const std::string DEFAULT_PROJECT_NAME = "Project";
+
+class Application {
+public:
+    explicit Application();
+    explicit Application(const std::string &project_name);
+    explicit Application(const Application& other) = delete;
+    explicit Application(const Application&& other) = delete;
+    ~Application() = default;
+
+    static void ApplyRendering(const std::string &project_name);
+
+    void Finish();
+
+private:
+    sf::Thread rendering_thread_;
+};
