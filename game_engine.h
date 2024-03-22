@@ -1,33 +1,55 @@
 #include "object.h"
 
-#include <vector>
+#include <exception>
 
-namespace ge {
+void Object::Draw() {
+    throw std::logic_error("Can't use this method\n");
+}
 
-    class Application {
-    public:
-        explicit Application();
+std::string_view Object::GetReplica() {
+    throw std::logic_error("Can't use this method\n");
+}
 
-        explicit Application(const std::string &project_name);
+std::string_view Object::GetSpeaker() {
+    throw std::logic_error("Can't use this method\n");
+}
 
-        explicit Application(const Application &other) = delete;
+void Object::SetReplica(const std::string_view &replica) {
+    throw std::logic_error("Can't use this method\n");
+}
 
-        explicit Application(const Application &&other) = delete;
+void Object::SetSpeaker(const std::string_view &replica) {
+    throw std::logic_error("Can't use this method\n");
+}
 
-        ~Application() = default;
+DialogueBox::DialogueBox() : replica_(DEFAULT_REPLICA), speaker_(DEFAULT_SPEAKER) {
+}
 
-        void Finish();
-        
-        void CreateDialogueBox(const std::string_view& replica, const std::string_view& speaker) {
-            //// will be latter, we must realise all methods in dialogue box for using it like abstract class
-        }
+DialogueBox::DialogueBox(const std::string_view &replica, const std::string_view &speaker) : replica_(replica),
+                                                                                             speaker_(speaker) {
+}
 
-    private:
-        static void ApplyRendering(const std::string &project_name);
+DialogueBox::DialogueBox(const DialogueBox &other) : replica_(other.replica_), speaker_(other.speaker_) {
+}
 
-        const std::string DEFAULT_PROJECT_NAME = "Project";
+DialogueBox::DialogueBox(const DialogueBox&& other) noexcept : replica_(other.replica_), speaker_(other.speaker_) {
+}
 
-        sf::Thread rendering_thread_;
-        std::vector<Object> objects_;
-    };
+DialogueBox::DialogueBox(DialogueBox&& other) noexcept : replica_(other.replica_), speaker_(other.speaker_) {
+}
+
+std::string_view DialogueBox::GetReplica() {
+    return replica_;
+}
+
+std::string_view DialogueBox::GetSpeaker() {
+    return speaker_;
+}
+
+void DialogueBox::SetReplica(const std::string_view& replica) {
+    replica_ = replica;
+}
+
+void DialogueBox::SetSpeaker(const std::string_view& speaker) {
+    speaker_ = speaker;
 }
