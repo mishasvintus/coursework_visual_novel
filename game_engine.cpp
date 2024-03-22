@@ -1,15 +1,15 @@
 #include "game_engine.h"
 
-Application::Application() : rendering_thread_(&ApplyRendering, DEFAULT_PROJECT_NAME) {
+ge::Application::Application() : rendering_thread_(&ApplyRendering, DEFAULT_PROJECT_NAME) {
     rendering_thread_.launch();
 }
 
-Application::Application(const std::string &project_name) : rendering_thread_(&ApplyRendering,
+ge::Application::Application(const std::string &project_name) : rendering_thread_(&ApplyRendering,
                                                                               project_name) {
     rendering_thread_.launch();
 }
 
-void Application::ApplyRendering(const std::string &project_name) {
+void ge::Application::ApplyRendering(const std::string &project_name) {
     sf::Window window(sf::VideoMode::getDesktopMode(), project_name);
     while (window.isOpen()) {
         sf::Event event{};
@@ -21,6 +21,6 @@ void Application::ApplyRendering(const std::string &project_name) {
     }
 }
 
-void Application::Finish() {
+void ge::Application::Finish() {
     rendering_thread_.wait();
 }
