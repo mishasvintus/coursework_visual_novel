@@ -6,34 +6,38 @@ class Object {
 public:
     virtual ~Object() = default;
 
-    virtual void Draw() {
-    }
-    //// here will be setters and getters ////
+    virtual void Draw();
+
+    virtual std::string_view GetReplica();
+
+    virtual std::string_view GetSpeaker();
+
+    virtual void SetReplica(const std::string_view &replica);
+
+    virtual void SetSpeaker(const std::string_view &replica);
 };
 
-class DialogueBox : Object {
+class DialogueBox : public Object {
 public:
     DialogueBox();
 
     DialogueBox(const std::string_view &replica, const std::string_view &speaker);
 
     DialogueBox(const DialogueBox &other);
-    DialogueBox(const DialogueBox&& other);
-    DialogueBox(DialogueBox&& other);
+
+    DialogueBox(const DialogueBox &&other) noexcept;
+
+    DialogueBox(DialogueBox &&other) noexcept;
 
     ~DialogueBox() override = default;
 
-    void Draw() override {
-        //// will be realise
-    }
+    std::string_view GetReplica() override;
 
-    std::string_view GetReplica();
+    std::string_view GetSpeaker() override;
 
-    std::string_view GetSpeaker();
+    void SetReplica(const std::string_view &replica) override;
 
-    void SetReplica(const std::string_view& replica);
-
-    void SetSpeaker(const std::string_view& speaker);
+    void SetSpeaker(const std::string_view &speaker) override;
 
 private:
     const std::string_view DEFAULT_REPLICA = "Some strange sounds...";
