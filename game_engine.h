@@ -17,10 +17,8 @@ namespace ge {
         ~Application() = default;
 
         void Finish();
-        
-        void CreateDialogueBox(const std::string_view& replica, const std::string_view& speaker) {
-            //// will be latter, we must realise all methods in dialogue box for using it like abstract class
-        }
+
+        void CreateDialogueBox(const std::string_view& replica, const std::string_view& speaker);
 
     private:
         static void ApplyRendering(const std::string &project_name);
