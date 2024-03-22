@@ -21,6 +21,11 @@ void ge::Application::ApplyRendering(const std::string &project_name) {
     }
 }
 
+void ge::Application::CreateDialogueBox(const std::string_view& replica, const std::string_view& speaker) {
+    DialogueBox dialogue_box(replica, speaker);
+    objects_.emplace_back(dialogue_box);
+}
+
 void ge::Application::Finish() {
     rendering_thread_.wait();
 }
