@@ -6,22 +6,6 @@ void Object::Draw() {
     throw std::logic_error("Can't use this method\n");
 }
 
-std::string_view Object::GetReplica() {
-    throw std::logic_error("Can't use this method\n");
-}
-
-std::string_view Object::GetSpeaker() {
-    throw std::logic_error("Can't use this method\n");
-}
-
-void Object::SetReplica(const std::string_view &replica) {
-    throw std::logic_error("Can't use this method\n");
-}
-
-void Object::SetSpeaker(const std::string_view &replica) {
-    throw std::logic_error("Can't use this method\n");
-}
-
 DialogueBox::DialogueBox() : replica_(DEFAULT_REPLICA), speaker_(DEFAULT_SPEAKER) {
 }
 
