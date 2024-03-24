@@ -7,14 +7,6 @@ public:
     virtual ~Object() = default;
 
     virtual void Draw();
-
-    virtual std::string_view GetReplica();
-
-    virtual std::string_view GetSpeaker();
-
-    virtual void SetReplica(const std::string_view &replica);
-
-    virtual void SetSpeaker(const std::string_view &replica);
 };
 
 class DialogueBox : public Object {
@@ -31,13 +23,13 @@ public:
 
     ~DialogueBox() override = default;
 
-    std::string_view GetReplica() override;
+    std::string_view GetReplica();
 
-    std::string_view GetSpeaker() override;
+    std::string_view GetSpeaker();
 
-    void SetReplica(const std::string_view &replica) override;
+    void SetReplica(const std::string_view &replica);
 
-    void SetSpeaker(const std::string_view &speaker) override;
+    void SetSpeaker(const std::string_view &speaker);
 
 private:
     const std::string_view DEFAULT_REPLICA = "Some strange sounds...";
