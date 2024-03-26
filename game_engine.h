@@ -47,7 +47,9 @@ namespace ge {
     public:
         explicit Application();
 
-        explicit Application(const std::string &project_name, size_t slots_count = DEFAULT_SLOTS_COUNT);
+        explicit Application(const std::string &project_name);
+
+        explicit Application(const std::string &project_name, const std::string& icon_path);
 
         explicit Application(const Application &other) = delete;
 
@@ -55,18 +57,25 @@ namespace ge {
 
         ~Application() = default;
 
-        void SetDialogueBox(const DialogueBox &dialogue_box);
+        void Start();
 
         void Finish();
 
-    private:
-        static void ApplyRendering(const std::string &project_name);
+        void SetSlotsCount(size_t count);
 
+        void SetDialogueBox(const DialogueBox &dialogue_box);
+
+    private:
+        static void ApplyRendering(const std::vector<std::string> &arguments);
+
+        static const size_t INDEX_PROJECT_NAME = 0;
+        static const size_t INDEX_ICON_PATH = 1;
         static const size_t DEFAULT_SLOTS_COUNT = 5;
         const std::string DEFAULT_PROJECT_NAME = "Project";
+        const std::string DEFAULT_IMAGE_ICON_PATH;
 
         sf::Thread rendering_thread_;
-        size_t slots_count_;
+        size_t slots_count_ = DEFAULT_SLOTS_COUNT;
         std::shared_ptr<DialogueBox> dialogue_box_ = nullptr;
     };
 }
