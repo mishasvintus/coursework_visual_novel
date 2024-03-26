@@ -1,15 +1,53 @@
 #include "object.h"
 
-#include <memory>
-#include <vector>
+#include <SFML/Graphics.hpp>
+
+#include <string>
 
 namespace ge {
+
+    class DialogueBox : public Object {
+    public:
+        DialogueBox();
+
+        DialogueBox(const std::string_view &replica, const std::string_view &speaker);
+
+        DialogueBox(const DialogueBox &other);
+
+        DialogueBox(const DialogueBox &&other) noexcept;
+
+        DialogueBox(DialogueBox &&other) noexcept;
+
+        ~DialogueBox() override = default;
+
+        std::string_view GetReplica();
+
+        std::string_view GetSpeaker();
+
+        void SetReplica(const std::string_view &replica);
+
+        void SetSpeaker(const std::string_view &speaker);
+
+        void Show();
+
+        void Hide();
+
+    private:
+        const std::string_view DEFAULT_REPLICA = "Some strange sounds...";
+        const std::string_view DEFAULT_SPEAKER = "Some strange creature";
+
+        bool is_showing_ = false;
+        std::string_view replica_;
+        std::string_view speaker_;
+
+        //// will be more params ////
+    };
 
     class Application {
     public:
         explicit Application();
 
-        explicit Application(const std::string &project_name);
+        explicit Application(const std::string &project_name, size_t slots_count = DEFAULT_SLOTS_COUNT);
 
         explicit Application(const Application &other) = delete;
 
@@ -17,20 +55,18 @@ namespace ge {
 
         ~Application() = default;
 
+        void SetDialogueBox(const DialogueBox &dialogue_box);
+
         void Finish();
-
-        void CreateDialogueBox();
-
-        void CreateDialogueBox(const std::string_view& replica, const std::string_view& speaker);
-
-        void CreateDialogueBox(const DialogueBox& dialogue_box);
 
     private:
         static void ApplyRendering(const std::string &project_name);
 
+        static const size_t DEFAULT_SLOTS_COUNT = 5;
         const std::string DEFAULT_PROJECT_NAME = "Project";
 
         sf::Thread rendering_thread_;
-        std::vector<std::unique_ptr<Object>> objects_;
+        size_t slots_count_;
+        std::shared_ptr<DialogueBox> dialogue_box_ = nullptr;
     };
 }
