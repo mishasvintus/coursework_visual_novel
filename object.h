@@ -1,42 +1,29 @@
-#include <SFML/Graphics.hpp>
+#include <memory>
+#include <vector>
 
-#include <string>
+namespace ge {
+    class Object {
+    public:
+        virtual ~Object() = default;
 
-class Object {
-public:
-    virtual ~Object() = default;
+        virtual void Draw();
+    };
 
-    virtual void Draw();
-};
+    class VarImpl {
+    public:
+        VarImpl() = default;
 
-class DialogueBox : public Object {
-public:
-    DialogueBox();
+        VarImpl(const VarImpl &var_impl);
 
-    DialogueBox(const std::string_view &replica, const std::string_view &speaker);
+        VarImpl(VarImpl &&var_impl) noexcept;
 
-    DialogueBox(const DialogueBox &other);
+        VarImpl(const VarImpl &&var_impl) noexcept;
 
-    DialogueBox(const DialogueBox &&other) noexcept;
+        ~VarImpl() = default;
 
-    DialogueBox(DialogueBox &&other) noexcept;
+        void Push(const Object &object);
 
-    ~DialogueBox() override = default;
-
-    std::string_view GetReplica();
-
-    std::string_view GetSpeaker();
-
-    void SetReplica(const std::string_view &replica);
-
-    void SetSpeaker(const std::string_view &speaker);
-
-private:
-    const std::string_view DEFAULT_REPLICA = "Some strange sounds...";
-    const std::string_view DEFAULT_SPEAKER = "Some strange creature";
-
-    std::string_view replica_;
-    std::string_view speaker_;
-
-    //// will be more params ////
-};
+    private:
+        std::vector<std::shared_ptr<Object>> objects_;
+    };
+}
