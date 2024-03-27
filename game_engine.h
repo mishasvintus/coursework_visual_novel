@@ -10,13 +10,13 @@ namespace ge {
     public:
         DialogueBox();
 
-        DialogueBox(const std::string_view &replica, const std::string_view &speaker);
+        DialogueBox(const std::string_view& replica, const std::string_view& speaker);
 
-        DialogueBox(const DialogueBox &other);
+        DialogueBox(const DialogueBox& other);
 
-        DialogueBox(const DialogueBox &&other) noexcept;
+        DialogueBox(const DialogueBox&& other) noexcept;
 
-        DialogueBox(DialogueBox &&other) noexcept;
+        DialogueBox(DialogueBox&& other) noexcept;
 
         ~DialogueBox() override = default;
 
@@ -24,9 +24,9 @@ namespace ge {
 
         std::string_view GetSpeaker();
 
-        void SetReplica(const std::string_view &replica);
+        void SetReplica(const std::string_view& replica);
 
-        void SetSpeaker(const std::string_view &speaker);
+        void SetSpeaker(const std::string_view& speaker);
 
         void Show();
 
@@ -47,13 +47,13 @@ namespace ge {
     public:
         explicit Application();
 
-        explicit Application(const std::string &project_name);
+        explicit Application(const std::string& project_name);
 
-        explicit Application(const std::string &project_name, const std::string& icon_path);
+        explicit Application(const std::string& project_name, const std::string& icon_path);
 
-        explicit Application(const Application &other) = delete;
+        explicit Application(const Application& other) = delete;
 
-        explicit Application(const Application &&other) = delete;
+        explicit Application(const Application&& other) = delete;
 
         ~Application() = default;
 
@@ -63,10 +63,10 @@ namespace ge {
 
         void SetSlotsCount(size_t count);
 
-        void SetDialogueBox(const DialogueBox &dialogue_box);
+        void SetDialogueBox(const DialogueBox& dialogue_box);
 
     private:
-        static void ApplyRendering(const std::vector<std::string> &arguments);
+        static void ApplyRendering(const std::vector<std::string>& arguments);
 
         static const size_t INDEX_PROJECT_NAME = 0;
         static const size_t INDEX_ICON_PATH = 1;
@@ -78,4 +78,4 @@ namespace ge {
         size_t slots_count_ = DEFAULT_SLOTS_COUNT;
         std::shared_ptr<DialogueBox> dialogue_box_ = nullptr;
     };
-}
+}// namespace ge

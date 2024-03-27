@@ -10,14 +10,14 @@ ge::VarImpl::VarImpl(const VarImpl& var_impl) {
     objects_ = var_impl.objects_;
 }
 
-ge::VarImpl::VarImpl(ge::VarImpl &&var_impl) noexcept {
+ge::VarImpl::VarImpl(ge::VarImpl&& var_impl) noexcept {
     objects_ = std::move(var_impl.objects_);
 }
 
-ge::VarImpl::VarImpl(const ge::VarImpl &&var_impl) noexcept {
+ge::VarImpl::VarImpl(const ge::VarImpl&& var_impl) noexcept {
     objects_ = var_impl.objects_;
 }
 
-void ge::VarImpl::Push(const Object &object) {
+void ge::VarImpl::Push(const Object& object) {
     objects_.emplace_back(std::make_shared<Object>(object));
 }

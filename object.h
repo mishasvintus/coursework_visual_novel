@@ -13,17 +13,17 @@ namespace ge {
     public:
         VarImpl() = default;
 
-        VarImpl(const VarImpl &var_impl);
+        VarImpl(const VarImpl& var_impl);
 
-        VarImpl(VarImpl &&var_impl) noexcept;
+        VarImpl(VarImpl&& var_impl) noexcept;
 
-        VarImpl(const VarImpl &&var_impl) noexcept;
+        VarImpl(const VarImpl&& var_impl) noexcept;
 
         ~VarImpl() = default;
 
-        void Push(const Object &object);
+        void Push(const Object& object);
 
     private:
         std::vector<std::shared_ptr<Object>> objects_;
     };
-}
+}// namespace ge
