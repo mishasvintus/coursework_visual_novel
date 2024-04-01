@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <string>
+#include <thread>
 
 namespace ge {
 
@@ -57,8 +58,6 @@ namespace ge {
 
         ~Application() = default;
 
-        void Start();
-
         void Finish();
 
         void SetSlotsCount(size_t count);
@@ -74,7 +73,7 @@ namespace ge {
         const std::string DEFAULT_PROJECT_NAME = "Project";
         const std::string DEFAULT_IMAGE_ICON_PATH;
 
-        sf::Thread rendering_thread_;
+        std::thread rendering_thread_;
         size_t slots_count_ = DEFAULT_SLOTS_COUNT;
         std::shared_ptr<DialogueBox> dialogue_box_ = nullptr;
     };
