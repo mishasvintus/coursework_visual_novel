@@ -100,10 +100,6 @@ void ge::Application::ApplyRendering(const std::vector<std::string>& arguments) 
     }
 }
 
-void ge::Application::Start() {
-    rendering_thread_.launch();
-}
-
 void ge::Application::SetSlotsCount(size_t count) {
     slots_count_ = count;
 }
@@ -113,5 +109,5 @@ void ge::Application::SetDialogueBox(const DialogueBox& dialogue_box) {
 }
 
 void ge::Application::Finish() {
-    rendering_thread_.wait();
+    rendering_thread_.join();
 }
