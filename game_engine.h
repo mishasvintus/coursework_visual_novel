@@ -44,6 +44,32 @@ namespace ge {
         //// will be more params ////
     };
 
+    class Scene : public Object {
+    public:
+        Scene();
+
+        explicit Scene(const DialogueBox& dialogue_box);
+
+        Scene(const Scene& scene);
+
+        Scene(const Scene&& scene) noexcept ;
+
+        Scene(Scene&& scene) noexcept ;
+
+        void SetDialogueBox(const DialogueBox& dialogue_box);
+
+        void SetDialogueBox(const std::string_view& replica, const std::string_view& speaker);
+
+        std::shared_ptr<ge::DialogueBox> GetDialogueBox();
+
+    private:
+        static const size_t DEFAULT_SLOTS_COUNT = 5;
+
+        bool is_showing_ = false;
+        size_t count_slots_ = DEFAULT_SLOTS_COUNT;
+        std::shared_ptr<DialogueBox> dialogue_box_ = nullptr;
+    };
+
     class Application {
     public:
         explicit Application();
@@ -60,21 +86,19 @@ namespace ge {
 
         void Finish();
 
-        void SetSlotsCount(size_t count);
+        void SetScene(const Scene& scene);
 
-        void SetDialogueBox(const DialogueBox& dialogue_box);
+        std::shared_ptr<ge::Scene> GetScene();
 
     private:
         static void ApplyRendering(const std::vector<std::string>& arguments);
 
         static const size_t INDEX_PROJECT_NAME = 0;
         static const size_t INDEX_ICON_PATH = 1;
-        static const size_t DEFAULT_SLOTS_COUNT = 5;
         const std::string DEFAULT_PROJECT_NAME = "Project";
         const std::string DEFAULT_IMAGE_ICON_PATH;
 
         std::thread rendering_thread_;
-        size_t slots_count_ = DEFAULT_SLOTS_COUNT;
-        std::shared_ptr<DialogueBox> dialogue_box_ = nullptr;
+        std::shared_ptr<Scene> scene_ = nullptr;
     };
 }// namespace ge
