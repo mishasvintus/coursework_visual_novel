@@ -58,6 +58,45 @@ void ge::DialogueBox::Hide() {
     //// maybe redrawing...
 }
 
+ge::Scene::Scene() {
+    //// not default, because may be class will have more params
+    is_showing_ = false;
+}
+
+ge::Scene::Scene(const ge::DialogueBox& dialogue_box) {
+    dialogue_box_ = std::make_shared<DialogueBox>(dialogue_box);
+}
+
+ge::Scene::Scene(const ge::Scene& scene) {
+    is_showing_ = scene.is_showing_;
+    dialogue_box_ = scene.dialogue_box_;
+    count_slots_ = scene.count_slots_;
+}
+
+ge::Scene::Scene(const ge::Scene&& scene) noexcept {
+    is_showing_ = scene.is_showing_;
+    dialogue_box_ = scene.dialogue_box_;
+    count_slots_ = scene.count_slots_;
+}
+
+ge::Scene::Scene(ge::Scene&& scene) noexcept {
+    is_showing_ = scene.is_showing_;
+    dialogue_box_ = scene.dialogue_box_;
+    count_slots_ = scene.count_slots_;
+}
+
+void ge::Scene::SetDialogueBox(const ge::DialogueBox& dialogue_box) {
+    dialogue_box_ = std::make_shared<DialogueBox>(dialogue_box);
+}
+
+void ge::Scene::SetDialogueBox(const std::string_view& replica, const std::string_view& speaker) {
+    dialogue_box_ = std::make_shared<DialogueBox>(DialogueBox(replica, speaker));
+}
+
+std::shared_ptr<ge::DialogueBox> ge::Scene::GetDialogueBox() {
+    return dialogue_box_;
+}
+
 ge::Application::Application()
     : rendering_thread_(&ApplyRendering, std::vector<std::string>{DEFAULT_PROJECT_NAME,
                                                                   DEFAULT_IMAGE_ICON_PATH}) {
@@ -100,14 +139,14 @@ void ge::Application::ApplyRendering(const std::vector<std::string>& arguments) 
     }
 }
 
-void ge::Application::SetSlotsCount(size_t count) {
-    slots_count_ = count;
-}
-
-void ge::Application::SetDialogueBox(const DialogueBox& dialogue_box) {
-    dialogue_box_ = std::make_shared<DialogueBox>(dialogue_box);
-}
-
 void ge::Application::Finish() {
     rendering_thread_.join();
+}
+
+void ge::Application::SetScene(const ge::Scene& scene) {
+    scene_ = std::make_shared<Scene>(scene);
+}
+
+std::shared_ptr<ge::Scene> ge::Application::GetScene() {
+    return scene_;
 }
