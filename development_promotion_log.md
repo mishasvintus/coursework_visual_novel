@@ -28,120 +28,6 @@
   void make_transition(const Picture& picture, const string& text, const time_t time).           // Осуществление перехода между сценами
 ```
 
-**Прототипы классов (псевдокод прототипов, приближенный к C++):**
-```
-class DialogueBox {
-
-public:
-
-    //// КОНСТРУКТОРЫ, ДЕСТРУКТОР ////
-    
-private:
-
-    //// МЕТОДЫ ////
-    
-    void SetSpeaker(...);
-    
-    void SetReplica(...);
-    
-    //// ПОЛЯ КЛАССА ////
-    
-    string speaker_;      // возможно, лучше string_view
-    
-    string replica_;      // возможно, лучше string_view
-    
-};
-
-class Slot {
-
-public:
-
-    //// КОНСТРУКТОРЫ, ДЕСТРУКТОР ////
-    
-private:
-
-    //// МЕТОДЫ ////
-    
-    void SetPicture(const Picture& picture);
-    
-    //// ПОЛЯ КЛАССА ////
-    
-    Picture picture_;
-    
-};
-
-template <typename T = size_t>
-
-class Buttom {
-
-public:
-
-    //// КОНСТРУКТОРЫ, ДЕСТРУКТОР ////
-    
-private:
-
-    //// МЕТОДЫ ////
-    
-    TODO
-    
-    //// ПОЛЯ КЛАССА ////
-    
-    Picture picture_;
-    
-    std::function<T> functor_; 
-    
-};
-
-class Scene {
-
-public:
-
-    //// КОНСТРУКТОРЫ, ДЕСТРУКТОР////
-    
-private:
-
-    //// МЕТОДЫ ////
-    
-    void SetBackGround(...);
-    
-    void SetSlot(..., size_t number);
-    
-    void SetDialogueBox(...);
-    
-    void SetButtom(...);
-    
-    ////ПОЛЯ КЛАССА////
-    
-    Picture background_;
-    
-    DialoguBox dialogue_box_;
-    
-    std::vector<Slot> slots_;
-    
-    std::vector<Buttom> buttoms_;
-    
-};
-
-class Scenario {
-
-public:
-
-    //// КОНСТРУКТОРЫ, ДЕСТРУКТОР ////
-    
-private:
-
-    //// МЕТОДЫ ////
-    
-    void Update(const std::string& new_text);
-    
-    (TODO: персистентность)
-    
-    //// ПОЛЯ КЛАССА ////
-    
-    std::vector<std::string> scenario;
-    
-};
-```
 -------------------------------------------------------------------------------------------
 
 Для реализации графического интерфейса планируется использовать библиотеку sfml.
@@ -177,3 +63,7 @@ private:
 ------------------------------------------------------------------------------------------
 
 При изучении sfml выяснилось, что на современных компиляторах лучше использовать std::thread, чем sf::Thread, потому часть кода, использующая многопоточность, была переписана.
+
+------------------------------------------------------------------------------------------
+
+Добавлен класс Scene, который будет содержать в полях указатели на все объекты, которые должны присутствовать в данный момент на экране.
