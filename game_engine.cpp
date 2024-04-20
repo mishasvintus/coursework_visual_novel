@@ -1,5 +1,7 @@
 #include "game_engine.h"
 
+#include <utility>
+
 ge::VarImpl var_impl;
 
 ge::DialogueBox::DialogueBox()
@@ -97,21 +99,13 @@ std::shared_ptr<ge::DialogueBox> ge::Scene::GetDialogueBox() {
     return dialogue_box_;
 }
 
-ge::Application::Application()
-    : rendering_thread_(&ApplyRendering, std::vector<std::string>{DEFAULT_PROJECT_NAME,
-                                                                  DEFAULT_IMAGE_ICON_PATH}) {
+ge::Application::Application(std::string project_name)
+    : project_name_(std::move(project_name)) {
 }
 
-ge::Application::Application(const std::string& project_name)
-    : rendering_thread_(&ApplyRendering,
-                        std::vector<std::string>{
-                                project_name,
-                                DEFAULT_IMAGE_ICON_PATH}) {
-}
-
-ge::Application::Application(const std::string& project_name, const std::string& icon_path)
-    : rendering_thread_(
-              &ApplyRendering, std::vector<std::string>{project_name, icon_path}) {
+ge::Application::Application(std::string project_name, std::string icon_path)
+    : project_name_(std::move(project_name))
+    , icon_path_(std::move(icon_path)) {
 }
 
 void TryParseIconPath(sf::Window& window, sf::Image& icon, const std::string& path) {
@@ -125,10 +119,10 @@ void TryParseIconPath(sf::Window& window, sf::Image& icon, const std::string& pa
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
 
-void ge::Application::ApplyRendering(const std::vector<std::string>& arguments) {
-    sf::Window window(sf::VideoMode::getDesktopMode(), arguments[INDEX_PROJECT_NAME]);
+void ThreadRendering(const std::vector<std::string>& arguments) {
+    sf::Window window(sf::VideoMode::getDesktopMode(), arguments[ge::Application::INDEX_PROJECT_NAME]);
     sf::Image icon;
-    TryParseIconPath(window, icon, arguments[INDEX_ICON_PATH]);
+    TryParseIconPath(window, icon, arguments[ge::Application::INDEX_ICON_PATH]);
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -139,8 +133,10 @@ void ge::Application::ApplyRendering(const std::vector<std::string>& arguments) 
     }
 }
 
-void ge::Application::Finish() {
-    rendering_thread_.join();
+void ge::Application::ApplyRendering() {
+    const std::vector<std::string> arguments = {project_name_, icon_path_};
+    std::thread thread(&ThreadRendering, arguments);
+    thread.join();
 }
 
 void ge::Application::SetScene(const ge::Scene& scene) {
