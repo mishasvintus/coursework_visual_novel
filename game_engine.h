@@ -72,11 +72,11 @@ namespace ge {
 
     class Application {
     public:
-        explicit Application();
+        Application() = default;
 
-        explicit Application(const std::string& project_name);
+        explicit Application(std::string  project_name);
 
-        explicit Application(const std::string& project_name, const std::string& icon_path);
+        explicit Application(std::string  project_name, std::string  icon_path);
 
         explicit Application(const Application& other) = delete;
 
@@ -84,21 +84,20 @@ namespace ge {
 
         ~Application() = default;
 
-        void Finish();
-
         void SetScene(const Scene& scene);
 
         std::shared_ptr<ge::Scene> GetScene();
 
-    private:
-        static void ApplyRendering(const std::vector<std::string>& arguments);
+        void ApplyRendering();
 
         static const size_t INDEX_PROJECT_NAME = 0;
         static const size_t INDEX_ICON_PATH = 1;
         const std::string DEFAULT_PROJECT_NAME = "Project";
         const std::string DEFAULT_IMAGE_ICON_PATH;
 
-        std::thread rendering_thread_;
+    private:
+        std::string project_name_ = DEFAULT_PROJECT_NAME;
+        std::string icon_path_ = DEFAULT_IMAGE_ICON_PATH;
         std::shared_ptr<Scene> scene_ = nullptr;
     };
 }// namespace ge
