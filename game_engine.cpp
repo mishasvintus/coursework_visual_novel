@@ -1,6 +1,7 @@
 #include "game_engine.h"
 
 #include <utility>
+#include <variant>
 
 ge::VarImpl var_impl;
 
@@ -119,10 +120,10 @@ void TryParseIconPath(sf::Window& window, sf::Image& icon, const std::string& pa
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
 
-void ThreadRendering(const std::vector<std::string>& arguments) {
-    sf::Window window(sf::VideoMode::getDesktopMode(), arguments[ge::Application::INDEX_PROJECT_NAME]);
+void ThreadRendering(const std::vector<std::variant<std::string, std::shared_ptr<ge::Scene>>>& arguments) {
+    sf::Window window(sf::VideoMode::getDesktopMode(), std::get<std::string>(arguments[ge::Application::INDEX_PROJECT_NAME]));
     sf::Image icon;
-    TryParseIconPath(window, icon, arguments[ge::Application::INDEX_ICON_PATH]);
+    TryParseIconPath(window, icon, std::get<std::string>(arguments[ge::Application::INDEX_ICON_PATH]));
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -134,7 +135,7 @@ void ThreadRendering(const std::vector<std::string>& arguments) {
 }
 
 void ge::Application::ApplyRendering() {
-    const std::vector<std::string> arguments = {project_name_, icon_path_};
+    const std::vector<std::variant<std::string, std::shared_ptr<Scene>>> arguments = {scene_, project_name_, icon_path_};
     std::thread thread(&ThreadRendering, arguments);
     thread.join();
 }
