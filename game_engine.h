@@ -90,8 +90,9 @@ namespace ge {
 
         void ApplyRendering();
 
-        static const size_t INDEX_PROJECT_NAME = 0;
-        static const size_t INDEX_ICON_PATH = 1;
+        static const size_t INDEX_APPLICATION = 0;
+        static const size_t INDEX_PROJECT_NAME = 1;
+        static const size_t INDEX_ICON_PATH = 2;
         const std::string DEFAULT_PROJECT_NAME = "Project";
         const std::string DEFAULT_IMAGE_ICON_PATH;
 
