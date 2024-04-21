@@ -121,9 +121,10 @@ void TryParseIconPath(sf::Window& window, sf::Image& icon, const std::string& pa
 }
 
 void ThreadRendering(const std::vector<std::variant<std::string, std::shared_ptr<ge::Scene>>>& arguments) {
-    sf::Window window(sf::VideoMode::getDesktopMode(), std::get<std::string>(arguments[ge::Application::INDEX_PROJECT_NAME]));
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), std::get<std::string>(arguments[ge::Application::INDEX_PROJECT_NAME]));
     sf::Image icon;
     TryParseIconPath(window, icon, std::get<std::string>(arguments[ge::Application::INDEX_ICON_PATH]));
+    window.display();
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
