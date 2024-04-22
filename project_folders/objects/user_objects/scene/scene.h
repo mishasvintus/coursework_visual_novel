@@ -6,7 +6,6 @@
 #include "actions.h"
 #include "scene_slots.h"
 
-
 namespace ge {
     class Scene : Object {
     public:

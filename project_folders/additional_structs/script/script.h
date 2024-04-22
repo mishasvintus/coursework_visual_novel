@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../chapter/chapter.h"
+#include <unordered_map>
+#include "chapter.h"
 
 namespace ge {
     struct Script {
-        std::vector <Chapter> chapters;
+        std::unordered_map<std::string, Chapter> chapters;
     };
 }

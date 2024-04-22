@@ -2,6 +2,7 @@
 
 #include <string>
 #include "scene.h"
+#include "script.h"
 
 namespace ge {
     class VisualNovel {
