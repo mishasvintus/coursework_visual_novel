@@ -1,5 +1,9 @@
 #pragma once
 
-class DialogueBox {
+#include "object.h"
 
-};
+namespace ge {
+    class DialogueBox : Object {
+
+    };
+}
