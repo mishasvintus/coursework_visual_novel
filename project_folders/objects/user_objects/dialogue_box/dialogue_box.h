@@ -1,4 +1,5 @@
 #pragma once
+
 #include "object.h"
 
 #include <string_view>
@@ -16,11 +17,15 @@ namespace ge {
 
         DialogueBox& operator=(const DialogueBox& other);
 
+        DialogueBox& operator=(DialogueBox&& other) noexcept;
+
         ~DialogueBox() override = default;
 
     private:
 
-        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2i& window_size) override;
+        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u& window_size) override {
+            return {}; //TODO: REALISE
+        }
 
         static constexpr size_t UPPER_BOUND_OF_LENGTH_SPEAKER = 50;
         static constexpr size_t UPPER_BOUND_OF_LENGTH_REPLICA = 500;
