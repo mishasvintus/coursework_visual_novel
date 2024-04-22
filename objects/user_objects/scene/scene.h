@@ -51,4 +51,12 @@ namespace ge {
 
         std::vector<sf::Sprite> getSpriteVector(const sf::Vector2i& window_size) override;
     };
+
+    struct Chapter {
+        std::vector<Scene> scenes;
+    };
+
+    struct Script {
+        std::vector<Chapter> chapters;
+    };
 }
