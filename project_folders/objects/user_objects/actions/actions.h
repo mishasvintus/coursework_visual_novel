@@ -2,6 +2,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include "object.h"
+#include "scene.h"
 #include "chapter.h"
 
 namespace ge {

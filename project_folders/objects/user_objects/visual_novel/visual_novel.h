@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "script.h"
+#include "scene.h"
 
 namespace ge {
     class VisualNovel {
