@@ -6,6 +6,7 @@
 
 namespace ge {
     class Action : Object {
+    public:
         Action();
 
         Action(const Action &action);
@@ -21,7 +22,7 @@ namespace ge {
         std::string text_;
         Chapter chapter_to_go_;
 
-        std::vector<sf::Sprite> getSpriteVector(sf::Vector2i window_size) override;
+        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2i& window_size) override;
     };
 }
 

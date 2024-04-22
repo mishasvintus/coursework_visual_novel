@@ -20,7 +20,7 @@ namespace ge {
 
     private:
 
-        std::vector<sf::Sprite> getSpriteVector(sf::Vector2i window_size) override;
+        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2i& window_size) override;
 
         static constexpr size_t UPPER_BOUND_OF_LENGTH_SPEAKER = 50;
         static constexpr size_t UPPER_BOUND_OF_LENGTH_REPLICA = 500;

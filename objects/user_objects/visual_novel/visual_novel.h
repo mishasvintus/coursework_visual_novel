@@ -14,12 +14,17 @@ namespace ge {
 
         VisualNovel(VisualNovel &&visual_novel) noexcept;
 
-        ~VisualNovel() = default;
+        VisualNovel(std::string &about_authors, Script &script);
 
+        ~VisualNovel() = default;
 
         bool setAboutAuthors(std::string info_about_authors);
 
         bool setScript();
+
+        std::string getAboutAuthors();
+
+        Script getScript();
 
         bool run();
 
