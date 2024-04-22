@@ -4,6 +4,6 @@
 
 namespace ge {
     struct Chapter {
-        Scene scenes;
+        std::vector<Scene> scenes;
     };
 }

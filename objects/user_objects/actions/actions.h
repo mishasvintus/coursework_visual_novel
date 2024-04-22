@@ -5,18 +5,23 @@
 #include "chapter.h"
 
 namespace ge {
-
-    class Action: Object {
+    class Action : Object {
         Action();
-        Action(const Action& action);
-        Action(Action& action);
-        Action(Action&& action);
+
+        Action(const Action &action);
+
+        Action(Action &action);
+
+        Action(Action &&action);
+
         ~Action() = default;
 
     private:
         sf::Vector2i coords_;
         std::string text_;
         Chapter chapter_to_go_;
+
+        std::vector<sf::Sprite> getSpriteVector(sf::Vector2i window_size) override;
     };
 }
 
