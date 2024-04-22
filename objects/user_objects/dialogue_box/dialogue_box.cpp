@@ -29,3 +29,7 @@ ge::DialogueBox &ge::DialogueBox::operator=(const DialogueBox &other) {
     speaker_ = other.speaker_;
     return *this;
 }
+
+std::vector<sf::Sprite> ge::DialogueBox::getSpriteVector(sf::Vector2i window_size) {
+    ////be later
+}
