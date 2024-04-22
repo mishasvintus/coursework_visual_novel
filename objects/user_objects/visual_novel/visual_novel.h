@@ -1,12 +1,13 @@
 #pragma once
 
+#include <string>
+
 class VisualNovel {
 public:
-    bool set_about_authors(std::string);
-    bool set_script()
+    bool setAboutAuthors(std::string info_about_authors);
+    bool setScript();
     bool run();
-    std::string about_authors;
 private:
-    _about_authors;
+    std::string _about_authors;
 };
 

@@ -1,16 +1,10 @@
-//
-// Created by mikha on 22.04.2024.
-//
+#pragma once
 
-#ifndef COURSEWORK_VISUAL_NOVEL_SCRIPT_H
-#define COURSEWORK_VISUAL_NOVEL_SCRIPT_H
+#include <vector>
+#include "chapter.h"
 
-
-
-class script {
-
-};
-
-
-
-#endif //COURSEWORK_VISUAL_NOVEL_SCRIPT_H
+namespace ge {
+    struct Script {
+        std::vector<Chapter> chapters;
+    };
+}

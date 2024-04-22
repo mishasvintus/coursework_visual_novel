@@ -1,5 +1,10 @@
 #pragma once
 
-class Scene {
+#include "dialogue_box.h"
 
-};
+
+namespace ge {
+    class Scene {
+
+    };
+}
