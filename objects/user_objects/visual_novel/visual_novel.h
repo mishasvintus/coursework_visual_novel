@@ -12,7 +12,7 @@ namespace ge {
 
         VisualNovel(VisualNovel &visual_novel);
 
-        VisualNovel(VisualNovel &&visual_novel);
+        VisualNovel(VisualNovel &&visual_novel) noexcept;
 
         ~VisualNovel() = default;
 
@@ -24,7 +24,7 @@ namespace ge {
         bool run();
 
     private:
-        std::string _about_authors;
-        ge::Script _script;
+        std::string about_authors_;
+        Script script_;
     };
 }
