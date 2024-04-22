@@ -1,35 +1,37 @@
 #pragma once
 
-#include <string>
 #include "scene.h"
 #include "script.h"
+
+#include <string>
 
 namespace ge {
     class VisualNovel {
     public:
-        VisualNovel();
+        VisualNovel() = default;
 
-        VisualNovel(const VisualNovel &visual_novel);
+        VisualNovel(const VisualNovel &visual_novel) = default;
 
-        VisualNovel(VisualNovel &visual_novel);
+        VisualNovel(VisualNovel &visual_novel) = default;
 
         VisualNovel(VisualNovel &&visual_novel) noexcept;
 
-        VisualNovel(std::string &about_authors, Script &script);
+        VisualNovel(std::string about_authors, Script script);
 
         ~VisualNovel() = default;
 
-        bool setAboutAuthors(std::string info_about_authors);
+        bool setAboutAuthors(const std::string& info_about_authors);
 
-        bool setScript();
+        bool setScript(const Script& script);
 
         std::string getAboutAuthors();
 
         Script getScript();
 
-        bool run();
+        bool run(); // TODO: реализовать
 
     private:
+        static constexpr size_t UPPER_BOUND_LENGTH_ABOUT_AUTHORS = 5000;
         std::string about_authors_;
         Script script_;
     };
