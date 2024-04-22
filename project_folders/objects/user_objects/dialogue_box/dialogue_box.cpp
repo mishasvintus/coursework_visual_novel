@@ -30,6 +30,8 @@ ge::DialogueBox &ge::DialogueBox::operator=(const DialogueBox &other) {
     return *this;
 }
 
-std::vector<sf::Sprite> getSpriteVector(const sf::Vector2i& window_size) {
-    ////be later
+ge::DialogueBox &ge::DialogueBox::operator=(DialogueBox &&other) noexcept {
+    replica_ = other.replica_;
+    speaker_ = other.speaker_;
+    return *this;
 }
