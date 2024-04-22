@@ -1,26 +1,24 @@
 #pragma once
-
 #include "object.h"
+
+#include <string_view>
 
 namespace ge {
     class DialogueBox : Object {
     public:
-        DialogueBox();
+        DialogueBox() = default;
 
-        DialogueBox(const DialogueBox &dialogue_box);
+        DialogueBox(const DialogueBox& other);
 
-        DialogueBox(DialogueBox &dialogue_box);
+        DialogueBox(const std::string_view& replica, const std::string_view& speaker);
 
-        DialogueBox(DialogueBox &&dialogue_box);
+        DialogueBox(DialogueBox&& other) noexcept;
 
-        DialogueBox(const std::string &replica, const std::string &speaker);
-
-        ~DialogueBox() = default;
-
+        DialogueBox& operator=(const DialogueBox& other);
     private:
-        std::string replica_;
-        std::string speaker_;
-
-        std::vector<sf::Sprite> getSpriteVector(sf::Vector2i window_size) override;
+        static constexpr size_t UPPER_BOUND_OF_LENGTH_SPEAKER = 50;
+        static constexpr size_t UPPER_BOUND_OF_LENGTH_REPLICA = 500;
+        std::string_view replica_;
+        std::string_view speaker_;
     };
 }
