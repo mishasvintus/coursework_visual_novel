@@ -1,15 +1,17 @@
 #pragma once
 
-#include <string>
+#include "actions.h"
 #include "dialogue_box.h"
 #include "object.h"
-#include "actions.h"
 #include "scene_slots.h"
+
+#include <memory>
+#include <string>
 
 namespace ge {
     class Scene : Object {
     public:
-        Scene();
+        Scene() = default;
 
         Scene(const Scene &scene);
 
@@ -17,42 +19,44 @@ namespace ge {
 
         Scene(Scene &&scene) noexcept;
 
-        Scene(const DialogueBox &dialogue_box, const std::string &background_file, bool choice_of_action,
-              const std::vector<Action> &actions, const SceneSlots &scene_slots);
+        Scene(DialogueBox dialogue_box, std::string background_file, bool choice_of_action,
+              const std::vector<Action> &actions, SceneSlots scene_slots);
 
         ~Scene() override = default;
 
-        bool setDialogueBox(const DialogueBox& dialogueBox);
+        Scene& operator=(const Scene& scene);
 
-        bool setBackgroundFile(const std::string& background_file);
+        Scene& operator=(Scene&& scene) noexcept;
+
+        bool setDialogueBox(const DialogueBox &dialogue_box);
+
+        bool setBackgroundFile(const std::string &background_file);
 
         bool setChoiceOfAction(bool choice_of_action);
 
-        bool setActions(const std::vector<Action>& actions);
+        bool setActions(const std::vector<Action> &actions);
 
-        bool setSlots(const SceneSlots& scene_slot);
+        bool setSlots(const SceneSlots &scene_slots);
 
-        DialogueBox getDialogueBox();
+        std::shared_ptr<DialogueBox> getDialogueBox();
 
         std::string getBackgroundFile();
 
-        bool getChoiceOfAction();
+        [[nodiscard]] bool getChoiceOfAction() const;
 
         std::vector<Action> getActions();
 
         SceneSlots getSlots();
 
     private:
+        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {
+            return {}; ///TODO: реализовать
+        }
+
         DialogueBox dialogue_box_;
         std::string background_file_;
-        bool choice_of_action_;
+        bool choice_of_action_ = false;
         std::vector<Action> actions_;
         SceneSlots scene_slots_;
-
-        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2i& window_size) override;
     };
-
-
-
-
 }
