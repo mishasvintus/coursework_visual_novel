@@ -7,19 +7,26 @@
 
 namespace ge {
     class Scene : Object {
+    public:
         Scene();
-        Scene(const Scene& scene);
-        Scene(Scene& scene);
-        Scene(Scene&& scene);
-        Scene(DialogueBox& dialogue_box, std::string& background_file, bool choice_of_action, std::vector<Action>& actions);
-        ~Scene() = default;
 
+        Scene(const Scene &scene);
+
+        Scene(Scene &scene);
+
+        Scene(Scene &&scene) noexcept;
+
+        Scene(DialogueBox &dialogue_box, std::string &background_file, bool choice_of_action,
+              std::vector<Action> &actions);
+
+        ~Scene() override = default;
 
     private:
-        DialogueBox _dialogue_box;
-        std::string _background_file;
-        bool _choice_of_action;
-        std::vector<Action> _actions;
+        DialogueBox dialogue_box_;
+        std::string background_file_;
+        bool choice_of_action_;
+        std::vector<Action> actions_;
+
         std::vector<sf::Sprite> getSpriteVector(sf::Vector2i window_size) override;
     };
 }
