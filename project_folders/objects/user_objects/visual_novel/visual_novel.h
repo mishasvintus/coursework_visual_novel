@@ -6,6 +6,17 @@
 #include <string>
 
 namespace ge {
+    enum GameMode {
+        MainMenu,
+        MainSettings,
+        AboutAuthors,
+        Ingame,
+        RecentScript,
+        Info,
+        IngameMenu,
+        IngameSettings,
+    };
+
     class VisualNovel {
     public:
         VisualNovel() = default;
@@ -28,11 +39,16 @@ namespace ge {
 
         const Script &getScript();
 
-        bool run(); // TODO: реализовать
+        bool run();
 
     private:
         static constexpr size_t UPPER_BOUND_LENGTH_ABOUT_AUTHORS = 5000;
         std::string about_authors_;
         Script script_;
+        std::string current_chapter_;
+        unsigned int current_scene_ = -1;
+        GameMode current_game_mode_ = Ingame;
+
+        bool windowManage(GameMode current_game_mode_, const std::string& current_chapter, unsigned int current_scene);
     };
 }
