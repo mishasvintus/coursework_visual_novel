@@ -6,36 +6,32 @@ void checkingCorrectness(const unsigned int count_slots, const unsigned up_limit
                          const std::vector<std::string> &slots) {
     if (count_slots > up_limit_slots || slots.size() != count_slots) {
         throw std::invalid_argument(
-            "the relationship between the vector size and the number of slots is incorrect, or the number of slots is too large\n");
+                "the relationship between the vector size and the number of slots is incorrect, or the number of slots is too large\n");
     }
 }
 
 ge::SceneSlots::SceneSlots()
-    : quantity_of_slots_(DEFAULT_COUNT_SLOTS)
-      , pictures_in_slots_(std::vector<std::string>()) {
+        : quantity_of_slots_(DEFAULT_COUNT_SLOTS), pictures_in_slots_(std::vector<std::string>()) {
     pictures_in_slots_.resize(DEFAULT_COUNT_SLOTS);
     checkingCorrectness(quantity_of_slots_, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
 }
 
 ge::SceneSlots::SceneSlots(const SceneSlots &scene_slots)
-    : quantity_of_slots_(scene_slots.quantity_of_slots_)
-      , pictures_in_slots_(scene_slots.pictures_in_slots_) {
+        : quantity_of_slots_(scene_slots.quantity_of_slots_), pictures_in_slots_(scene_slots.pictures_in_slots_) {
 }
 
 ge::SceneSlots::SceneSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots)
-    : quantity_of_slots_(quantity_of_slots)
-      , pictures_in_slots_(pictures_in_slots) {
+        : quantity_of_slots_(quantity_of_slots), pictures_in_slots_(pictures_in_slots) {
     checkingCorrectness(quantity_of_slots_, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
 }
 
 ge::SceneSlots::SceneSlots(SceneSlots &scene_slots)
-    : quantity_of_slots_(scene_slots.quantity_of_slots_)
-      , pictures_in_slots_(scene_slots.pictures_in_slots_) {
+        : quantity_of_slots_(scene_slots.quantity_of_slots_), pictures_in_slots_(scene_slots.pictures_in_slots_) {
 }
 
 ge::SceneSlots::SceneSlots(SceneSlots &&scene_slots) noexcept
-    : quantity_of_slots_(scene_slots.quantity_of_slots_)
-      , pictures_in_slots_(std::move(scene_slots.pictures_in_slots_)) {
+        : quantity_of_slots_(scene_slots.quantity_of_slots_),
+          pictures_in_slots_(std::move(scene_slots.pictures_in_slots_)) {
 }
 
 ge::SceneSlots &ge::SceneSlots::operator=(const SceneSlots &scene_slots) {
@@ -73,6 +69,6 @@ unsigned int ge::SceneSlots::getQuantityOfSlots() const {
     return quantity_of_slots_;
 }
 
-std::vector<std::string> ge::SceneSlots::getPicturesInSlots() {
+const std::vector<std::string> &ge::SceneSlots::getPicturesInSlots() {
     return pictures_in_slots_;
 }

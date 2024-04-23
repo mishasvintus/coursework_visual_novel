@@ -24,9 +24,9 @@ namespace ge {
 
         ~Scene() override = default;
 
-        Scene& operator=(const Scene& scene);
+        Scene &operator=(const Scene &scene);
 
-        Scene& operator=(Scene&& scene) noexcept;
+        Scene &operator=(Scene &&scene) noexcept;
 
         bool setDialogueBox(const DialogueBox &dialogue_box);
 
@@ -38,15 +38,15 @@ namespace ge {
 
         bool setSlots(const SceneSlots &scene_slots);
 
-        std::shared_ptr<DialogueBox> getDialogueBox();
+        const DialogueBox &getDialogueBox();
 
-        std::string getBackgroundFile();
+        const std::string &getBackgroundFile();
 
         [[nodiscard]] bool getChoiceOfAction() const;
 
-        std::vector<Action> getActions();
+        const std::vector<Action> &getActions();
 
-        SceneSlots getSlots();
+        const SceneSlots &getSlots();
 
     private:
         std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {

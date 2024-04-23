@@ -11,15 +11,15 @@ namespace ge {
 
         SceneSlots(SceneSlots &scene_slots);
 
-        SceneSlots(SceneSlots &&scene_slots) noexcept ;
+        SceneSlots(SceneSlots &&scene_slots) noexcept;
 
         SceneSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots);
 
         ~SceneSlots() override = default;
 
-        SceneSlots& operator=(const SceneSlots& scene_slots);
+        SceneSlots &operator=(const SceneSlots &scene_slots);
 
-        SceneSlots& operator=(SceneSlots&& scene_slots) noexcept;
+        SceneSlots &operator=(SceneSlots &&scene_slots) noexcept;
 
         bool setQuantityOfSlots(unsigned int quantity_of_slots);
 
@@ -27,7 +27,7 @@ namespace ge {
 
         [[nodiscard]] unsigned int getQuantityOfSlots() const;
 
-        std::vector<std::string> getPicturesInSlots();
+        const std::vector<std::string> &getPicturesInSlots();
 
     private:
         std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {

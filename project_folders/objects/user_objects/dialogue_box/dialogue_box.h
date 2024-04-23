@@ -9,27 +9,36 @@ namespace ge {
     public:
         DialogueBox() = default;
 
-        DialogueBox(const DialogueBox& other);
+        DialogueBox(const DialogueBox &other);
 
-        DialogueBox(const std::string_view& replica, const std::string_view& speaker);
+        DialogueBox(const std::string &replica, const std::string &speaker);
 
-        DialogueBox(DialogueBox&& other) noexcept;
+        DialogueBox(DialogueBox &&other) noexcept;
 
-        DialogueBox& operator=(const DialogueBox& other);
+        DialogueBox &operator=(const DialogueBox &other);
 
-        DialogueBox& operator=(DialogueBox&& other) noexcept;
+        DialogueBox &operator=(DialogueBox &&other) noexcept;
 
         ~DialogueBox() override = default;
 
+        bool setReplica(const std::string &replica);
+
+        bool setSpeaker(const std::string &speaker);
+
+        const std::string &getReplica();
+
+        const std::string &getSpeaker();
+
+
     private:
 
-        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u& window_size) override {
-            return {}; //TODO: REALISE
+        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {
+            return {}; /// TODO: REALISE
         }
 
         static constexpr size_t UPPER_BOUND_OF_LENGTH_SPEAKER = 50;
         static constexpr size_t UPPER_BOUND_OF_LENGTH_REPLICA = 500;
-        std::string_view replica_;
-        std::string_view speaker_;
+        std::string replica_;
+        std::string speaker_;
     };
 }

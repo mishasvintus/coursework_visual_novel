@@ -8,14 +8,12 @@ void checkingCorrectness(const std::string_view &replica, const std::string_view
 }
 
 ge::DialogueBox::DialogueBox(const DialogueBox &other)
-    : replica_(other.replica_)
-      , speaker_(other.speaker_) {
+        : replica_(other.replica_), speaker_(other.speaker_) {
     checkingCorrectness(replica_, speaker_, UPPER_BOUND_OF_LENGTH_REPLICA, UPPER_BOUND_OF_LENGTH_SPEAKER);
 }
 
-ge::DialogueBox::DialogueBox(const std::string_view &replica, const std::string_view &speaker)
-    : replica_(replica)
-      , speaker_(speaker) {
+ge::DialogueBox::DialogueBox(const std::string &replica, const std::string &speaker)
+        : replica_(replica), speaker_(speaker) {
     checkingCorrectness(replica_, speaker_, UPPER_BOUND_OF_LENGTH_REPLICA, UPPER_BOUND_OF_LENGTH_SPEAKER);
 }
 
@@ -34,4 +32,33 @@ ge::DialogueBox &ge::DialogueBox::operator=(DialogueBox &&other) noexcept {
     replica_ = other.replica_;
     speaker_ = other.speaker_;
     return *this;
+}
+
+bool ge::DialogueBox::setReplica(const std::string &replica) {
+    try {
+        checkingCorrectness(replica, speaker_, UPPER_BOUND_OF_LENGTH_REPLICA, UPPER_BOUND_OF_LENGTH_SPEAKER);
+        replica_ = replica;
+    } catch (...) {
+        return false;
+    }
+    return true;
+}
+
+bool ge::DialogueBox::setSpeaker(const std::string &speaker) {
+    try {
+        checkingCorrectness(replica_, speaker, UPPER_BOUND_OF_LENGTH_REPLICA, UPPER_BOUND_OF_LENGTH_SPEAKER);
+        speaker_ = speaker;
+    } catch (...) {
+        return false;
+    }
+    return true;
+}
+
+
+const std::string &ge::DialogueBox::getReplica() {
+    return replica_;
+}
+
+const std::string &ge::DialogueBox::getSpeaker() {
+    return speaker_;
 }

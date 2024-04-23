@@ -20,13 +20,13 @@ namespace ge {
 
         ~VisualNovel() = default;
 
-        bool setAboutAuthors(const std::string& info_about_authors);
+        bool setAboutAuthors(const std::string &about_authors);
 
-        bool setScript(const Script& script);
+        bool setScript(const Script &script);
 
-        std::string getAboutAuthors();
+        const std::string &getAboutAuthors();
 
-        Script getScript();
+        const Script &getScript();
 
         bool run(); // TODO: реализовать
 
