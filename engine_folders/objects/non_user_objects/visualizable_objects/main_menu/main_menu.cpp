@@ -42,4 +42,6 @@ void ge::MainMenu::MoveDown() {
 
 std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) {
     /// TODO
+
+    return {};
 }
