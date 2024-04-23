@@ -1,5 +1,7 @@
 #pragma once
 
-class Info {
+namespace ge {
+    class Info {
 
-};
+    };
+}

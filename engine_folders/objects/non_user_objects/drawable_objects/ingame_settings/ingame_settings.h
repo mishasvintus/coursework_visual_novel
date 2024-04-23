@@ -1,5 +1,7 @@
 #pragma once
 
-class IngameSettings {
+namespace ge {
+    class IngameSettings {
 
-};
+    };
+}

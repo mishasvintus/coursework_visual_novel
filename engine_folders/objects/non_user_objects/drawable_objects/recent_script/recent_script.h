@@ -1,5 +1,7 @@
 #pragma once
 
-class RecentScript {
+namespace ge {
+    class RecentScript {
 
-};
+    };
+}

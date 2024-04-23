@@ -1,6 +1,7 @@
 #pragma once
 
-class IngameMenu {
+namespace ge {
+    class IngameMenu {
 
-};
-
+    };
+}

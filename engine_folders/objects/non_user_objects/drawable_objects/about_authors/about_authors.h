@@ -1,5 +1,7 @@
 #pragma once
 
-class AboutAuthors {
+namespace ge {
+    class AboutAuthors {
 
-};
+    };
+}
