@@ -1,5 +1,5 @@
 #include "visual_novel.h"
-#include "window_manager.h"
+#include "non_user_objects/window_manager/window_manager.h"
 
 #include <utility>
 

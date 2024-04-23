@@ -1,11 +1,11 @@
 #pragma once
 
-#include "object.h"
+#include "drawable.h"
 
 #include <SFML/System/Vector2.hpp>
 
 namespace ge {
-    class Action : Object {
+    class Action : Drawable {
     public:
         Action();
 

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "object.h"
+#include "drawable.h"
 
 #include <string_view>
 
 namespace ge {
-    class DialogueBox : Object {
+    class DialogueBox : Drawable {
     public:
         DialogueBox() = default;
 

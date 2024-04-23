@@ -3,9 +3,9 @@
 #include <SFML/Graphics.hpp>
 
 namespace ge {
-    class Object {
+    class Drawable {
     public:
-        virtual ~Object() = default;
+        virtual ~Drawable() = default;
 
     private:
         virtual std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u& window_size) = 0;

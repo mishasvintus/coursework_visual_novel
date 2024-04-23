@@ -1,9 +1,9 @@
 #pragma once
 
-#include "object.h"
+#include "drawable.h"
 
 namespace ge {
-    class SceneSlots : Object {
+    class SceneSlots : Drawable {
     public:
         SceneSlots();
 

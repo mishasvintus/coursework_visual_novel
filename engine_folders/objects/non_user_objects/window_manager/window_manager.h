@@ -1,6 +1,6 @@
 #pragma once
 
-#include "visual_novel.h"
+#include "visual_novel/visual_novel.h"
 
 using WindowManagerPtr = bool (*)(ge::VisualNovel &, sf::RenderWindow &);
 

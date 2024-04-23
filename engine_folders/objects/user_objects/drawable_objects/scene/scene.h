@@ -2,13 +2,13 @@
 
 #include "actions.h"
 #include "dialogue_box.h"
-#include "object.h"
+#include "drawable.h"
 #include "scene_slots.h"
 
 #include <string>
 
 namespace ge {
-    class Scene : Object {
+    class Scene : Drawable {
     public:
         Scene() = default;
 
