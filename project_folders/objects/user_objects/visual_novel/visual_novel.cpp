@@ -49,7 +49,7 @@ bool ge::VisualNovel::run() {
     sf::RenderWindow window(sf::VideoMode(1, 3), "visual_novel", sf::Style::Fullscreen);
 
     while (window.isOpen()) {
-        windowManage(current_game_mode_, current_chapter_, current_scene_);
+//        windowManage(current_game_mode_, current_chapter_, current_scene_);
     }
     return true;
 }
