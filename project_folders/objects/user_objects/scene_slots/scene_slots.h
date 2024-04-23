@@ -36,7 +36,7 @@ namespace ge {
 
         static constexpr unsigned int DEFAULT_COUNT_SLOTS = 5;
         static constexpr unsigned int UPPER_BOUND_COUNT_SLOTS = 10;
-        unsigned int quantity_of_slots_;
+        unsigned int quantity_of_slots_ = DEFAULT_COUNT_SLOTS;
         std::vector<std::string> pictures_in_slots_;
     };
 }

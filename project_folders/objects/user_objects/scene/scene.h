@@ -5,7 +5,6 @@
 #include "object.h"
 #include "scene_slots.h"
 
-#include <memory>
 #include <string>
 
 namespace ge {

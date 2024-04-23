@@ -3,8 +3,6 @@
 #include "scene.h"
 #include "script.h"
 
-#include <string>
-
 namespace ge {
     enum GameMode {
         MainMenu,
@@ -27,7 +25,7 @@ namespace ge {
 
         VisualNovel(VisualNovel &&visual_novel) noexcept;
 
-        VisualNovel(std::string about_authors, Script script);
+        VisualNovel(std::string about_authors, Script script, std::string project_name);
 
         ~VisualNovel() = default;
 
@@ -45,10 +43,12 @@ namespace ge {
         friend class WindowManager;
 
         static constexpr size_t UPPER_BOUND_LENGTH_ABOUT_AUTHORS = 5000;
+        static constexpr size_t UPPER_BOUND_LENGTH_PROJECT_NAME = 50;
         std::string about_authors_;
         Script script_;
+        std::string project_name_ = "Visual Novel";
         std::string current_chapter_;
-        unsigned int current_scene_ = -1;
+        int current_scene_ = -1;
         GameMode current_game_mode_ = InGame;
     };
 }

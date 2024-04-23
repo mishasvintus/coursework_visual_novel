@@ -1,7 +1,6 @@
 #pragma once
 
 #include "visual_novel.h"
-#include <unordered_map>
 
 using WindowManagerPtr = bool (*)(ge::VisualNovel &, sf::RenderWindow &);
 

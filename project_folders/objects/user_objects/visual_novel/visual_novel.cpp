@@ -2,24 +2,27 @@
 
 #include <utility>
 
-void checkingCorrectness(const std::string &text, const size_t upper_limit) {
-    if (text.length() > upper_limit) {
+void checkingCorrectness(const std::string &text, const size_t upper_limit_about_authors,
+                         const std::string &project_name, const size_t upper_limit_project_name) {
+    if (text.length() > upper_limit_about_authors || project_name.length() > upper_limit_project_name) {
         throw std::invalid_argument("length of text about authors is so long\n");
     }
 }
 
 ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
-        : about_authors_(std::move(visual_novel.about_authors_)), script_(std::move(visual_novel.script_)) {
+    : about_authors_(std::move(visual_novel.about_authors_)), script_(std::move(visual_novel.script_)) {
 }
 
-ge::VisualNovel::VisualNovel(std::string about_authors, Script script)
-        : about_authors_(std::move(about_authors)), script_(std::move(script)) {
-    checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS);
+ge::VisualNovel::VisualNovel(std::string about_authors, Script script, std::string project_name)
+    : about_authors_(std::move(about_authors)), script_(std::move(script)), project_name_(std::move(project_name)) {
+    checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
+                        UPPER_BOUND_LENGTH_PROJECT_NAME);
 }
 
 bool ge::VisualNovel::setAboutAuthors(const std::string &about_authors) {
     try {
-        checkingCorrectness(about_authors, UPPER_BOUND_LENGTH_ABOUT_AUTHORS);
+        checkingCorrectness(about_authors, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
+                            UPPER_BOUND_LENGTH_PROJECT_NAME);
         about_authors_ = about_authors;
     } catch (...) {
         return false;
@@ -46,12 +49,21 @@ const ge::Script &ge::VisualNovel::getScript() {
 }
 
 bool ge::VisualNovel::run() {
-    sf::RenderWindow window(sf::VideoMode(1, 3), "visual_novel", sf::Style::Fullscreen);
-
-    while (window.isOpen()) {
-//        windowManage(current_game_mode_, current_chapter_, current_scene_);
+    try {
+        sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "visual_novel", sf::Style::Fullscreen);
+        window.setVerticalSyncEnabled(true);
+        while (window.isOpen()) {
+            sf::Event event{};
+            if (window.waitEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    window.close();
+                }
+            }
+            window.clear();
+            window.display();
+        }
+    } catch (...) {
+        return false;
     }
     return true;
 }
-
-
