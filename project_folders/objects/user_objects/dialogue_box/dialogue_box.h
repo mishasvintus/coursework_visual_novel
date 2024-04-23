@@ -29,9 +29,7 @@ namespace ge {
 
         const std::string &getSpeaker();
 
-
     private:
-
         std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {
             return {}; /// TODO: REALISE
         }

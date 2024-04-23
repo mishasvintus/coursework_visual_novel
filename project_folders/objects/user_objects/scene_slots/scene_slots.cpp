@@ -8,6 +8,12 @@ void checkingCorrectness(const unsigned int count_slots, const unsigned up_limit
         throw std::invalid_argument(
                 "the relationship between the vector size and the number of slots is incorrect, or the number of slots is too large\n");
     }
+    sf::Image image;
+    for (const std::string& path : slots) {
+        if (!image.loadFromFile(path)) {
+            throw std::runtime_error("file or file's path is incorrect\n");
+        }
+    }
 }
 
 ge::SceneSlots::SceneSlots()
@@ -56,6 +62,7 @@ bool ge::SceneSlots::setQuantityOfSlots(unsigned int quantity_of_slots) {
 }
 
 bool ge::SceneSlots::setPicturesInSlots(const std::vector<std::string> &pictures_in_slots) {
+    checkingCorrectness(pictures_in_slots.size(), UPPER_BOUND_COUNT_SLOTS, pictures_in_slots);
     if (pictures_in_slots.size() > UPPER_BOUND_COUNT_SLOTS) {
         return false;
     }
