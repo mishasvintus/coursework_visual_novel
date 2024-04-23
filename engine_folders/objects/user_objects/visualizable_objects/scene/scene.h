@@ -48,8 +48,12 @@ namespace ge {
         [[nodiscard]] const SceneSlots &getSlots() const;
 
     private:
-        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
-            return {}; ///TODO: реализовать
+        bool render(const sf::Vector2u &window_size) override;
+
+        void clearDrawables() override;
+
+        std::vector<sf::Drawable> getDrawables() override {
+            return {}; /// TODO: реализовать
         }
 
         DialogueBox dialogue_box_;

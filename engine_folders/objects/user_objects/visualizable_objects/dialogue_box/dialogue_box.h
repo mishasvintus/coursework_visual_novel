@@ -28,8 +28,12 @@ namespace ge {
         [[nodiscard]] const std::string &getSpeaker() const;
 
     private:
-        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
-            return {}; /// TODO: REALISE
+        bool render(const sf::Vector2u &window_size) override;
+
+        void clearDrawables() override;
+
+        std::vector<sf::Drawable> getDrawables() override {
+            return {}; /// TODO: реализовать
         }
 
         static constexpr size_t UPPER_BOUND_OF_LENGTH_SPEAKER = 50;

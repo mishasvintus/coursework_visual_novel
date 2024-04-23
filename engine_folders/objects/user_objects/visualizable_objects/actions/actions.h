@@ -36,9 +36,12 @@ namespace ge {
         bool setChapterNameToGo(const std::string &chapter_name_to_go);
 
     private:
-        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
-            /// TODO: REALISE
-            return {};
+        bool render(const sf::Vector2u &window_size) override;
+
+        void clearDrawables() override;
+
+        std::vector<sf::Drawable> getDrawables() override {
+            return {}; /// TODO: реализовать
         }
 
         const sf::Vector2u COORDS_LOW_LIMIT = {0, 0};

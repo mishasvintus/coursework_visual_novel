@@ -25,9 +25,11 @@ namespace ge {
         void MoveDown();
 
     private:
-        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
-            return {}; ///TODO: реализовать
-        }
+        bool render(const sf::Vector2u &window_size) override;
+
+        void clearDrawables() override;
+
+        std::vector<sf::Drawable> getDrawables() override;
 
         static constexpr unsigned int TOP_BUTTON_INDEX_ = 0;
         static constexpr unsigned int BOTTOM_BUTTON_INDEX_ = 4;

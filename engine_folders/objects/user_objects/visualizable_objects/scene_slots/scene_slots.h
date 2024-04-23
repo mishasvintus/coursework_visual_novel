@@ -30,8 +30,13 @@ namespace ge {
         [[nodiscard]] const std::vector<std::string> &getPicturesInSlots() const;
 
     private:
-        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
-            return {}; ///TODO: реализовать
+
+        bool render(const sf::Vector2u &window_size) override;
+
+        void clearDrawables() override;
+
+        std::vector<sf::Drawable> getDrawables() override {
+            return {}; /// TODO: реализовать
         }
 
         static constexpr unsigned int DEFAULT_COUNT_SLOTS = 5;
