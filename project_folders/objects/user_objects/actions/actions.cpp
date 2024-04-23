@@ -2,25 +2,25 @@
 
 #include <utility>
 
-void checkingCorrectness(const sf::Vector2u &coors, const sf::Vector2u &low_limits, const sf::Vector2u &high_limits) {
-    if (coors.x < low_limits.x || coors.y < low_limits.y || coors.x > high_limits.x || coors.y > high_limits.y) {
+void checkingCorrectness(const sf::Vector2u &coords, const sf::Vector2u &low_limits, const sf::Vector2u &high_limits) {
+    if (coords.x < low_limits.x || coords.y < low_limits.y || coords.x > high_limits.x || coords.y > high_limits.y) {
         throw std::invalid_argument("the transmitted coordinates are off-screen\n");
     }
     //TODO: добавить проверку на корректность длин текстов
 }
 
 ge::Action::Action() {
-    checkingCorrectness(coords_, COORS_LOW_LIMIT, COORS_HIGH_LIMIT);
+    checkingCorrectness(coords_, COORDS_LOW_LIMIT, COORDS_HIGH_LIMIT);
 }
 
 ge::Action::Action(const Action &action)
         : coords_(action.coords_), text_(action.text_), chapter_name_to_go_(action.chapter_name_to_go_) {
-    checkingCorrectness(coords_, COORS_LOW_LIMIT, COORS_HIGH_LIMIT);
+    checkingCorrectness(coords_, COORDS_LOW_LIMIT, COORDS_HIGH_LIMIT);
 }
 
-ge::Action::Action(const sf::Vector2i &coors, std::string text, std::string chapter_name_to_go)
-        : coords_(coors), text_(std::move(text)), chapter_name_to_go_(std::move(chapter_name_to_go)) {
-    checkingCorrectness(coords_, COORS_LOW_LIMIT, COORS_HIGH_LIMIT);
+ge::Action::Action(const sf::Vector2i &coords, std::string text, std::string chapter_name_to_go)
+        : coords_(coords), text_(std::move(text)), chapter_name_to_go_(std::move(chapter_name_to_go)) {
+    checkingCorrectness(coords_, COORDS_LOW_LIMIT, COORDS_HIGH_LIMIT);
 }
 
 ge::Action::Action(Action &action)
@@ -61,7 +61,7 @@ const std::string &ge::Action::getChapterNameToGo() {
 
 bool ge::Action::setCoords(const sf::Vector2u &coords) {
     try {
-        checkingCorrectness(coords, COORS_LOW_LIMIT, COORS_HIGH_LIMIT);
+        checkingCorrectness(coords, COORDS_LOW_LIMIT, COORDS_HIGH_LIMIT);
         coords_ = coords;
     } catch (...) {
         return false;
