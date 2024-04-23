@@ -1,4 +1,5 @@
 #include "visual_novel.h"
+#include "window_manager.h"
 
 #include <utility>
 
@@ -52,13 +53,10 @@ bool ge::VisualNovel::run() {
     try {
         sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "visual_novel", sf::Style::Fullscreen);
         window.setVerticalSyncEnabled(true);
+        std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
+
         while (window.isOpen()) {
-            sf::Event event{};
-            if (window.waitEvent(event)) {
-                if (event.type == sf::Event::Closed) {
-                    window.close();
-                }
-            }
+            window_managers[current_game_mode_](*this, window);
             window.clear();
             window.display();
         }
