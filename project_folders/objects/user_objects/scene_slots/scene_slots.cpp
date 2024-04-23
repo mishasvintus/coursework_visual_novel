@@ -46,7 +46,6 @@ ge::SceneSlots &ge::SceneSlots::operator=(SceneSlots &&scene_slots) noexcept {
     return *this;
 }
 
-
 bool ge::SceneSlots::setQuantityOfSlots(unsigned int quantity_of_slots) {
     if (quantity_of_slots > UPPER_BOUND_COUNT_SLOTS) {
         return false;
