@@ -2,8 +2,6 @@
 
 #include "visualizable.h"
 
-#include <string_view>
-
 namespace ge {
     class DialogueBox : Visualizable {
     public:
@@ -11,7 +9,7 @@ namespace ge {
 
         DialogueBox(const DialogueBox &other);
 
-        DialogueBox(const std::string &replica, const std::string &speaker);
+        DialogueBox(std::string replica, std::string speaker);
 
         DialogueBox(DialogueBox &&other) noexcept;
 
@@ -25,9 +23,9 @@ namespace ge {
 
         bool setSpeaker(const std::string &speaker);
 
-        const std::string &getReplica();
+        [[nodiscard]] const std::string &getReplica() const;
 
-        const std::string &getSpeaker();
+        [[nodiscard]] const std::string &getSpeaker() const;
 
     private:
         std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {

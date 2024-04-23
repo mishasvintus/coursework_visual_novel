@@ -36,7 +36,7 @@ void ge::MainMenu::MoveUp() {
 
 void ge::MainMenu::MoveDown() {
     if (selected_button_ != BOTTOM_BUTTON_INDEX_) {
-        --selected_button_;
+        ++selected_button_;
     }
 }
 

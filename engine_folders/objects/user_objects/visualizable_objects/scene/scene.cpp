@@ -100,7 +100,7 @@ const ge::DialogueBox &ge::Scene::getDialogueBox() {
     return dialogue_box_;
 }
 
-const std::string &ge::Scene::getBackgroundFile() {
+const std::string &ge::Scene::getBackgroundFile() const {
     return background_file_;
 }
 
@@ -108,10 +108,10 @@ bool ge::Scene::getChoiceOfAction() const {
     return choice_of_action_;
 }
 
-const std::vector<ge::Action> &ge::Scene::getActions() {
+const std::vector<ge::Action> &ge::Scene::getActions() const {
     return actions_;
 }
 
-const ge::SceneSlots &ge::Scene::getSlots() {
+const ge::SceneSlots &ge::Scene::getSlots() const {
     return scene_slots_;
 }

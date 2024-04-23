@@ -39,13 +39,13 @@ namespace ge {
 
         const DialogueBox &getDialogueBox();
 
-        const std::string &getBackgroundFile();
+        [[nodiscard]] const std::string &getBackgroundFile() const;
 
         [[nodiscard]] bool getChoiceOfAction() const;
 
-        const std::vector<Action> &getActions();
+        [[nodiscard]] const std::vector<Action> &getActions() const;
 
-        const SceneSlots &getSlots();
+        [[nodiscard]] const SceneSlots &getSlots() const;
 
     private:
         std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {

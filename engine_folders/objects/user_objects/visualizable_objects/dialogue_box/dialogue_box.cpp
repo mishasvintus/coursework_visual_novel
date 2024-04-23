@@ -1,5 +1,7 @@
 #include "dialogue_box.h"
 
+#include <utility>
+
 void checkingCorrectness(const std::string_view &replica, const std::string_view &speaker, const size_t up_replica,
                          const size_t up_speaker) {
     if (replica.length() > up_replica || speaker.length() > up_speaker) {
@@ -12,8 +14,8 @@ ge::DialogueBox::DialogueBox(const DialogueBox &other)
     checkingCorrectness(replica_, speaker_, UPPER_BOUND_OF_LENGTH_REPLICA, UPPER_BOUND_OF_LENGTH_SPEAKER);
 }
 
-ge::DialogueBox::DialogueBox(const std::string &replica, const std::string &speaker)
-        : replica_(replica), speaker_(speaker) {
+ge::DialogueBox::DialogueBox(std::string replica, std::string speaker)
+        : replica_(std::move(replica)), speaker_(std::move(speaker)) {
     checkingCorrectness(replica_, speaker_, UPPER_BOUND_OF_LENGTH_REPLICA, UPPER_BOUND_OF_LENGTH_SPEAKER);
 }
 
@@ -55,10 +57,10 @@ bool ge::DialogueBox::setSpeaker(const std::string &speaker) {
 }
 
 
-const std::string &ge::DialogueBox::getReplica() {
+const std::string &ge::DialogueBox::getReplica() const {
     return replica_;
 }
 
-const std::string &ge::DialogueBox::getSpeaker() {
+const std::string &ge::DialogueBox::getSpeaker() const {
     return speaker_;
 }

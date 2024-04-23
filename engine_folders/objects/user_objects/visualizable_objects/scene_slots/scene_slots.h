@@ -27,7 +27,7 @@ namespace ge {
 
         [[nodiscard]] unsigned int getQuantityOfSlots() const;
 
-        const std::vector<std::string> &getPicturesInSlots();
+        [[nodiscard]] const std::vector<std::string> &getPicturesInSlots() const;
 
     private:
         std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {

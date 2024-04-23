@@ -75,6 +75,6 @@ unsigned int ge::SceneSlots::getQuantityOfSlots() const {
     return quantity_of_slots_;
 }
 
-const std::vector<std::string> &ge::SceneSlots::getPicturesInSlots() {
+const std::vector<std::string> &ge::SceneSlots::getPicturesInSlots() const {
     return pictures_in_slots_;
 }

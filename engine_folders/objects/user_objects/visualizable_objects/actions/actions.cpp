@@ -46,16 +46,15 @@ ge::Action &ge::Action::operator=(Action &&action) noexcept {
     return *this;
 }
 
-
-const sf::Vector2u &ge::Action::getCoords() {
+const sf::Vector2u &ge::Action::getCoords() const {
     return coords_;
 }
 
-const std::string &ge::Action::getText() {
+const std::string &ge::Action::getText() const {
     return text_;
 }
 
-const std::string &ge::Action::getChapterNameToGo() {
+const std::string &ge::Action::getChapterNameToGo() const {
     return chapter_name_to_go_;
 }
 

@@ -23,11 +23,11 @@ namespace ge {
 
         Action &operator=(Action &&action) noexcept;
 
-        const sf::Vector2u &getCoords();
+        [[nodiscard]] const sf::Vector2u &getCoords() const;
 
-        const std::string &getText();
+        [[nodiscard]] const std::string &getText() const;
 
-        const std::string &getChapterNameToGo();
+        [[nodiscard]] const std::string &getChapterNameToGo() const;
 
         bool setCoords(const sf::Vector2u &coords);
 
