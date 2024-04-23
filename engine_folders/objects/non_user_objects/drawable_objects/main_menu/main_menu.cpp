@@ -23,7 +23,7 @@ ge::MainMenu &ge::MainMenu::operator=(const MainMenu &main_menu) {
     return *this;
 }
 
-ge::MainMenu &ge::MainMenu::operator=(MainMenu &&main_menu) {
+ge::MainMenu &ge::MainMenu::operator=(MainMenu &&main_menu) noexcept {
     selected_button_ = main_menu.selected_button_;
     return *this;
 }
