@@ -1,11 +1,11 @@
 #pragma once
 
-#include "drawable.h"
+#include "visualizable.h"
 
 #include <string_view>
 
 namespace ge {
-    class DialogueBox : Drawable {
+    class DialogueBox : Visualizable {
     public:
         DialogueBox() = default;
 
@@ -30,7 +30,7 @@ namespace ge {
         const std::string &getSpeaker();
 
     private:
-        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {
+        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
             return {}; /// TODO: REALISE
         }
 

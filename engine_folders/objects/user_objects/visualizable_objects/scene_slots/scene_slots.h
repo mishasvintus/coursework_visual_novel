@@ -1,9 +1,9 @@
 #pragma once
 
-#include "drawable.h"
+#include "visualizable.h"
 
 namespace ge {
-    class SceneSlots : Drawable {
+    class SceneSlots : Visualizable {
     public:
         SceneSlots();
 
@@ -30,7 +30,7 @@ namespace ge {
         const std::vector<std::string> &getPicturesInSlots();
 
     private:
-        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {
+        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
             return {}; ///TODO: реализовать
         }
 

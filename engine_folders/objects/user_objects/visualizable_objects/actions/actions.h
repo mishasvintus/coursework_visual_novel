@@ -1,11 +1,11 @@
 #pragma once
 
-#include "drawable.h"
+#include "visualizable.h"
 
 #include <SFML/System/Vector2.hpp>
 
 namespace ge {
-    class Action : Drawable {
+    class Action : Visualizable {
     public:
         Action();
 
@@ -36,7 +36,7 @@ namespace ge {
         bool setChapterNameToGo(const std::string &chapter_name_to_go);
 
     private:
-        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {
+        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
             /// TODO: REALISE
             return {};
         }

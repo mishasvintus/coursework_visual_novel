@@ -2,13 +2,13 @@
 
 #include "actions.h"
 #include "dialogue_box.h"
-#include "drawable.h"
+#include "visualizable.h"
 #include "scene_slots.h"
 
 #include <string>
 
 namespace ge {
-    class Scene : Drawable {
+    class Scene : Visualizable {
     public:
         Scene() = default;
 
@@ -48,7 +48,7 @@ namespace ge {
         const SceneSlots &getSlots();
 
     private:
-        std::vector<sf::Sprite> getSpriteVector(const sf::Vector2u &window_size) override {
+        std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) override {
             return {}; ///TODO: реализовать
         }
 

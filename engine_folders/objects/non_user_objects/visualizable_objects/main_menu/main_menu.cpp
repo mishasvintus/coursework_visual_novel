@@ -7,15 +7,15 @@ void checkingCorrectness(const unsigned int selected_button, const unsigned int 
 }
 
 ge::MainMenu::MainMenu(const MainMenu &main_menu)
-    : selected_button_(main_menu.selected_button_) {
+        : selected_button_(main_menu.selected_button_) {
 }
 
 ge::MainMenu::MainMenu(MainMenu &main_menu)
-    : selected_button_(main_menu.selected_button_) {
+        : selected_button_(main_menu.selected_button_) {
 }
 
 ge::MainMenu::MainMenu(MainMenu &&main_menu) noexcept
-    : selected_button_(main_menu.selected_button_) {
+        : selected_button_(main_menu.selected_button_) {
 }
 
 ge::MainMenu &ge::MainMenu::operator=(const MainMenu &main_menu) {
@@ -29,13 +29,17 @@ ge::MainMenu &ge::MainMenu::operator=(MainMenu &&main_menu) noexcept {
 }
 
 void ge::MainMenu::MoveUp() {
-    if (selected_button_ == UP) {
-        return;
+    if (selected_button_ != TOP_BUTTON_INDEX_) {
+        --selected_button_;
     }
-    --selected_button_;
 }
 
 void ge::MainMenu::MoveDown() {
-    selected_button_ = std::min(selected_button_ + 1, QUANTITY_OF_BUTTONS_ - 1);
+    if (selected_button_ != BOTTOM_BUTTON_INDEX_) {
+        --selected_button_;
+    }
 }
 
+std::vector<sf::Drawable> getDrawableVector(const sf::Vector2u &window_size) {
+    /// TODO
+}
