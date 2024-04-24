@@ -51,9 +51,9 @@ bool ge::VisualNovel::run() {
         window.setVerticalSyncEnabled(true);
         std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
 
-        MainMenu main_menu;
+        std::shared_ptr<MainMenu> main_menu(new MainMenu);
         ge::DrawableElements drawable_elements;
-        drawable_elements.setMainMenu(std::make_shared<MainMenu>(main_menu));
+        drawable_elements.setMainMenu(main_menu);
         while (window.isOpen()) {
             window_managers[current_game_mode_](*this, window, drawable_elements);
             window.clear();
