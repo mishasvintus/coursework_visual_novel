@@ -33,6 +33,8 @@ namespace ge {
 
         bool setScript(const Script &script);
 
+        bool setProjectName(const std::string& project_name);
+
         const std::string &getAboutAuthors();
 
         const Script &getScript();

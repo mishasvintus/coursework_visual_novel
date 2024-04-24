@@ -40,6 +40,17 @@ bool ge::VisualNovel::setScript(const Script &script) {
     return true;
 }
 
+bool ge::VisualNovel::setProjectName(const std::string &project_name) {
+    try {
+        checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name,
+                            UPPER_BOUND_LENGTH_ABOUT_AUTHORS);
+        project_name_ = project_name;
+    } catch (...) {
+        return false;
+    }
+    return true;
+}
+
 
 const std::string &ge::VisualNovel::getAboutAuthors() {
     return about_authors_;
