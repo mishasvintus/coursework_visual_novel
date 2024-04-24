@@ -83,7 +83,7 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_ = std::make_shared<MainMenuSfmlBasis>();
 
     sf::Font font;
-    if (font.loadFromFile(FONT_NAME)) {
+    if (!font.loadFromFile(FONT_NAME)) {
         return false;
     }
 
