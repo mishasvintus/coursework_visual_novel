@@ -50,7 +50,7 @@ void ge::MainMenu::MoveUp() {
     }
     if (is_rendered_) {
         sfml_basis_->buttons_[selected_button_].setFillColor(sf::Color::White);
-        sfml_basis_->buttons_[selected_button_ - 1].setFillColor(sf::Color::Magenta);
+        sfml_basis_->buttons_[selected_button_ - 1].setFillColor(sf::Color(100,131,171));
     }
     --selected_button_;
 }
@@ -61,7 +61,7 @@ void ge::MainMenu::MoveDown() {
     }
     if (is_rendered_) {
         sfml_basis_->buttons_[selected_button_].setFillColor(sf::Color::White);
-        sfml_basis_->buttons_[selected_button_ + 1].setFillColor(sf::Color::Magenta);
+        sfml_basis_->buttons_[selected_button_ + 1].setFillColor(sf::Color(100,131,171));
     }
     ++selected_button_;
 }
@@ -82,6 +82,10 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     sfml_basis_ = std::make_shared<MainMenuSfmlBasis>();
 
+    sfml_basis_->background_texture_.loadFromFile("engine_folders/data/images/abstraction.PNG");
+    sfml_basis_->background_sprite_.setTexture(sfml_basis_->background_texture_);
+    sfml_basis_->background_sprite_.scale({(float)(window_size.x) / 3840.0f, (float)(window_size.y) / 2160.0f});
+
     if (!sfml_basis_->font_.loadFromFile(FONT_NAME)) {
         return false;
     }
@@ -95,7 +99,7 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     sfml_basis_->title_background_ = sf::RectangleShape(title_background_size);
     sfml_basis_->title_background_.setPosition(title_background_position);
-    sfml_basis_->title_background_.setFillColor(sf::Color(56, 87, 97));
+    sfml_basis_->title_background_.setFillColor(sf::Color(66, 84, 127));
 
     sfml_basis_->title_.setFont(sfml_basis_->font_);
     sfml_basis_->title_.setCharacterSize((unsigned int)(window_size.y * 0.05));
@@ -120,7 +124,7 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
         sfml_basis_->buttons_[i].setOutlineColor(sf::Color::Black);
         sfml_basis_->buttons_[i].setOutlineThickness(2);
         if (i == 0) {
-            sfml_basis_->buttons_[i].setFillColor(sf::Color::Magenta);
+            sfml_basis_->buttons_[i].setFillColor(sf::Color(100,131,171));
         } else {
             sfml_basis_->buttons_[i].setFillColor(sf::Color::White);
         }

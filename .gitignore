@@ -2,3 +2,12 @@
 /.idea/
 /cmake-build-debug/
 /main.cpp
+.ninja_log
+/CMakeFiles/
+build.ninja
+.ninja_deps
+/.cmake/
+cmake_install.cmake
+coursework_visual_novel.exe
+CMakeCache.txt
+Testing/
