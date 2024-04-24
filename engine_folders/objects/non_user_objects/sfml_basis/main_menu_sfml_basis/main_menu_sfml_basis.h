@@ -3,7 +3,7 @@
 #include "sfml_basis.h"
 
 namespace ge {
-    class MainMenuSfmlBasis: public SfmlBasis {
+    class MainMenuSfmlBasis : public SfmlBasis {
     public:
         MainMenuSfmlBasis() = default;
 

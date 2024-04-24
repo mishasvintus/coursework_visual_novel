@@ -57,5 +57,20 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                                         ge::DrawableElements &drawable_elements) {
     sf::Event event{};
     window.waitEvent(event);
-    ge::GameMode game_mode = mainMenuEventHandler(window, drawable_elements.putMainMenu(), event);
+    switch (mainMenuEventHandler(window, drawable_elements.putMainMenu(), event)) {
+        case GameMode::MainMenu:
+            // TODO : реализовать
+            break;
+        case GameMode::InGame:
+            // TODO : реализовать
+            break;
+        case GameMode::MainSettings:
+            // TODO : реализовать
+            break;
+        case GameMode::AboutAuthors:
+            // TODO : реализовать
+            break;
+        default:
+            return false;
+    }
 }
