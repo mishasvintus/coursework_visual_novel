@@ -30,7 +30,7 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow& window, ge::MainMenu& main_m
                 break;
             }
             if (event.key.code == sf::Keyboard::Enter) {
-                unsigned int selected_button = main_menu.getSelectedButton();
+                const unsigned int selected_button = main_menu.getSelectedButton();
                 if (selected_button == 0) {
                     return ge::GameMode::InGame;
                 }
@@ -50,4 +50,12 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow& window, ge::MainMenu& main_m
             break;
     }
     return ge::GameMode::MainMenu;
+}
+
+bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                        ge::DrawableElements &drawable_elements) {
+    sf::Event event{};
+    window.waitEvent(event);
+    ge::GameMode game_mode = mainMenuEventHandler(window, drawable_elements.putMainMenu(), event);
+
 }

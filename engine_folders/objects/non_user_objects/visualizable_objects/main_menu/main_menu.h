@@ -23,7 +23,7 @@ namespace ge {
 
         void setTitle(const std::string &title);
 
-        unsigned int getSelectedButton();
+        [[nodiscard]] unsigned int getSelectedButton() const;
 
         void MoveUp();
 

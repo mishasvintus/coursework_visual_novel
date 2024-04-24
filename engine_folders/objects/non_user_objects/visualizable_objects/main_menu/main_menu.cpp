@@ -71,7 +71,7 @@ void ge::MainMenu::setTitle(const std::string &title) {
     title_ = title;
 }
 
-unsigned int ge::MainMenu::getSelectedButton() {
+unsigned int ge::MainMenu::getSelectedButton() const {
     return selected_button_;
 }
 

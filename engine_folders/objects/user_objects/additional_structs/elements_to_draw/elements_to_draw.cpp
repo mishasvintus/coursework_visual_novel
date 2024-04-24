@@ -33,6 +33,10 @@ const ge::AboutAuthors &ge::DrawableElements::getAboutAuthors() const {
     return *about_authors_;
 }
 
+ge::AboutAuthors &ge::DrawableElements::putAboutAuthors() const {
+    return *about_authors_;
+}
+
 void ge::DrawableElements::setInfo(const Info &info) const {
     *info_ = info;
 }
@@ -44,6 +48,11 @@ std::shared_ptr<ge::Info> ge::DrawableElements::getInfoPtr() {
 const ge::Info &ge::DrawableElements::getInfo() const {
     return *info_;
 }
+
+ge::Info ge::DrawableElements::putInfo() const {
+    return *info_;
+}
+
 
 void ge::DrawableElements::setIngameMenu(const IngameMenu &ingame_menu) const {
     *ingame_menu_ = ingame_menu;
@@ -57,6 +66,10 @@ const ge::IngameMenu &ge::DrawableElements::getIngameMenu() const {
     return *ingame_menu_;
 }
 
+ge::IngameMenu &ge::DrawableElements::putIngameMenu() const {
+    return *ingame_menu_;
+}
+
 void ge::DrawableElements::setIngameSettings(const IngameSettings &ingame_settings) const {
     *ingame_settings_ = ingame_settings;
 }
@@ -65,8 +78,12 @@ std::shared_ptr<ge::IngameSettings> ge::DrawableElements::getIngameSettingsPtr()
     return ingame_settings_;
 }
 
-const ge::IngameMenu &ge::DrawableElements::getIngameSettings() const {
-    return *ingame_menu_;
+const ge::IngameSettings &ge::DrawableElements::getIngameSettings() const {
+    return *ingame_settings_;
+}
+
+ge::IngameSettings &ge::DrawableElements::putIngameSettings() const {
+    return *ingame_settings_;
 }
 
 void ge::DrawableElements::setMainMenu(const MainMenu &main_menu) const {
@@ -78,6 +95,10 @@ std::shared_ptr<ge::MainMenu> ge::DrawableElements::getMainMenuPtr() {
 }
 
 const ge::MainMenu &ge::DrawableElements::getMainMenu() const {
+    return *main_menu_;
+}
+
+ge::MainMenu &ge::DrawableElements::putMainMenu() const {
     return *main_menu_;
 }
 
@@ -93,6 +114,10 @@ const ge::RecentScript &ge::DrawableElements::getRecentScript() const {
     return *recent_script_;
 }
 
+ge::RecentScript &ge::DrawableElements::putRecentScript() const {
+    return *recent_script_;
+}
+
 void ge::DrawableElements::setSettings(const Settings &settings) const {
     *settings_ = settings;
 }
@@ -102,5 +127,9 @@ std::shared_ptr<ge::Settings> ge::DrawableElements::getSettingsPtr() {
 }
 
 const ge::Settings &ge::DrawableElements::getSettings() const {
+    return *settings_;
+}
+
+ge::Settings &ge::DrawableElements::putSettings() const {
     return *settings_;
 }

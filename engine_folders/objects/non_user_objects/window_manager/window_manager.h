@@ -9,8 +9,7 @@ namespace ge {
     class WindowManager {
     public:
         static bool mainMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
-                                    ge::DrawableElements &drawable_elements) {
-        }
+                                    ge::DrawableElements &drawable_elements);
 
         static bool mainSettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                         ge::DrawableElements &drawable_elements) {
