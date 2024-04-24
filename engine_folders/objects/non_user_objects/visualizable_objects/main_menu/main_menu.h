@@ -4,6 +4,25 @@
 
 
 namespace ge {
+    class MainMenuSfmlBasis {
+    public:
+        MainMenuSfmlBasis() = default;
+        explicit MainMenuSfmlBasis(size_t quantity_of_buttons) {
+            buttons.resize(quantity_of_buttons);
+        }
+        sf::RectangleShape title_background;
+        sf::Text title;
+        std::vector<sf::Text> buttons;
+
+        void draw(sf::RenderWindow &window) {
+            window.draw(title_background);
+            window.draw(title);
+            for (const sf::Text &button: buttons) {
+                window.draw(button);
+            }
+        }
+    };
+
     class MainMenu : Visualizable {
     public:
         MainMenu() = default;
@@ -27,15 +46,15 @@ namespace ge {
         void MoveDown();
 
     private:
-        bool render(const sf::Vector2u &window_size) override {
-            return true; /// TODO: реализовать
-        }
+        std::shared_ptr<MainMenuSfmlBasis> sfml_basis_ = nullptr;
 
-        void clearDrawables() override {
-            /// TODO: реализовать
-        }
+        bool is_rendered_ = false;
 
-        std::vector<std::shared_ptr<sf::Drawable>> getDrawables() override;
+        bool renderSfmlBasis(const sf::Vector2u &window_size); //override
+
+        void clearSfmlBasis(); //override
+
+        std::shared_ptr<MainMenuSfmlBasis> getSfmlBasis(); //override //вообще должен возвращать родительский класс SfmlBasis, для полиморфизма, чтоб потом ко всем draw применить
 
         static constexpr unsigned int TOP_BUTTON_INDEX = 0;
         static constexpr unsigned int BOTTOM_BUTTON_INDEX = 4;
