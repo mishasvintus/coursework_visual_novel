@@ -31,15 +31,15 @@ namespace ge {
 
     private:
 
-        bool render(const sf::Vector2u &window_size) override {
+        bool renderSfmlBasis(const sf::Vector2u &window_size) override {
             return true; /// TODO: реализовать
         }
 
-        void clearDrawables() override {
+        void clearSfmlBasis() override {
             /// TODO: реализовать
         }
 
-        std::vector<std::shared_ptr<sf::Drawable>> getDrawables() override {
+        std::shared_ptr<SfmlBasis> getSfmlBasis() override {
             return {}; /// TODO: реализовать
         }
 

@@ -1,7 +1,7 @@
 #pragma once
 
+#include <sfml_basis.h>
 #include <SFML/Graphics.hpp>
-
 #include <memory>
 
 namespace ge {
@@ -13,10 +13,10 @@ namespace ge {
     private:
         std::vector<std::shared_ptr<sf::Drawable>> drawables_;
 
-        virtual bool render(const sf::Vector2u &window_size) = 0;
+        virtual bool renderSfmlBasis(const sf::Vector2u &window_size) = 0;
 
-        virtual void clearDrawables() = 0;
+        virtual void clearSfmlBasis() = 0;
 
-        virtual std::vector<std::shared_ptr<sf::Drawable>> getDrawables() = 0;
+        virtual std::shared_ptr<SfmlBasis> getSfmlBasis() = 0;
     };
 }

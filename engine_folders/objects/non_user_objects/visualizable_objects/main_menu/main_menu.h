@@ -1,29 +1,9 @@
 #pragma once
 
 #include "visualizable.h"
-
+#include "main_menu_sfml_basis/main_menu_sfml_basis.h"
 
 namespace ge {
-    class MainMenuSfmlBasis {
-    public:
-        MainMenuSfmlBasis() = default;
-
-        explicit MainMenuSfmlBasis(const size_t quantity_of_buttons) {
-            buttons_.resize(quantity_of_buttons);
-        }
-
-        void draw(sf::RenderWindow &window) {
-            window.draw(title_background_);
-            window.draw(title_);
-            for (const sf::Text &button: buttons_) {
-                window.draw(button);
-            }
-        }
-
-        sf::RectangleShape title_background_;
-        sf::Text title_;
-        std::vector<sf::Text> buttons_;
-    };
 
     class MainMenu : Visualizable {
     public:
@@ -49,13 +29,11 @@ namespace ge {
 
     private:
 
-        bool renderSfmlBasis(const sf::Vector2u &window_size); //override
+        bool renderSfmlBasis(const sf::Vector2u &window_size) override;
 
-        void clearSfmlBasis(); //override
+        void clearSfmlBasis() override;
 
-        std::shared_ptr<MainMenuSfmlBasis> getSfmlBasis();
-
-        //override //вообще должен возвращать родительский класс SfmlBasis, для полиморфизма, чтоб потом ко всем draw применить
+        std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
         static constexpr unsigned int TOP_BUTTON_INDEX = 0;
         static constexpr unsigned int BOTTOM_BUTTON_INDEX = 4;
