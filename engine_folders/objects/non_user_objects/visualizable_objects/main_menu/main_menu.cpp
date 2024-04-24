@@ -126,7 +126,7 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
         }
 
         sfml_basis_->buttons_[i].setOrigin(sfml_basis_->buttons_[i].getLocalBounds().width / 2,
-                                           sfml_basis_->buttons_[i].getLocalBounds().height / 2);
+                                           sfml_basis_->buttons_[0].getLocalBounds().height / 2);
         sf::Vector2f button_position = {
             0.5f * static_cast<float>(window_size.x),
             0.39f * static_cast<float>(window_size.y) + 0.075f * static_cast<float>(window_size.y * i)
