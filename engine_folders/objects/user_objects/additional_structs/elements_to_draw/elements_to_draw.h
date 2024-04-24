@@ -27,7 +27,7 @@ namespace ge {
 
         DrawableElements &operator=(DrawableElements &&other) noexcept;
 
-        void setAboutAuthors(const ge::AboutAuthors &about_authors) const;
+        void setAboutAuthors(const std::shared_ptr<ge::AboutAuthors> &about_authors);
 
         std::shared_ptr<ge::AboutAuthors> getAboutAuthorsPtr();
 
@@ -35,7 +35,7 @@ namespace ge {
 
         [[nodiscard]] ge::AboutAuthors &putAboutAuthors() const;
 
-        void setInfo(const ge::Info &info) const;
+        void setInfo(const std::shared_ptr<ge::Info> &info);
 
         std::shared_ptr<ge::Info> getInfoPtr();
 
@@ -43,7 +43,7 @@ namespace ge {
 
         [[nodiscard]] ge::Info putInfo() const;
 
-        void setIngameMenu(const ge::IngameMenu &ingame_menu) const;
+        void setIngameMenu(const std::shared_ptr<ge::IngameMenu> &ingame_menu);
 
         std::shared_ptr<ge::IngameMenu> getIngameMenuPtr();
 
@@ -51,7 +51,7 @@ namespace ge {
 
         [[nodiscard]] ge::IngameMenu &putIngameMenu() const;
 
-        void setIngameSettings(const ge::IngameSettings &ingame_settings) const;
+        void setIngameSettings(const std::shared_ptr<ge::IngameSettings> &ingame_settings);
 
         std::shared_ptr<ge::IngameSettings> getIngameSettingsPtr();
 
@@ -59,7 +59,7 @@ namespace ge {
 
         [[nodiscard]] ge::IngameSettings &putIngameSettings() const;
 
-        void setMainMenu(const ge::MainMenu &main_menu) const;
+        void setMainMenu(const std::shared_ptr<ge::MainMenu> &main_menu);
 
         std::shared_ptr<ge::MainMenu> getMainMenuPtr();
 
@@ -67,7 +67,7 @@ namespace ge {
 
         [[nodiscard]] ge::MainMenu &putMainMenu() const;
 
-        void setRecentScript(const ge::RecentScript &recent_script) const;
+        void setRecentScript(const std::shared_ptr<ge::RecentScript> &recent_script);
 
         std::shared_ptr<ge::RecentScript> getRecentScriptPtr();
 
@@ -75,7 +75,7 @@ namespace ge {
 
         [[nodiscard]] ge::RecentScript &putRecentScript() const;
 
-        void setSettings(const ge::Settings &settings) const;
+        void setSettings(const std::shared_ptr<ge::Settings> &settings);
 
         std::shared_ptr<ge::Settings> getSettingsPtr();
 

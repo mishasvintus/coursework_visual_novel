@@ -2,9 +2,8 @@
 
 #include "visualizable.h"
 #include "main_menu_sfml_basis/main_menu_sfml_basis.h"
-#include "window_manager.h"
-namespace ge {
 
+namespace ge {
     class MainMenu : Visualizable {
     public:
         MainMenu() = default;
