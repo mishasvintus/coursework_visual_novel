@@ -8,21 +8,21 @@ namespace ge {
     public:
         MainMenuSfmlBasis() = default;
 
-        explicit MainMenuSfmlBasis(size_t quantity_of_buttons) {
-            buttons.resize(quantity_of_buttons);
+        explicit MainMenuSfmlBasis(const size_t quantity_of_buttons) {
+            buttons_.resize(quantity_of_buttons);
         }
 
-        sf::RectangleShape title_background;
-        sf::Text title;
-        std::vector<sf::Text> buttons;
-
         void draw(sf::RenderWindow &window) {
-            window.draw(title_background);
-            window.draw(title);
-            for (const sf::Text &button: buttons) {
+            window.draw(title_background_);
+            window.draw(title_);
+            for (const sf::Text &button: buttons_) {
                 window.draw(button);
             }
         }
+
+        sf::RectangleShape title_background_;
+        sf::Text title_;
+        std::vector<sf::Text> buttons_;
     };
 
     class MainMenu : Visualizable {
@@ -48,23 +48,24 @@ namespace ge {
         void MoveDown();
 
     private:
-        std::shared_ptr<MainMenuSfmlBasis> sfml_basis_ = nullptr;
-
-        bool is_rendered_ = false;
 
         bool renderSfmlBasis(const sf::Vector2u &window_size); //override
 
         void clearSfmlBasis(); //override
 
-        std::shared_ptr<MainMenuSfmlBasis>
-        getSfmlBasis(); //override //вообще должен возвращать родительский класс SfmlBasis, для полиморфизма, чтоб потом ко всем draw применить
+        std::shared_ptr<MainMenuSfmlBasis> getSfmlBasis();
+
+        //override //вообще должен возвращать родительский класс SfmlBasis, для полиморфизма, чтоб потом ко всем draw применить
 
         static constexpr unsigned int TOP_BUTTON_INDEX = 0;
         static constexpr unsigned int BOTTOM_BUTTON_INDEX = 4;
         static constexpr unsigned int QUANTITY_OF_BUTTONS = 5;
         static constexpr unsigned int UPPER_BOUND_TITLE_LENGTH = 40;
+
         const std::vector<std::string> BUTTONS = {"НОВАЯ ИГРА", "ЗАГРУЗИТЬ ИГРУ", "НАСТРОЙКИ", "ОБ АВТОРАХ", "ВЫХОД"};
         std::string title_ = "ФИДЕС";
         unsigned int selected_button_ = 0;
+        bool is_rendered_ = false;
+        std::shared_ptr<MainMenuSfmlBasis> sfml_basis_ = nullptr;
     };
 }
