@@ -130,6 +130,6 @@ void ge::MainMenu::clearSfmlBasis() {
     is_rendered_ = false;
 }
 
-std::shared_ptr<SfmlBasis> ge::MainMenu::getSfmlBasis() {
+std::shared_ptr<ge::SfmlBasis> ge::MainMenu::getSfmlBasis() {
     return std::static_pointer_cast<SfmlBasis>(sfml_basis_);
 }

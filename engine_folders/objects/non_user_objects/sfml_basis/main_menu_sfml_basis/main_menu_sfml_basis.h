@@ -3,11 +3,11 @@
 #include "sfml_basis.h"
 
 namespace ge {
-    class MainMenuSfmlBasis: SfmlBasis {
+    class MainMenuSfmlBasis: public SfmlBasis {
     public:
         MainMenuSfmlBasis() = default;
 
-        explicit MainMenuSfmlBasis(const size_t quantity_of_buttons);
+        explicit MainMenuSfmlBasis(size_t quantity_of_buttons);
 
         void draw(sf::RenderWindow &window) override;
 
