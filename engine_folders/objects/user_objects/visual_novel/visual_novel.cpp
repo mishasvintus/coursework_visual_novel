@@ -20,35 +20,20 @@ ge::VisualNovel::VisualNovel(std::string about_authors, Script script, std::stri
                         UPPER_BOUND_LENGTH_PROJECT_NAME);
 }
 
-bool ge::VisualNovel::setAboutAuthors(const std::string &about_authors) {
-    try {
-        checkingCorrectness(about_authors, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
-                            UPPER_BOUND_LENGTH_PROJECT_NAME);
-        about_authors_ = about_authors;
-    } catch (...) {
-        return false;
-    }
-    return true;
+void ge::VisualNovel::setAboutAuthors(const std::string &about_authors) {
+    checkingCorrectness(about_authors, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
+                        UPPER_BOUND_LENGTH_PROJECT_NAME);
+    about_authors_ = about_authors;
 }
 
-bool ge::VisualNovel::setScript(const Script &script) {
-    try {
-        script_ = script;
-    } catch (...) {
-        return false;
-    }
-    return true;
+void ge::VisualNovel::setScript(const Script &script) {
+    script_ = script;
 }
 
-bool ge::VisualNovel::setProjectName(const std::string &project_name) {
-    try {
-        checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name,
-                            UPPER_BOUND_LENGTH_ABOUT_AUTHORS);
-        project_name_ = project_name;
-    } catch (...) {
-        return false;
-    }
-    return true;
+void ge::VisualNovel::setProjectName(const std::string &project_name) {
+    checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name,
+                        UPPER_BOUND_LENGTH_ABOUT_AUTHORS);
+    project_name_ = project_name;
 }
 
 

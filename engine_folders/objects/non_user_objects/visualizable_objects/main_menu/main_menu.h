@@ -20,6 +20,8 @@ namespace ge {
 
         MainMenu &operator=(MainMenu &&main_menu) noexcept;
 
+        void setTitle(const std::string& title);
+
         void MoveUp();
 
         void MoveDown();
@@ -35,11 +37,12 @@ namespace ge {
 
         std::vector<std::shared_ptr<sf::Drawable>> getDrawables() override;
 
-        static constexpr unsigned int TOP_BUTTON_INDEX_ = 0;
-        static constexpr unsigned int BOTTOM_BUTTON_INDEX_ = 4;
-        static constexpr unsigned int QUANTITY_OF_BUTTONS_ = 5;
-        const std::vector<std::string> BUTTONS_ = {"НОВАЯ ИГРА", "ЗАГРУЗИТЬ ИГРУ", "НАСТРОЙКИ", "ОБ АВТОРАХ", "ВЫХОД"};
-        const std::string TITLE_ = "ФИДЕС";
+        static constexpr unsigned int TOP_BUTTON_INDEX = 0;
+        static constexpr unsigned int BOTTOM_BUTTON_INDEX = 4;
+        static constexpr unsigned int QUANTITY_OF_BUTTONS = 5;
+        static constexpr unsigned int UPPER_BOUND_TITLE_LENGTH = 40;
+        const std::vector<std::string> BUTTONS = {"НОВАЯ ИГРА", "ЗАГРУЗИТЬ ИГРУ", "НАСТРОЙКИ", "ОБ АВТОРАХ", "ВЫХОД"};
+        std::string title_ = "ФИДЕС";
         unsigned int selected_button_ = 0;
     };
 }

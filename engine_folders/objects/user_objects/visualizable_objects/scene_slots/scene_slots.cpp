@@ -52,23 +52,16 @@ ge::SceneSlots &ge::SceneSlots::operator=(SceneSlots &&scene_slots) noexcept {
     return *this;
 }
 
-bool ge::SceneSlots::setQuantityOfSlots(unsigned int quantity_of_slots) {
-    if (quantity_of_slots > UPPER_BOUND_COUNT_SLOTS) {
-        return false;
-    }
+void ge::SceneSlots::setQuantityOfSlots(unsigned int quantity_of_slots) {
+    checkingCorrectness(quantity_of_slots, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
     quantity_of_slots_ = quantity_of_slots;
     pictures_in_slots_.resize(quantity_of_slots_);
-    return true;
 }
 
-bool ge::SceneSlots::setPicturesInSlots(const std::vector<std::string> &pictures_in_slots) {
+void ge::SceneSlots::setPicturesInSlots(const std::vector<std::string> &pictures_in_slots) {
     checkingCorrectness(pictures_in_slots.size(), UPPER_BOUND_COUNT_SLOTS, pictures_in_slots);
-    if (pictures_in_slots.size() > UPPER_BOUND_COUNT_SLOTS) {
-        return false;
-    }
     quantity_of_slots_ = pictures_in_slots.size();
     pictures_in_slots_ = pictures_in_slots;
-    return true;
 }
 
 unsigned int ge::SceneSlots::getQuantityOfSlots() const {

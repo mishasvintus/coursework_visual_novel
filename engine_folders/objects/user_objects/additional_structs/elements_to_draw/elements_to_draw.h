@@ -27,47 +27,47 @@ namespace ge {
 
         DrawableElements &operator=(DrawableElements &&other) noexcept;
 
-        void SetAboutAuthors(const AboutAuthors &about_authors) const;
+        void setAboutAuthors(const AboutAuthors &about_authors) const;
 
-        std::shared_ptr<AboutAuthors> GetAboutAuthorsPtr();
+        std::shared_ptr<AboutAuthors> getAboutAuthorsPtr();
 
-        [[nodiscard]] const AboutAuthors &GetAboutAuthors() const;
+        [[nodiscard]] const AboutAuthors &getAboutAuthors() const;
 
-        void SetInfo(const Info &info) const;
+        void setInfo(const Info &info) const;
 
-        std::shared_ptr<Info> GetInfoPtr();
+        std::shared_ptr<Info> getInfoPtr();
 
-        [[nodiscard]] const Info &GetInfo() const;
+        [[nodiscard]] const Info &getInfo() const;
 
-        void SetIngameMenu(const IngameMenu &ingame_menu) const;
+        void setIngameMenu(const IngameMenu &ingame_menu) const;
 
-        std::shared_ptr<IngameMenu> GetIngameMenuPtr();
+        std::shared_ptr<IngameMenu> getIngameMenuPtr();
 
-        [[nodiscard]] const IngameMenu &GetIngameMenu() const;
+        [[nodiscard]] const IngameMenu &getIngameMenu() const;
 
-        void SetIngameSettings(const IngameSettings &ingame_settings) const;
+        void setIngameSettings(const IngameSettings &ingame_settings) const;
 
-        std::shared_ptr<IngameSettings> GetIngameSettingsPtr();
+        std::shared_ptr<IngameSettings> getIngameSettingsPtr();
 
-        [[nodiscard]] const IngameMenu &GetIngameSettings() const;
+        [[nodiscard]] const IngameMenu &getIngameSettings() const;
 
-        void SetMainMenu(const MainMenu &main_menu) const;
+        void setMainMenu(const MainMenu &main_menu) const;
 
-        std::shared_ptr<MainMenu> GetMainMenuPtr();
+        std::shared_ptr<MainMenu> getMainMenuPtr();
 
-        [[nodiscard]] const MainMenu &GetMainMenu() const;
+        [[nodiscard]] const MainMenu &getMainMenu() const;
 
-        void SetRecentScript(const RecentScript &recent_script) const;
+        void setRecentScript(const RecentScript &recent_script) const;
 
-        std::shared_ptr<RecentScript> GetRecentScriptPtr();
+        std::shared_ptr<RecentScript> getRecentScriptPtr();
 
-        [[nodiscard]] const RecentScript &GetRecentScript() const;
+        [[nodiscard]] const RecentScript &getRecentScript() const;
 
-        void SetSettings(const Settings &settings) const;
+        void setSettings(const Settings &settings) const;
 
-        std::shared_ptr<Settings> GetSettingsPtr();
+        std::shared_ptr<Settings> getSettingsPtr();
 
-        [[nodiscard]] const Settings &GetSettings() const;
+        [[nodiscard]] const Settings &getSettings() const;
 
     private:
         std::shared_ptr<AboutAuthors> about_authors_ = nullptr;

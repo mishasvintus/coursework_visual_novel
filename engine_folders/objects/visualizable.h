@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 #include <memory>
+
 namespace ge {
     class Visualizable {
     public:
@@ -9,7 +11,7 @@ namespace ge {
 
         static constexpr std::string FONT_NAME = "comic_sans.ttf";
     private:
-        std::vector<sf::Drawable> drawables_;
+        std::vector<std::shared_ptr<sf::Drawable>> drawables_;
 
         virtual bool render(const sf::Vector2u &window_size) = 0;
 

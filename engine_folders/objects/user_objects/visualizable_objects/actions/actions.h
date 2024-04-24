@@ -29,11 +29,11 @@ namespace ge {
 
         [[nodiscard]] const std::string &getChapterNameToGo() const;
 
-        bool setCoords(const sf::Vector2u &coords);
+        void setCoords(const sf::Vector2u &coords);
 
-        bool setText(const std::string &text);
+        void setText(const std::string &text);
 
-        bool setChapterNameToGo(const std::string &chapter_name_to_go);
+        void setChapterNameToGo(const std::string &chapter_name_to_go);
 
     private:
         bool render(const sf::Vector2u &window_size) override {

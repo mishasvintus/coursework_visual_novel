@@ -21,9 +21,9 @@ namespace ge {
 
         SceneSlots &operator=(SceneSlots &&scene_slots) noexcept;
 
-        bool setQuantityOfSlots(unsigned int quantity_of_slots);
+        void setQuantityOfSlots(unsigned int quantity_of_slots);
 
-        bool setPicturesInSlots(const std::vector<std::string> &pictures_in_slots);
+        void setPicturesInSlots(const std::vector<std::string> &pictures_in_slots);
 
         [[nodiscard]] unsigned int getQuantityOfSlots() const;
 

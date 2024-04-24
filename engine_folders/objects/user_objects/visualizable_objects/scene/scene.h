@@ -27,15 +27,15 @@ namespace ge {
 
         Scene &operator=(Scene &&scene) noexcept;
 
-        bool setDialogueBox(const DialogueBox &dialogue_box);
+        void setDialogueBox(const DialogueBox &dialogue_box);
 
-        bool setBackgroundFile(const std::string &background_file);
+        void setBackgroundFile(const std::string &background_file);
 
-        bool setChoiceOfAction(bool choice_of_action);
+        void setChoiceOfAction(bool choice_of_action);
 
-        bool setActions(const std::vector<Action> &actions);
+        void setActions(const std::vector<Action> &actions);
 
-        bool setSlots(const SceneSlots &scene_slots);
+        void setSlots(const SceneSlots &scene_slots);
 
         const DialogueBox &getDialogueBox();
 

@@ -29,11 +29,11 @@ namespace ge {
 
         ~VisualNovel() = default;
 
-        bool setAboutAuthors(const std::string &about_authors);
+        void setAboutAuthors(const std::string &about_authors);
 
-        bool setScript(const Script &script);
+        void setScript(const Script &script);
 
-        bool setProjectName(const std::string& project_name);
+        void setProjectName(const std::string &project_name);
 
         const std::string &getAboutAuthors();
 

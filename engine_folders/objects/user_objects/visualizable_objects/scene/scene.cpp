@@ -50,50 +50,25 @@ ge::Scene &ge::Scene::operator=(Scene &&scene) noexcept {
     return *this;
 }
 
-bool ge::Scene::setDialogueBox(const DialogueBox &dialogue_box) {
-    try {
-        dialogue_box_ = dialogue_box;
-    } catch (...) {
-        return false; ///TODO: пусть будет так, а вообще всегда возвращаем true по идее
-    }
-    return true;
+void ge::Scene::setDialogueBox(const DialogueBox &dialogue_box) {
+    dialogue_box_ = dialogue_box;
 }
 
-bool ge::Scene::setBackgroundFile(const std::string &background_file) {
-    try {
-        checkingCorrectness(background_file);
-        background_file_ = background_file;
-    } catch (...) {
-        return false;
-    }
-    return true;
+void ge::Scene::setBackgroundFile(const std::string &background_file) {
+    checkingCorrectness(background_file);
+    background_file_ = background_file;
 }
 
-bool ge::Scene::setChoiceOfAction(bool choice_of_action) {
-    try {
-        choice_of_action_ = choice_of_action; ///TODO: пусть будет так, а вообще всегда возвращаем true по идее
-    } catch (...) {
-        return false;
-    }
-    return true;
+void ge::Scene::setChoiceOfAction(bool choice_of_action) {
+    choice_of_action_ = choice_of_action; ///TODO: пусть будет так, а вообще всегда возвращаем true по идее
 }
 
-bool ge::Scene::setActions(const std::vector<Action> &actions) {
-    try {
-        actions_ = actions;
-    } catch (...) {
-        return false;
-    }
-    return true;
+void ge::Scene::setActions(const std::vector<Action> &actions) {
+    actions_ = actions;
 }
 
-bool ge::Scene::setSlots(const SceneSlots &scene_slots) {
-    try {
-        scene_slots_ = scene_slots;
-    } catch (...) {
-        return false;
-    }
-    return true;
+void ge::Scene::setSlots(const SceneSlots &scene_slots) {
+    scene_slots_ = scene_slots;
 }
 
 const ge::DialogueBox &ge::Scene::getDialogueBox() {
