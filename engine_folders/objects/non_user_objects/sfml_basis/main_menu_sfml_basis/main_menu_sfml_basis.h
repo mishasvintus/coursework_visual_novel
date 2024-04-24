@@ -7,6 +7,8 @@ namespace ge {
     public:
         MainMenuSfmlBasis() = default;
 
+        ~MainMenuSfmlBasis() override = default;
+
         explicit MainMenuSfmlBasis(size_t quantity_of_buttons);
 
         void draw(sf::RenderWindow &window) override;
