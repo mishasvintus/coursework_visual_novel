@@ -42,8 +42,8 @@ namespace ge {
         static constexpr unsigned int QUANTITY_OF_BUTTONS = 5;
         static constexpr unsigned int UPPER_BOUND_TITLE_LENGTH = 40;
 
-        const std::vector<std::string> BUTTONS = {"НОВАЯ ИГРА", "ЗАГРУЗИТЬ ИГРУ", "НАСТРОЙКИ", "ОБ АВТОРАХ", "ВЫХОД"};
-        std::string title_ = "ФИДЕС";
+        const std::vector<sf::String> BUTTONS = {L"НОВАЯ ИГРА", L"ЗАГРУЗИТЬ ИГРУ", L"НАСТРОЙКИ", L"ОБ АВТОРАХ", L"ВЫХОД"};
+        sf::String title_ = L"ФИДЕС";
         unsigned int selected_button_ = 0;
         bool is_rendered_ = false;
         std::shared_ptr<MainMenuSfmlBasis> sfml_basis_ = nullptr;

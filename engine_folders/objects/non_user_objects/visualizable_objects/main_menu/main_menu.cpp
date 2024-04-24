@@ -50,7 +50,7 @@ void ge::MainMenu::MoveUp() {
     }
     if (is_rendered_) {
         sfml_basis_->buttons_[selected_button_].setFillColor(sf::Color::White);
-        sfml_basis_->buttons_[selected_button_ - 1].setFillColor(sf::Color::Blue);
+        sfml_basis_->buttons_[selected_button_ - 1].setFillColor(sf::Color::Magenta);
     }
     --selected_button_;
 }
@@ -61,7 +61,7 @@ void ge::MainMenu::MoveDown() {
     }
     if (is_rendered_) {
         sfml_basis_->buttons_[selected_button_].setFillColor(sf::Color::White);
-        sfml_basis_->buttons_[selected_button_ + 1].setFillColor(sf::Color::Blue);
+        sfml_basis_->buttons_[selected_button_ + 1].setFillColor(sf::Color::Magenta);
     }
     ++selected_button_;
 }
@@ -82,8 +82,7 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     sfml_basis_ = std::make_shared<MainMenuSfmlBasis>();
 
-    sf::Font font;
-    if (!font.loadFromFile(FONT_NAME)) {
+    if (!sfml_basis_->font_.loadFromFile(FONT_NAME)) {
         return false;
     }
 
@@ -93,10 +92,13 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     const sf::Vector2f title_background_position = {
         0.3f * static_cast<float>(window_size.x), 0.12f * static_cast<float>(window_size.y)
     };
+
     sfml_basis_->title_background_ = sf::RectangleShape(title_background_size);
+    sfml_basis_->title_background_.setPosition(title_background_position);
     sfml_basis_->title_background_.setFillColor(sf::Color(56, 87, 97));
 
-    sfml_basis_->title_.setFont(font);
+    sfml_basis_->title_.setFont(sfml_basis_->font_);
+    sfml_basis_->title_.setCharacterSize((unsigned int)(window_size.y * 0.05));
     sfml_basis_->title_.setString(title_);
     sfml_basis_->title_.setFillColor(sf::Color::White);
     sfml_basis_->title_.setOutlineColor(sf::Color::Black);
@@ -107,21 +109,27 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
         title_background_position.x + title_background_size.x / 2,
         title_background_position.y + title_background_size.y / 2
     };
-    sfml_basis_->title_.setPosition(title_background_position);
+    sfml_basis_->title_.setPosition(title_position);
 
     sfml_basis_->buttons_.resize(QUANTITY_OF_BUTTONS);
 
     for (int i = 0; i < QUANTITY_OF_BUTTONS; ++i) {
-        sfml_basis_->buttons_[i].setFont(font);
+        sfml_basis_->buttons_[i].setFont(sfml_basis_->font_);
         sfml_basis_->buttons_[i].setString(BUTTONS[i]);
-        sfml_basis_->buttons_[i].setFillColor(sf::Color::White);
+        sfml_basis_->buttons_[i].setCharacterSize((unsigned int)(window_size.y * 0.035));
         sfml_basis_->buttons_[i].setOutlineColor(sf::Color::Black);
         sfml_basis_->buttons_[i].setOutlineThickness(2);
+        if (i == 0) {
+            sfml_basis_->buttons_[i].setFillColor(sf::Color::Magenta);
+        } else {
+            sfml_basis_->buttons_[i].setFillColor(sf::Color::White);
+        }
+
         sfml_basis_->buttons_[i].setOrigin(sfml_basis_->buttons_[i].getLocalBounds().width / 2,
                                            sfml_basis_->buttons_[i].getLocalBounds().height / 2);
         sf::Vector2f button_position = {
             0.5f * static_cast<float>(window_size.x),
-            0.31f * static_cast<float>(window_size.y) + 0.075f * static_cast<float>(window_size.y * i)
+            0.39f * static_cast<float>(window_size.y) + 0.075f * static_cast<float>(window_size.y * i)
         };
         sfml_basis_->buttons_[i].setPosition(button_position);
     }

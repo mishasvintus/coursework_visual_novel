@@ -2,7 +2,7 @@
 
 #include <utility>
 
-void checkingCorrectness(const std::string_view &replica, const std::string_view &speaker, const size_t up_replica,
+void checkingCorrectness(const std::string &replica, const std::string &speaker, const size_t up_replica,
                          const size_t up_speaker) {
     if (replica.length() > up_replica || speaker.length() > up_speaker) {
         throw std::invalid_argument("length of replica or speaker is so long");

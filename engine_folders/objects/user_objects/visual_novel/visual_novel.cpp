@@ -56,7 +56,6 @@ bool ge::VisualNovel::run() {
         drawable_elements.setMainMenu(main_menu);
         while (window.isOpen()) {
             window_managers[current_game_mode_](*this, window, drawable_elements);
-            window.clear();
             window.display();
         }
     } catch (...) {
