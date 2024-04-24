@@ -20,7 +20,7 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
         case sf::Event::Closed:
             window.close();
             break;
-        case sf::Event::KeyReleased:
+        case sf::Event::KeyReleased: {
             if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
                 main_menu.MoveUp();
                 break;
@@ -29,7 +29,7 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
                 main_menu.MoveDown();
                 break;
             }
-            if (event.key.code == sf::Keyboard::Enter) {
+            if (event.key.code != sf::Keyboard::Enter) {
                 break;
             }
             const unsigned int selected_button = main_menu.getSelectedButton();
@@ -47,6 +47,7 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
                 break;
             }
             break;
+        }
         default:
             break;
     }
