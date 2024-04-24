@@ -78,4 +78,5 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
         default:
             return false;
     }
+    return true;
 }

@@ -13,30 +13,44 @@ namespace ge {
 
         static bool mainSettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                         ge::DrawableElements &drawable_elements) {
+            // TODO
+            return true;
         }
 
         static bool aboutAuthorsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                         ge::DrawableElements &drawable_elements) {
+            // TODO
+            return true;
         }
 
         static bool inGameManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                   ge::DrawableElements &drawable_elements) {
+            // TODO
+            return true;
         }
 
         static bool recentScriptManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                         ge::DrawableElements &drawable_elements) {
+            // TODO
+            return true;
         }
 
         static bool infoManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                 ge::DrawableElements &drawable_elements) {
+            // TODO
+            return true;
         }
 
         static bool ingameMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                       ge::DrawableElements &drawable_elements) {
+            // TODO
+            return true;
         }
 
         static bool ingameSettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                           ge::DrawableElements &drawable_elements) {
+            // TODO
+            return true;
         }
 
         static std::unordered_map<GameMode, WindowManagerPtr> getMap();
