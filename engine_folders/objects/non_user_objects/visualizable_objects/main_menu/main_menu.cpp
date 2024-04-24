@@ -40,7 +40,7 @@ void ge::MainMenu::MoveDown() {
     }
 }
 
-std::vector<sf::Drawable> ge::MainMenu::getDrawables() {
+std::vector<std::shared_ptr<sf::Drawable>> ge::MainMenu::getDrawables() {
     /// TODO
 
     return {};

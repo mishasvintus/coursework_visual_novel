@@ -36,7 +36,7 @@ namespace ge {
             /// TODO: реализовать
         }
 
-        std::vector<sf::Drawable> getDrawables() override {
+        std::vector<std::shared_ptr<sf::Drawable>> getDrawables() override {
             return {}; /// TODO: реализовать
         }
 

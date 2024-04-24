@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
+#include <memory>
 namespace ge {
     class Visualizable {
     public:
@@ -15,6 +15,6 @@ namespace ge {
 
         virtual void clearDrawables() = 0;
 
-        virtual std::vector<sf::Drawable> getDrawables() = 0;
+        virtual std::vector<std::shared_ptr<sf::Drawable>> getDrawables() = 0;
     };
 }

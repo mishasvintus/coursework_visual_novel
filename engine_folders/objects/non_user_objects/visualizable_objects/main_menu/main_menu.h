@@ -33,7 +33,7 @@ namespace ge {
             /// TODO: реализовать
         }
 
-        std::vector<sf::Drawable> getDrawables() override;
+        std::vector<std::shared_ptr<sf::Drawable>> getDrawables() override;
 
         static constexpr unsigned int TOP_BUTTON_INDEX_ = 0;
         static constexpr unsigned int BOTTOM_BUTTON_INDEX_ = 4;
