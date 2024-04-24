@@ -14,3 +14,40 @@ std::unordered_map<ge::GameMode, WindowManagerPtr> ge::WindowManager::getMap() {
 
     return result;
 }
+
+ge::GameMode mainMenuEventHandler(sf::RenderWindow& window, ge::MainMenu& main_menu, sf::Event event) {
+    switch (event.type) {
+        case sf::Event::Closed:
+            window.close();
+            break;
+        case sf::Event::KeyReleased:
+            if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
+                main_menu.MoveUp();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) {
+                main_menu.MoveDown();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Enter) {
+                unsigned int selected_button = main_menu.getSelectedButton();
+                if (selected_button == 0) {
+                    return ge::GameMode::InGame;
+                }
+                if (selected_button == 2) {
+                    return ge::GameMode::MainSettings;
+                }
+                if (selected_button == 3) {
+                    return ge::GameMode::AboutAuthors;
+                }
+                if (selected_button == 4) {
+                    window.close();
+                    break;
+                }
+                break;
+            }
+        default:
+            break;
+    }
+    return ge::GameMode::MainMenu;
+}

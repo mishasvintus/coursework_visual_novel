@@ -71,6 +71,10 @@ void ge::MainMenu::setTitle(const std::string &title) {
     title_ = title;
 }
 
+unsigned int ge::MainMenu::getSelectedButton() {
+    return selected_button_;
+}
+
 bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_) {
         return true;
