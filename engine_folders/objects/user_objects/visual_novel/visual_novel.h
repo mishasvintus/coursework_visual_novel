@@ -4,7 +4,7 @@
 #include "script.h"
 
 namespace ge {
-    enum GameMode {
+    enum class GameMode {
         MainMenu,
         MainSettings,
         AboutAuthors,
@@ -51,6 +51,6 @@ namespace ge {
         std::string project_name_ = "Visual Novel";
         std::string current_chapter_;
         int current_scene_ = -1;
-        GameMode current_game_mode_ = InGame;
+        GameMode current_game_mode_ = GameMode::InGame;
     };
 }

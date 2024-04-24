@@ -3,14 +3,14 @@
 std::unordered_map<ge::GameMode, WindowManagerPtr> ge::WindowManager::getMap() {
     std::unordered_map<ge::GameMode, WindowManagerPtr> result;
 
-    result[MainMenu] = &ge::WindowManager::mainMenuManager;
-    result[MainSettings] = &ge::WindowManager::mainSettingsManager;
-    result[AboutAuthors] = &ge::WindowManager::aboutAuthorsManager;
-    result[InGame] = &ge::WindowManager::inGameManager;
-    result[RecentScript] = &ge::WindowManager::recentScriptManager;
-    result[Info] = &ge::WindowManager::infoManager;
-    result[IngameMenu] = &ge::WindowManager::ingameMenuManager;
-    result[IngameSettings] = &ge::WindowManager::ingameSettingsManager;
+    result[GameMode::MainMenu] = &ge::WindowManager::mainMenuManager;
+    result[GameMode::MainSettings] = &ge::WindowManager::mainSettingsManager;
+    result[GameMode::AboutAuthors] = &ge::WindowManager::aboutAuthorsManager;
+    result[GameMode::InGame] = &ge::WindowManager::inGameManager;
+    result[GameMode::RecentScript] = &ge::WindowManager::recentScriptManager;
+    result[GameMode::Info] = &ge::WindowManager::infoManager;
+    result[GameMode::IngameMenu] = &ge::WindowManager::ingameMenuManager;
+    result[GameMode::IngameSettings] = &ge::WindowManager::ingameSettingsManager;
 
     return result;
 }

@@ -27,55 +27,55 @@ namespace ge {
 
         DrawableElements &operator=(DrawableElements &&other) noexcept;
 
-        void setAboutAuthors(const AboutAuthors &about_authors) const;
+        void setAboutAuthors(const ge::AboutAuthors &about_authors) const;
 
-        std::shared_ptr<AboutAuthors> getAboutAuthorsPtr();
+        std::shared_ptr<ge::AboutAuthors> getAboutAuthorsPtr();
 
-        [[nodiscard]] const AboutAuthors &getAboutAuthors() const;
+        [[nodiscard]] const ge::AboutAuthors &getAboutAuthors() const;
 
-        void setInfo(const Info &info) const;
+        void setInfo(const ge::Info &info) const;
 
-        std::shared_ptr<Info> getInfoPtr();
+        std::shared_ptr<ge::Info> getInfoPtr();
 
-        [[nodiscard]] const Info &getInfo() const;
+        [[nodiscard]] const ge::Info &getInfo() const;
 
-        void setIngameMenu(const IngameMenu &ingame_menu) const;
+        void setIngameMenu(const ge::IngameMenu &ingame_menu) const;
 
-        std::shared_ptr<IngameMenu> getIngameMenuPtr();
+        std::shared_ptr<ge::IngameMenu> getIngameMenuPtr();
 
-        [[nodiscard]] const IngameMenu &getIngameMenu() const;
+        [[nodiscard]] const ge::IngameMenu &getIngameMenu() const;
 
-        void setIngameSettings(const IngameSettings &ingame_settings) const;
+        void setIngameSettings(const ge::IngameSettings &ingame_settings) const;
 
-        std::shared_ptr<IngameSettings> getIngameSettingsPtr();
+        std::shared_ptr<ge::IngameSettings> getIngameSettingsPtr();
 
-        [[nodiscard]] const IngameMenu &getIngameSettings() const;
+        [[nodiscard]] const ge::IngameMenu &getIngameSettings() const;
 
-        void setMainMenu(const MainMenu &main_menu) const;
+        void setMainMenu(const ge::MainMenu &main_menu) const;
 
-        std::shared_ptr<MainMenu> getMainMenuPtr();
+        std::shared_ptr<ge::MainMenu> getMainMenuPtr();
 
-        [[nodiscard]] const MainMenu &getMainMenu() const;
+        [[nodiscard]] const ge::MainMenu &getMainMenu() const;
 
-        void setRecentScript(const RecentScript &recent_script) const;
+        void setRecentScript(const ge::RecentScript &recent_script) const;
 
-        std::shared_ptr<RecentScript> getRecentScriptPtr();
+        std::shared_ptr<ge::RecentScript> getRecentScriptPtr();
 
-        [[nodiscard]] const RecentScript &getRecentScript() const;
+        [[nodiscard]] const ge::RecentScript &getRecentScript() const;
 
-        void setSettings(const Settings &settings) const;
+        void setSettings(const ge::Settings &settings) const;
 
-        std::shared_ptr<Settings> getSettingsPtr();
+        std::shared_ptr<ge::Settings> getSettingsPtr();
 
-        [[nodiscard]] const Settings &getSettings() const;
+        [[nodiscard]] const ge::Settings &getSettings() const;
 
     private:
-        std::shared_ptr<AboutAuthors> about_authors_ = nullptr;
+        std::shared_ptr<ge::AboutAuthors> about_authors_ = nullptr;
         std::shared_ptr<Info> info_ = nullptr;
-        std::shared_ptr<IngameMenu> ingame_menu_ = nullptr;
-        std::shared_ptr<IngameSettings> ingame_settings_ = nullptr;
-        std::shared_ptr<MainMenu> main_menu_ = nullptr;
-        std::shared_ptr<RecentScript> recent_script_ = nullptr;
-        std::shared_ptr<Settings> settings_ = nullptr;
+        std::shared_ptr<ge::IngameMenu> ingame_menu_ = nullptr;
+        std::shared_ptr<ge::IngameSettings> ingame_settings_ = nullptr;
+        std::shared_ptr<ge::MainMenu> main_menu_ = nullptr;
+        std::shared_ptr<ge::RecentScript> recent_script_ = nullptr;
+        std::shared_ptr<ge::Settings> settings_ = nullptr;
     };
 }
