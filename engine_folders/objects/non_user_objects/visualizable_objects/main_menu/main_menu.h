@@ -2,7 +2,7 @@
 
 #include "visualizable.h"
 #include "main_menu_sfml_basis/main_menu_sfml_basis.h"
-
+#include "window_manager.h"
 namespace ge {
 
     class MainMenu : Visualizable {
@@ -30,6 +30,7 @@ namespace ge {
         void MoveDown();
 
     private:
+        friend class WindowManager;
 
         bool renderSfmlBasis(const sf::Vector2u &window_size) override;
 

@@ -59,9 +59,13 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
     sf::Event event{};
     window.waitEvent(event);
     switch (mainMenuEventHandler(window, drawable_elements.putMainMenu(), event)) {
-        case GameMode::MainMenu:
-            // TODO : реализовать
+        case GameMode::MainMenu: {
+            std::shared_ptr<MainMenu> main_menu = drawable_elements.getMainMenuPtr();
+            main_menu->renderSfmlBasis(window.getSize());
+            std::shared_ptr<SfmlBasis> sfml_basis = main_menu->getSfmlBasis();
+            sfml_basis->draw(window);
             break;
+        }
         case GameMode::InGame:
             // TODO : реализовать
             break;
