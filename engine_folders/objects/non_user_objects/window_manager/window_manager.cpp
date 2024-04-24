@@ -15,7 +15,7 @@ std::unordered_map<ge::GameMode, WindowManagerPtr> ge::WindowManager::getMap() {
     return result;
 }
 
-ge::GameMode mainMenuEventHandler(sf::RenderWindow& window, ge::MainMenu& main_menu, sf::Event event) {
+ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_menu, sf::Event event) {
     switch (event.type) {
         case sf::Event::Closed:
             window.close();
@@ -30,22 +30,23 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow& window, ge::MainMenu& main_m
                 break;
             }
             if (event.key.code == sf::Keyboard::Enter) {
-                const unsigned int selected_button = main_menu.getSelectedButton();
-                if (selected_button == 0) {
-                    return ge::GameMode::InGame;
-                }
-                if (selected_button == 2) {
-                    return ge::GameMode::MainSettings;
-                }
-                if (selected_button == 3) {
-                    return ge::GameMode::AboutAuthors;
-                }
-                if (selected_button == 4) {
-                    window.close();
-                    break;
-                }
                 break;
             }
+            const unsigned int selected_button = main_menu.getSelectedButton();
+            if (selected_button == 0) {
+                return ge::GameMode::InGame;
+            }
+            if (selected_button == 2) {
+                return ge::GameMode::MainSettings;
+            }
+            if (selected_button == 3) {
+                return ge::GameMode::AboutAuthors;
+            }
+            if (selected_button == 4) {
+                window.close();
+                break;
+            }
+            break;
         default:
             break;
     }
@@ -57,5 +58,4 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
     sf::Event event{};
     window.waitEvent(event);
     ge::GameMode game_mode = mainMenuEventHandler(window, drawable_elements.putMainMenu(), event);
-
 }
