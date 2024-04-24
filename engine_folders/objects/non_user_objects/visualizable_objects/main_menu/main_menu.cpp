@@ -82,7 +82,7 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->title.setOutlineColor(sf::Color::Black);
     sfml_basis_->title.setOutlineThickness(2);
     sfml_basis_->title.setOrigin(sfml_basis_->title.getLocalBounds().width / 2,
-                                sfml_basis_->title.getLocalBounds().height / 2);
+                                 sfml_basis_->title.getLocalBounds().height / 2);
     sf::Vector2f title_position = {title_background_position.x + title_background_size.x / 2,
                                    title_background_position.y + title_background_size.y / 2};
     sfml_basis_->title.setPosition(title_background_position);
@@ -96,7 +96,7 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
         sfml_basis_->buttons[i].setOutlineColor(sf::Color::Black);
         sfml_basis_->buttons[i].setOutlineThickness(2);
         sfml_basis_->buttons[i].setOrigin(sfml_basis_->buttons[i].getLocalBounds().width / 2,
-                                         sfml_basis_->buttons[i].getLocalBounds().height / 2);
+                                          sfml_basis_->buttons[i].getLocalBounds().height / 2);
         sf::Vector2f button_position = {0.5f * (float) window_size.x,
                                         0.31f * (float) window_size.y + i * 0.075f * (float) window_size.y};
         sfml_basis_->buttons[i].setPosition(button_position);

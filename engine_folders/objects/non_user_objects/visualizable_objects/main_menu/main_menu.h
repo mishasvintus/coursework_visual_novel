@@ -7,9 +7,11 @@ namespace ge {
     class MainMenuSfmlBasis {
     public:
         MainMenuSfmlBasis() = default;
+
         explicit MainMenuSfmlBasis(size_t quantity_of_buttons) {
             buttons.resize(quantity_of_buttons);
         }
+
         sf::RectangleShape title_background;
         sf::Text title;
         std::vector<sf::Text> buttons;
@@ -39,7 +41,7 @@ namespace ge {
 
         MainMenu &operator=(MainMenu &&main_menu) noexcept;
 
-        void setTitle(const std::string& title);
+        void setTitle(const std::string &title);
 
         void MoveUp();
 
@@ -54,7 +56,8 @@ namespace ge {
 
         void clearSfmlBasis(); //override
 
-        std::shared_ptr<MainMenuSfmlBasis> getSfmlBasis(); //override //вообще должен возвращать родительский класс SfmlBasis, для полиморфизма, чтоб потом ко всем draw применить
+        std::shared_ptr<MainMenuSfmlBasis>
+        getSfmlBasis(); //override //вообще должен возвращать родительский класс SfmlBasis, для полиморфизма, чтоб потом ко всем draw применить
 
         static constexpr unsigned int TOP_BUTTON_INDEX = 0;
         static constexpr unsigned int BOTTOM_BUTTON_INDEX = 4;
