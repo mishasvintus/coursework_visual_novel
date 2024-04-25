@@ -30,10 +30,11 @@ namespace ge {
 
         bool renderSfmlBasis(const sf::Vector2u &window_size) override {} /// TODO
 
-        void clearSfmlBasis() override {} /// TODO
+        void clearSfmlBasis() override;
 
-        std::shared_ptr<SfmlBasis> getSfmlBasis() override {} /// TODO
+        std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
+        bool is_rendered_ = false;
         std::shared_ptr<Scene> actual_cadr_ = nullptr;
         std::shared_ptr<Scene> past_scene_ = nullptr;
         std::shared_ptr<SceneChangesSfmlBasic> sfml_basic_ = nullptr;
