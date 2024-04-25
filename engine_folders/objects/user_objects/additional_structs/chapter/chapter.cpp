@@ -2,7 +2,7 @@
 
 #include <utility>
 
-ge::Chapter::Chapter(std::string chapter_name, const std::vector<Scene> &scenes)
+ge::Chapter::Chapter(std::wstring chapter_name, const std::vector<Scene> &scenes)
     : chapter_name_(std::move(chapter_name))
     , scenes_(scenes) {
 }

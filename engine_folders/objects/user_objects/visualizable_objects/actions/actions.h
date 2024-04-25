@@ -9,7 +9,7 @@ namespace ge {
     public:
         Action();
 
-        Action(const sf::Vector2i &coords, std::string text, std::string chapter_name_to_go);
+        Action(const sf::Vector2i &coords, std::wstring text, std::wstring chapter_name_to_go);
 
         Action(const Action &action);
 
@@ -25,15 +25,15 @@ namespace ge {
 
         [[nodiscard]] const sf::Vector2u &getCoords() const;
 
-        [[nodiscard]] const std::string &getText() const;
+        [[nodiscard]] const std::wstring &getText() const;
 
-        [[nodiscard]] const std::string &getChapterNameToGo() const;
+        [[nodiscard]] const std::wstring &getChapterNameToGo() const;
 
         void setCoords(const sf::Vector2u &coords);
 
-        void setText(const std::string &text);
+        void setText(const std::wstring &text);
 
-        void setChapterNameToGo(const std::string &chapter_name_to_go);
+        void setChapterNameToGo(const std::wstring &chapter_name_to_go);
 
     private:
         bool renderSfmlBasis(const sf::Vector2u &window_size) override {
@@ -53,7 +53,7 @@ namespace ge {
         /// TODO: не константа, потому что sf::VideoMode нестатичен, переделать как-то
 
         sf::Vector2u coords_;
-        std::string text_;
-        std::string chapter_name_to_go_;
+        std::wstring text_;
+        std::wstring chapter_name_to_go_;
     };
 }

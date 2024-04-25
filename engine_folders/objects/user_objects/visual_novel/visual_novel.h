@@ -25,17 +25,17 @@ namespace ge {
 
         VisualNovel(VisualNovel &&visual_novel) noexcept;
 
-        VisualNovel(std::string about_authors, Script script, std::string project_name);
+        VisualNovel(std::wstring about_authors, Script script, std::wstring project_name);
 
         ~VisualNovel() = default;
 
-        void setAboutAuthors(const std::string &about_authors);
+        void setAboutAuthors(const std::wstring &about_authors);
 
         void setScript(const Script &script);
 
-        void setProjectName(const std::string &project_name);
+        void setProjectName(const std::wstring &project_name);
 
-        const std::string &getAboutAuthors();
+        const std::wstring &getAboutAuthors();
 
         const Script &getScript();
 
@@ -46,10 +46,10 @@ namespace ge {
 
         static constexpr size_t UPPER_BOUND_LENGTH_ABOUT_AUTHORS = 5000;
         static constexpr size_t UPPER_BOUND_LENGTH_PROJECT_NAME = 50;
-        std::string about_authors_;
+        std::wstring about_authors_;
         Script script_;
-        std::string project_name_ = "Visual Novel";
-        std::string current_chapter_;
+        std::wstring project_name_ = L"Visual Novel";
+        std::wstring current_chapter_;
         int current_scene_ = -1;
         GameMode current_game_mode_ = GameMode::MainMenu;
     };

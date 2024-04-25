@@ -3,8 +3,8 @@
 
 #include <utility>
 
-void checkingCorrectness(const std::string &text, const size_t upper_limit_about_authors,
-                         const std::string &project_name, const size_t upper_limit_project_name) {
+void checkingCorrectness(const std::wstring &text, const size_t upper_limit_about_authors,
+                         const std::wstring &project_name, const size_t upper_limit_project_name) {
     if (text.length() > upper_limit_about_authors || project_name.length() > upper_limit_project_name) {
         throw std::invalid_argument("length of text about authors is so long\n");
     }
@@ -14,13 +14,13 @@ ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
     : about_authors_(std::move(visual_novel.about_authors_)), script_(std::move(visual_novel.script_)) {
 }
 
-ge::VisualNovel::VisualNovel(std::string about_authors, Script script, std::string project_name)
+ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name)
     : about_authors_(std::move(about_authors)), script_(std::move(script)), project_name_(std::move(project_name)) {
     checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
                         UPPER_BOUND_LENGTH_PROJECT_NAME);
 }
 
-void ge::VisualNovel::setAboutAuthors(const std::string &about_authors) {
+void ge::VisualNovel::setAboutAuthors(const std::wstring &about_authors) {
     checkingCorrectness(about_authors, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
                         UPPER_BOUND_LENGTH_PROJECT_NAME);
     about_authors_ = about_authors;
@@ -30,14 +30,14 @@ void ge::VisualNovel::setScript(const Script &script) {
     script_ = script;
 }
 
-void ge::VisualNovel::setProjectName(const std::string &project_name) {
+void ge::VisualNovel::setProjectName(const std::wstring &project_name) {
     checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name,
                         UPPER_BOUND_LENGTH_ABOUT_AUTHORS);
     project_name_ = project_name;
 }
 
 
-const std::string &ge::VisualNovel::getAboutAuthors() {
+const std::wstring &ge::VisualNovel::getAboutAuthors() {
     return about_authors_;
 }
 

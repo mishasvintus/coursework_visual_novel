@@ -8,7 +8,7 @@ namespace ge {
 
         Chapter(const Chapter &chapter) = default;
 
-        Chapter(std::string chapter_name, const std::vector<Scene> &scenes);
+        Chapter(std::wstring chapter_name, const std::vector<Scene> &scenes);
 
         Chapter(Chapter &&chapter) noexcept;
 
@@ -18,7 +18,7 @@ namespace ge {
 
         Chapter &operator=(Chapter &&chapter) noexcept;
 
-        std::string chapter_name_;
+        std::wstring chapter_name_;
         std::vector<Scene> scenes_;
     };
 }

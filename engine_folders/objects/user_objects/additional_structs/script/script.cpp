@@ -1,6 +1,6 @@
 #include "script.h"
 
-ge::Script::Script(const std::unordered_map<std::string, Chapter> &chapters)
+ge::Script::Script(const std::unordered_map<std::wstring, Chapter> &chapters)
     : chapters_(chapters) {
 }
 

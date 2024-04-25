@@ -10,7 +10,7 @@ namespace ge {
 
         Script(const Script &script) = default;
 
-        explicit Script(const std::unordered_map<std::string, Chapter> &chapters);
+        explicit Script(const std::unordered_map<std::wstring, Chapter> &chapters);
 
         Script(Script &&script) noexcept;
 
@@ -20,6 +20,6 @@ namespace ge {
 
         Script &operator=(Script &&script) noexcept;
 
-        std::unordered_map<std::string, Chapter> chapters_;
+        std::unordered_map<std::wstring, Chapter> chapters_;
     };
 }

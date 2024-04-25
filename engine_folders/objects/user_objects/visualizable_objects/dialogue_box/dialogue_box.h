@@ -9,7 +9,7 @@ namespace ge {
 
         DialogueBox(const DialogueBox &other);
 
-        DialogueBox(std::string replica, std::string speaker);
+        DialogueBox(std::wstring replica, std::wstring speaker);
 
         DialogueBox(DialogueBox &&other) noexcept;
 
@@ -19,13 +19,13 @@ namespace ge {
 
         ~DialogueBox() override = default;
 
-        void setReplica(const std::string &replica);
+        void setReplica(const std::wstring &replica);
 
-        void setSpeaker(const std::string &speaker);
+        void setSpeaker(const std::wstring &speaker);
 
-        [[nodiscard]] const std::string &getReplica() const;
+        [[nodiscard]] const std::wstring &getReplica() const;
 
-        [[nodiscard]] const std::string &getSpeaker() const;
+        [[nodiscard]] const std::wstring &getSpeaker() const;
 
     private:
         bool renderSfmlBasis(const sf::Vector2u &window_size) override {
@@ -42,7 +42,7 @@ namespace ge {
 
         static constexpr size_t UPPER_BOUND_OF_LENGTH_SPEAKER = 50;
         static constexpr size_t UPPER_BOUND_OF_LENGTH_REPLICA = 500;
-        std::string replica_;
-        std::string speaker_;
+        std::wstring replica_;
+        std::wstring speaker_;
     };
 }
