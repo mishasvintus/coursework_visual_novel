@@ -32,7 +32,7 @@ namespace ge {
 
         void clearSfmlBasis() override {} /// TODO
 
-        std::shared_ptr<SfmlBasis> getSfmlBasis() override;
+        std::shared_ptr<SfmlBasis> getSfmlBasis() override {} /// TODO
 
         std::shared_ptr<Scene> actual_cadr_ = nullptr;
         std::shared_ptr<Scene> past_scene_ = nullptr;
