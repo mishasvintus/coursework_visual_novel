@@ -9,16 +9,17 @@ namespace ge {
 
         ~SceneChangesSfmlBasic() override = default;
 
-        void draw(sf::RenderWindow &window) override {
-        } /// TODO: реализовать
+        void draw(sf::RenderWindow &window) override;
 
         sf::Font replica_font_;
         sf::Font speaker_font_;
+        sf::Text replica_;
+        sf::Text speaker_;
         sf::RectangleShape dialogue_box_shape;
         sf::Sprite background_sprite_;
         sf::Texture background_texture_;
         std::vector<sf::Sprite> slots_spites_;
         std::vector<sf::Texture> slots_textue_;
-        sf::Text button_;
+        std::vector<sf::Text> buttons_;
     };
 }
