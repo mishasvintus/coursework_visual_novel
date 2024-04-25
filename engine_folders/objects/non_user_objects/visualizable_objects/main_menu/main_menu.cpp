@@ -22,7 +22,7 @@ ge::MainMenu::MainMenu(MainMenu &main_menu)
 }
 
 ge::MainMenu::MainMenu(MainMenu &&main_menu) noexcept
-    : title_(std::move(main_menu.title_))
+    : title_(main_menu.title_)
       , selected_button_(main_menu.selected_button_)
       , is_rendered_(main_menu.is_rendered_)
       , sfml_basis_(std::move(main_menu.sfml_basis_)) {
@@ -38,7 +38,7 @@ ge::MainMenu &ge::MainMenu::operator=(const MainMenu &main_menu) {
 
 ge::MainMenu &ge::MainMenu::operator=(MainMenu &&main_menu) noexcept {
     selected_button_ = main_menu.selected_button_;
-    title_ = std::move(main_menu.title_);
+    title_ = main_menu.title_;
     is_rendered_ = main_menu.is_rendered_;
     sfml_basis_ = std::move(main_menu.sfml_basis_);
     return *this;
@@ -50,7 +50,7 @@ void ge::MainMenu::MoveUp() {
     }
     if (is_rendered_) {
         sfml_basis_->buttons_[selected_button_].setFillColor(sf::Color::White);
-        sfml_basis_->buttons_[selected_button_ - 1].setFillColor(sf::Color(100,131,171));
+        sfml_basis_->buttons_[selected_button_ - 1].setFillColor(sf::Color(100, 131, 171));
     }
     --selected_button_;
 }
@@ -61,7 +61,7 @@ void ge::MainMenu::MoveDown() {
     }
     if (is_rendered_) {
         sfml_basis_->buttons_[selected_button_].setFillColor(sf::Color::White);
-        sfml_basis_->buttons_[selected_button_ + 1].setFillColor(sf::Color(100,131,171));
+        sfml_basis_->buttons_[selected_button_ + 1].setFillColor(sf::Color(100, 131, 171));
     }
     ++selected_button_;
 }
@@ -84,7 +84,9 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     sfml_basis_->background_texture_.loadFromFile("engine_folders/data/images/abstraction.PNG");
     sfml_basis_->background_sprite_.setTexture(sfml_basis_->background_texture_);
-    sfml_basis_->background_sprite_.scale({(float)(window_size.x) / 3840.0f, (float)(window_size.y) / 2160.0f});
+    sfml_basis_->background_sprite_.scale({
+        static_cast<float>(window_size.x) / 3840.0f, static_cast<float>(window_size.y) / 2160.0f
+    });
 
     if (!sfml_basis_->font_.loadFromFile(FONT_NAME)) {
         return false;
@@ -102,14 +104,14 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->title_background_.setFillColor(sf::Color(66, 84, 127));
 
     sfml_basis_->title_.setFont(sfml_basis_->font_);
-    sfml_basis_->title_.setCharacterSize((unsigned int)(window_size.y * 0.05));
+    sfml_basis_->title_.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.05));
     sfml_basis_->title_.setString(title_);
     sfml_basis_->title_.setFillColor(sf::Color::White);
     sfml_basis_->title_.setOutlineColor(sf::Color::Black);
     sfml_basis_->title_.setOutlineThickness(2);
     sfml_basis_->title_.setOrigin(sfml_basis_->title_.getLocalBounds().width / 2,
                                   sfml_basis_->title_.getLocalBounds().height / 2);
-    sf::Vector2f title_position = {
+    const sf::Vector2f title_position = {
         title_background_position.x + title_background_size.x / 2,
         title_background_position.y + title_background_size.y / 2
     };
@@ -120,11 +122,11 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     for (int i = 0; i < QUANTITY_OF_BUTTONS; ++i) {
         sfml_basis_->buttons_[i].setFont(sfml_basis_->font_);
         sfml_basis_->buttons_[i].setString(BUTTONS[i]);
-        sfml_basis_->buttons_[i].setCharacterSize((unsigned int)(window_size.y * 0.035));
+        sfml_basis_->buttons_[i].setCharacterSize(static_cast<unsigned int>(window_size.y * 0.035));
         sfml_basis_->buttons_[i].setOutlineColor(sf::Color::Black);
         sfml_basis_->buttons_[i].setOutlineThickness(2);
         if (i == 0) {
-            sfml_basis_->buttons_[i].setFillColor(sf::Color(100,131,171));
+            sfml_basis_->buttons_[i].setFillColor(sf::Color(100, 131, 171));
         } else {
             sfml_basis_->buttons_[i].setFillColor(sf::Color::White);
         }

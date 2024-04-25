@@ -47,7 +47,7 @@ const ge::Script &ge::VisualNovel::getScript() {
 
 bool ge::VisualNovel::run() {
     try {
-        sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "visual_novel", sf::Style::Fullscreen);
+        sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen);
         window.setVerticalSyncEnabled(true);
         std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
 
