@@ -23,7 +23,7 @@ namespace ge {
 
         SceneChanges &operator=(SceneChanges &&scene_changes) noexcept;
 
-        void Update(const std::shared_ptr<Scene> &scene);
+        void Update(const std::shared_ptr<Scene> &scene) const;
 
     private:
         friend class WindowManager;

@@ -47,7 +47,7 @@ ge::SceneChanges &ge::SceneChanges::operator=(SceneChanges &&scene_changes) noex
     return *this;
 }
 
-void ge::SceneChanges::Update(const std::shared_ptr<Scene> &scene) {
+void ge::SceneChanges::Update(const std::shared_ptr<Scene> &scene) const {
     if (!sfml_basic_) {
         throw std::runtime_error("sfml_basic_ was not rendered\n");
     }
@@ -81,7 +81,16 @@ void ge::SceneChanges::Update(const std::shared_ptr<Scene> &scene) {
         sfml_basic_->slots_spites_ = actual_sprites;
     }
 
+    actual_cadr_->setDialogueBox(scene->getDialogueBox());
+    sfml_basic_->replica_.setString(actual_cadr_->getDialogueBox().getReplica());
+    sfml_basic_->speaker_.setString(actual_cadr_->getDialogueBox().getSpeaker());
 
+    actual_cadr_->setChoiceOfAction(scene->getChoiceOfAction());
+    actual_cadr_->setActions(scene->getActions());
+    sfml_basic_->buttons_.resize(actual_cadr_->getActions().size());
+    for (size_t i = 0; i < sfml_basic_->buttons_.size(); ++i) {
+        sfml_basic_->buttons_[i].setString(actual_cadr_->getActions()[i].getText());
+    }
 }
 
 
