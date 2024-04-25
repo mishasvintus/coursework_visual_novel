@@ -17,9 +17,7 @@ namespace ge {
         sf::Text speaker_;
         sf::RectangleShape dialogue_box_shape;
         sf::Sprite background_sprite_;
-        sf::Texture background_texture_;
         std::vector<sf::Sprite> slots_spites_;
-        std::vector<sf::Texture> slots_textue_;
         std::vector<sf::Text> buttons_;
     };
 }

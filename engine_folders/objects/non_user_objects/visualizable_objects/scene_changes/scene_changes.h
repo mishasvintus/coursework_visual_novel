@@ -23,7 +23,7 @@ namespace ge {
 
         SceneChanges &operator=(SceneChanges &&scene_changes) noexcept;
 
-        void Update(const std::shared_ptr<SceneChanges> &scene_changes) {} /// TODO
+        void Update(const std::shared_ptr<Scene> &scene);
 
     private:
         friend class WindowManager;
@@ -36,7 +36,6 @@ namespace ge {
 
         bool is_rendered_ = false;
         std::shared_ptr<Scene> actual_cadr_ = nullptr;
-        std::shared_ptr<Scene> past_scene_ = nullptr;
         std::shared_ptr<SceneChangesSfmlBasic> sfml_basic_ = nullptr;
     };
 }
