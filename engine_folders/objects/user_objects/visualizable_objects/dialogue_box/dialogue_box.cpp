@@ -24,6 +24,10 @@ ge::DialogueBox::DialogueBox(DialogueBox &&other) noexcept {
     speaker_ = other.speaker_;
 }
 
+bool ge::DialogueBox::operator==(const DialogueBox &dialogue_box) const {
+    return speaker_ == dialogue_box.speaker_ && replica_ == dialogue_box.replica_;
+}
+
 ge::DialogueBox &ge::DialogueBox::operator=(const DialogueBox &other) {
     replica_ = other.replica_;
     speaker_ = other.speaker_;

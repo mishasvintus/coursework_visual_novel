@@ -19,6 +19,8 @@ namespace ge {
 
         ~DialogueBox() override = default;
 
+        bool operator== (const DialogueBox& dialogue_box) const;
+
         void setReplica(const std::wstring &replica);
 
         void setSpeaker(const std::wstring &speaker);

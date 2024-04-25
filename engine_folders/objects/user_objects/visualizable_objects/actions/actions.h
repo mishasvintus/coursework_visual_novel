@@ -23,13 +23,15 @@ namespace ge {
 
         Action &operator=(Action &&action) noexcept;
 
-        [[nodiscard]] const sf::Vector2u &getCoords() const;
+        bool operator==(const Action &action) const;
+
+        [[nodiscard]] const sf::Vector2f &getCoords() const;
 
         [[nodiscard]] const std::wstring &getText() const;
 
         [[nodiscard]] const std::wstring &getChapterNameToGo() const;
 
-        void setCoords(const sf::Vector2u &coords);
+        void setRelativeCoords(const sf::Vector2f &relative_coords);
 
         void setText(const std::wstring &text);
 
@@ -48,11 +50,10 @@ namespace ge {
             return {}; /// TODO: реализовать
         }
 
-        const sf::Vector2u COORDS_LOW_LIMIT = {0, 0};
-        const sf::Vector2u COORDS_HIGH_LIMIT = {10000, 10000};
-        /// TODO: не константа, потому что sf::VideoMode нестатичен, переделать как-то
+        const sf::Vector2f COORDS_LOW_LIMIT = {0, 0};
+        const sf::Vector2f COORDS_HIGH_LIMIT = {1.0, 1.0};
 
-        sf::Vector2u coords_;
+        sf::Vector2f relative_coords_;
         std::wstring text_;
         std::wstring chapter_name_to_go_;
     };

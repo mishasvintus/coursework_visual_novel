@@ -12,7 +12,7 @@ void ge::SceneChangesSfmlBasic::draw(sf::RenderWindow &window) {
     window.draw(speaker_);
     window.draw(replica_);
 
-    for (const sf::Text &button: buttons_) {
-        window.draw(button);
+    for (const sf::Text &action_button: action_buttons_) {
+        window.draw(action_button);
     }
 }

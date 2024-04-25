@@ -35,7 +35,7 @@ namespace ge {
         std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
         bool is_rendered_ = false;
-        std::shared_ptr<Scene> current_scene_ = nullptr;
+        std::shared_ptr<const Scene> current_scene_ = nullptr;
         std::shared_ptr<SceneChangesSfmlBasic> sfml_basic_ = nullptr;
     };
 }

@@ -37,7 +37,7 @@ namespace ge {
 
         void setSlots(const SceneSlots &scene_slots);
 
-        const DialogueBox &getDialogueBox();
+        const DialogueBox &getDialogueBox() const;
 
         [[nodiscard]] const std::string &getBackgroundFile() const;
 
