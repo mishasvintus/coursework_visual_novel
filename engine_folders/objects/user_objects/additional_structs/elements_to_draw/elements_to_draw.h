@@ -41,7 +41,7 @@ namespace ge {
 
         [[nodiscard]] const ge::Info &getInfo() const;
 
-        [[nodiscard]] ge::Info putInfo() const;
+        [[nodiscard]] ge::Info &putInfo() const;
 
         void setIngameMenu(const std::shared_ptr<ge::IngameMenu> &ingame_menu);
 
