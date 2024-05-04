@@ -1,11 +1,11 @@
 #pragma once
 
-#include "visualizable.h"
+#include "non_user_objects/visualizable_objects/visualizable.h"
 
 #include <SFML/System/Vector2.hpp>
 
 namespace ge {
-    class Action : Visualizable {
+    class Action {
     public:
         Action();
 
@@ -17,7 +17,7 @@ namespace ge {
 
         Action(Action &&action) noexcept;
 
-        ~Action() override = default;
+        ~Action() = default;
 
         Action &operator=(const Action &action);
 
@@ -38,18 +38,6 @@ namespace ge {
         void setChapterNameToGo(const std::wstring &chapter_name_to_go);
 
     private:
-        bool renderSfmlBasis(const sf::Vector2u &window_size) override {
-            return true; /// TODO: реализовать
-        }
-
-        void clearSfmlBasis() override {
-            /// TODO: реализовать
-        }
-
-        std::shared_ptr<SfmlBasis> getSfmlBasis() override {
-            return {}; /// TODO: реализовать
-        }
-
         const sf::Vector2f COORDS_LOW_LIMIT = {0, 0};
         const sf::Vector2f COORDS_HIGH_LIMIT = {1.0, 1.0};
 

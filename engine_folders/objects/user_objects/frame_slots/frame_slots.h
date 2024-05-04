@@ -1,9 +1,9 @@
 #pragma once
 
-#include "visualizable.h"
+#include "non_user_objects/visualizable_objects/visualizable.h"
 
 namespace ge {
-    class FrameSlots : Visualizable {
+    class FrameSlots {
     public:
         FrameSlots();
 
@@ -15,7 +15,7 @@ namespace ge {
 
         FrameSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots);
 
-        ~FrameSlots() override = default;
+        ~FrameSlots() = default;
 
         FrameSlots &operator=(const FrameSlots &frame_slots);
 
@@ -30,19 +30,6 @@ namespace ge {
         [[nodiscard]] const std::vector<std::string> &getPicturesInSlots() const;
 
     private:
-
-        bool renderSfmlBasis(const sf::Vector2u &window_size) override {
-            return true; /// TODO: реализовать
-        }
-
-        void clearSfmlBasis() override {
-            /// TODO: реализовать
-        }
-
-        std::shared_ptr<SfmlBasis> getSfmlBasis() override {
-            return {}; /// TODO: реализовать
-        }
-
         static constexpr unsigned int DEFAULT_COUNT_SLOTS = 5;
         static constexpr unsigned int UPPER_BOUND_COUNT_SLOTS = 10;
         unsigned int quantity_of_slots_ = DEFAULT_COUNT_SLOTS;

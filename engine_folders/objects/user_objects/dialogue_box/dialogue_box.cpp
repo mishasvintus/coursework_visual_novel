@@ -1,7 +1,7 @@
 #include "dialogue_box.h"
 
 #include <utility>
-
+#include <stdexcept>
 void checkingCorrectness(const std::wstring &replica, const std::wstring &speaker, const size_t up_replica,
                          const size_t up_speaker) {
     if (replica.length() > up_replica || speaker.length() > up_speaker) {

@@ -133,3 +133,19 @@ const ge::Settings &ge::DrawableElements::getSettings() const {
 ge::Settings &ge::DrawableElements::putSettings() const {
     return *settings_;
 }
+
+void ge::DrawableElements::setScene(const std::shared_ptr<ge::Scene> &scene) {
+    scene_ = scene;
+}
+
+std::shared_ptr<ge::Scene> ge::DrawableElements::getScenePtr() {
+    return scene_;
+}
+
+[[nodiscard]] const ge::Scene &ge::DrawableElements::getScene() const {
+    return *scene_;
+}
+
+[[nodiscard]] ge::Scene &ge::DrawableElements::putScene() const {
+    return *scene_;
+}

@@ -7,6 +7,7 @@
 #include "main_menu.h"
 #include "recent_script.h"
 #include "settings.h"
+#include "scene.h"
 
 #include <memory>
 
@@ -83,6 +84,15 @@ namespace ge {
 
         [[nodiscard]] ge::Settings &putSettings() const;
 
+        void setScene(const std::shared_ptr<ge::Scene> &scene);
+
+        std::shared_ptr<ge::Scene> getScenePtr();
+
+        [[nodiscard]] const ge::Scene &getScene() const;
+
+        [[nodiscard]] ge::Scene &putScene() const;
+
+
     private:
         std::shared_ptr<ge::AboutAuthors> about_authors_ = nullptr;
         std::shared_ptr<Info> info_ = nullptr;
@@ -91,5 +101,6 @@ namespace ge {
         std::shared_ptr<ge::MainMenu> main_menu_ = nullptr;
         std::shared_ptr<ge::RecentScript> recent_script_ = nullptr;
         std::shared_ptr<ge::Settings> settings_ = nullptr;
+        std::shared_ptr<ge::Scene> scene_ = nullptr;
     };
 }

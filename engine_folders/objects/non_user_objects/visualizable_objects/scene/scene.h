@@ -1,7 +1,7 @@
 #pragma once
 
 #include "frame.h"
-#include "visualizable.h"
+#include "non_user_objects/visualizable_objects/visualizable.h"
 #include "scene_sfml_basis/scene_sfml_basis.h"
 
 namespace ge {
@@ -28,7 +28,7 @@ namespace ge {
     private:
         friend class WindowManager;
 
-        bool renderSfmlBasis(const sf::Vector2u &window_size) override {} /// TODO
+        bool renderSfmlBasis(const sf::Vector2u &window_size) override;
 
         void clearSfmlBasis() override;
 

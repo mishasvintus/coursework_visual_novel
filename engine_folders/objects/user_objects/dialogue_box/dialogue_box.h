@@ -1,9 +1,9 @@
 #pragma once
 
-#include "visualizable.h"
+#include "string"
 
 namespace ge {
-    class DialogueBox : Visualizable {
+    class DialogueBox {
     public:
         DialogueBox() = default;
 
@@ -17,7 +17,7 @@ namespace ge {
 
         DialogueBox &operator=(DialogueBox &&other) noexcept;
 
-        ~DialogueBox() override = default;
+        ~DialogueBox() = default;
 
         bool operator== (const DialogueBox& dialogue_box) const;
 
@@ -30,18 +30,6 @@ namespace ge {
         [[nodiscard]] const std::wstring &getSpeaker() const;
 
     private:
-        bool renderSfmlBasis(const sf::Vector2u &window_size) override {
-            return true; /// TODO: реализовать
-        }
-
-        void clearSfmlBasis() override {
-            /// TODO: реализовать
-        }
-
-        std::shared_ptr<SfmlBasis> getSfmlBasis() override {
-            return {}; /// TODO: реализовать
-        }
-
         static constexpr size_t UPPER_BOUND_OF_LENGTH_SPEAKER = 50;
         static constexpr size_t UPPER_BOUND_OF_LENGTH_REPLICA = 500;
         std::wstring replica_;

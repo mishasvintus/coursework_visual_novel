@@ -87,9 +87,9 @@ void ge::Scene::Update(const std::shared_ptr<Frame> &frame) const {
             auto action_button_size = static_cast<unsigned int>(sfml_basic_->window_size_.y * 0.035);
             sf::Vector2f action_relative_coords = new_actions[i].getCoords();
             sf::Vector2f action_button_coords = {action_relative_coords.x *
-                                                                           static_cast<float>(sfml_basic_->window_size_.x),
+                                                 static_cast<float>(sfml_basic_->window_size_.x),
                                                  action_relative_coords.y *
-                                                                           static_cast<float>(sfml_basic_->window_size_.y)};
+                                                 static_cast<float>(sfml_basic_->window_size_.y)};
             action_button_i.setPosition(action_button_coords);
             action_button_i.setFont(sfml_basic_->action_font_);
             action_button_i.setCharacterSize(action_button_size);
@@ -129,6 +129,10 @@ void ge::Scene::Update(const std::shared_ptr<Frame> &frame) const {
     }
 }
 
+bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
+    // TODO: todo
+    return true;
+}
 
 void ge::Scene::clearSfmlBasis() {
     sfml_basic_.reset();
@@ -138,3 +142,4 @@ void ge::Scene::clearSfmlBasis() {
 std::shared_ptr<ge::SfmlBasis> ge::Scene::getSfmlBasis() {
     return std::static_pointer_cast<SfmlBasis>(sfml_basic_);
 }
+

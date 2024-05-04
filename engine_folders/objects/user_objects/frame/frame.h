@@ -2,13 +2,12 @@
 
 #include "actions.h"
 #include "dialogue_box.h"
-#include "visualizable.h"
 #include "frame_slots.h"
 
 #include <string>
 
 namespace ge {
-    class Frame : Visualizable {
+    class Frame {
     public:
         Frame() = default;
 
@@ -21,7 +20,7 @@ namespace ge {
         Frame(DialogueBox dialogue_box, std::string background_file, bool choice_of_action,
               const std::vector<Action> &actions, FrameSlots scene_slots);
 
-        ~Frame() override = default;
+        ~Frame() = default;
 
         Frame &operator=(const Frame &scene);
 
@@ -48,18 +47,6 @@ namespace ge {
         [[nodiscard]] const FrameSlots &getSlots() const;
 
     private:
-        bool renderSfmlBasis(const sf::Vector2u &window_size) override {
-            return true; /// TODO: реализовать
-        }
-
-        void clearSfmlBasis() override {
-            /// TODO: реализовать
-        }
-
-        std::shared_ptr<SfmlBasis> getSfmlBasis() override {
-            return {}; /// TODO: реализовать
-        }
-
         DialogueBox dialogue_box_;
         std::string background_file_;
         bool choice_of_action_ = false;
