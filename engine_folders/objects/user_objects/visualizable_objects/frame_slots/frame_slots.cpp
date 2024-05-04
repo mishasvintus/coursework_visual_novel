@@ -1,4 +1,4 @@
-#include "scene_slots.h"
+#include "frame_slots.h"
 
 #include "dialogue_box.h"
 
@@ -16,58 +16,58 @@ void checkingCorrectness(const unsigned int count_slots, const unsigned up_limit
     }
 }
 
-ge::SceneSlots::SceneSlots()
+ge::FrameSlots::FrameSlots()
         : quantity_of_slots_(DEFAULT_COUNT_SLOTS), pictures_in_slots_(std::vector<std::string>()) {
     pictures_in_slots_.resize(DEFAULT_COUNT_SLOTS);
     checkingCorrectness(quantity_of_slots_, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
 }
 
-ge::SceneSlots::SceneSlots(const SceneSlots &scene_slots)
-        : quantity_of_slots_(scene_slots.quantity_of_slots_), pictures_in_slots_(scene_slots.pictures_in_slots_) {
+ge::FrameSlots::FrameSlots(const FrameSlots &frame_slots)
+        : quantity_of_slots_(frame_slots.quantity_of_slots_), pictures_in_slots_(frame_slots.pictures_in_slots_) {
 }
 
-ge::SceneSlots::SceneSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots)
+ge::FrameSlots::FrameSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots)
         : quantity_of_slots_(quantity_of_slots), pictures_in_slots_(pictures_in_slots) {
     checkingCorrectness(quantity_of_slots_, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
 }
 
-ge::SceneSlots::SceneSlots(SceneSlots &scene_slots)
-        : quantity_of_slots_(scene_slots.quantity_of_slots_), pictures_in_slots_(scene_slots.pictures_in_slots_) {
+ge::FrameSlots::FrameSlots(FrameSlots &frame_slots)
+        : quantity_of_slots_(frame_slots.quantity_of_slots_), pictures_in_slots_(frame_slots.pictures_in_slots_) {
 }
 
-ge::SceneSlots::SceneSlots(SceneSlots &&scene_slots) noexcept
-        : quantity_of_slots_(scene_slots.quantity_of_slots_),
-          pictures_in_slots_(std::move(scene_slots.pictures_in_slots_)) {
+ge::FrameSlots::FrameSlots(FrameSlots &&frame_slots) noexcept
+        : quantity_of_slots_(frame_slots.quantity_of_slots_),
+          pictures_in_slots_(std::move(frame_slots.pictures_in_slots_)) {
 }
 
-ge::SceneSlots &ge::SceneSlots::operator=(const SceneSlots &scene_slots) {
-    quantity_of_slots_ = scene_slots.quantity_of_slots_;
-    pictures_in_slots_ = scene_slots.pictures_in_slots_;
+ge::FrameSlots &ge::FrameSlots::operator=(const FrameSlots &frame_slots) {
+    quantity_of_slots_ = frame_slots.quantity_of_slots_;
+    pictures_in_slots_ = frame_slots.pictures_in_slots_;
     return *this;
 }
 
-ge::SceneSlots &ge::SceneSlots::operator=(SceneSlots &&scene_slots) noexcept {
-    quantity_of_slots_ = scene_slots.quantity_of_slots_;
-    pictures_in_slots_ = std::move(scene_slots.pictures_in_slots_);
+ge::FrameSlots &ge::FrameSlots::operator=(FrameSlots &&frame_slots) noexcept {
+    quantity_of_slots_ = frame_slots.quantity_of_slots_;
+    pictures_in_slots_ = std::move(frame_slots.pictures_in_slots_);
     return *this;
 }
 
-void ge::SceneSlots::setQuantityOfSlots(unsigned int quantity_of_slots) {
+void ge::FrameSlots::setQuantityOfSlots(unsigned int quantity_of_slots) {
     checkingCorrectness(quantity_of_slots, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
     quantity_of_slots_ = quantity_of_slots;
     pictures_in_slots_.resize(quantity_of_slots_);
 }
 
-void ge::SceneSlots::setPicturesInSlots(const std::vector<std::string> &pictures_in_slots) {
+void ge::FrameSlots::setPicturesInSlots(const std::vector<std::string> &pictures_in_slots) {
     checkingCorrectness(pictures_in_slots.size(), UPPER_BOUND_COUNT_SLOTS, pictures_in_slots);
     quantity_of_slots_ = pictures_in_slots.size();
     pictures_in_slots_ = pictures_in_slots;
 }
 
-unsigned int ge::SceneSlots::getQuantityOfSlots() const {
+unsigned int ge::FrameSlots::getQuantityOfSlots() const {
     return quantity_of_slots_;
 }
 
-const std::vector<std::string> &ge::SceneSlots::getPicturesInSlots() const {
+const std::vector<std::string> &ge::FrameSlots::getPicturesInSlots() const {
     return pictures_in_slots_;
 }

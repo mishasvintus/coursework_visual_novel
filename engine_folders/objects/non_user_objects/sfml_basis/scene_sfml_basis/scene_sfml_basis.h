@@ -3,11 +3,11 @@
 #include "sfml_basis.h"
 
 namespace ge {
-    class SceneChangesSfmlBasic : public ge::SfmlBasis {
+    class SceneSfmlBasis : public ge::SfmlBasis {
     public:
-        SceneChangesSfmlBasic() = default;
+        SceneSfmlBasis() = default;
 
-        ~SceneChangesSfmlBasic() override = default;
+        ~SceneSfmlBasis() override = default;
 
         void draw(sf::RenderWindow &window) override;
 

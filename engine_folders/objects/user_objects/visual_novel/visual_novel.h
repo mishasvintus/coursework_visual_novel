@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scene.h"
+#include "frame.h"
 #include "script.h"
 
 namespace ge {
@@ -50,7 +50,7 @@ namespace ge {
         Script script_;
         std::wstring project_name_ = L"Visual Novel";
         std::wstring current_chapter_;
-        int current_scene_ = -1;
+        int current_frame_ = -1;
         GameMode current_game_mode_ = GameMode::MainMenu;
     };
 }

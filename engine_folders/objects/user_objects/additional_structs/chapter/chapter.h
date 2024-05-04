@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scene.h"
+#include "frame.h"
 
 namespace ge {
     struct Chapter {
@@ -8,7 +8,7 @@ namespace ge {
 
         Chapter(const Chapter &chapter) = default;
 
-        Chapter(std::wstring chapter_name, const std::vector<Scene> &scenes);
+        Chapter(std::wstring chapter_name, const std::vector<Frame> &frames);
 
         Chapter(Chapter &&chapter) noexcept;
 
@@ -19,6 +19,6 @@ namespace ge {
         Chapter &operator=(Chapter &&chapter) noexcept;
 
         std::wstring chapter_name_;
-        std::vector<Scene> scenes_;
+        std::vector<Frame> frames_;
     };
 }

@@ -3,23 +3,23 @@
 #include "visualizable.h"
 
 namespace ge {
-    class SceneSlots : Visualizable {
+    class FrameSlots : Visualizable {
     public:
-        SceneSlots();
+        FrameSlots();
 
-        SceneSlots(const SceneSlots &scene_slots);
+        FrameSlots(const FrameSlots &frame_slots);
 
-        SceneSlots(SceneSlots &scene_slots);
+        FrameSlots(FrameSlots &frame_slots);
 
-        SceneSlots(SceneSlots &&scene_slots) noexcept;
+        FrameSlots(FrameSlots &&frame_slots) noexcept;
 
-        SceneSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots);
+        FrameSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots);
 
-        ~SceneSlots() override = default;
+        ~FrameSlots() override = default;
 
-        SceneSlots &operator=(const SceneSlots &scene_slots);
+        FrameSlots &operator=(const FrameSlots &frame_slots);
 
-        SceneSlots &operator=(SceneSlots &&scene_slots) noexcept;
+        FrameSlots &operator=(FrameSlots &&frame_slots) noexcept;
 
         void setQuantityOfSlots(unsigned int quantity_of_slots);
 

@@ -1,6 +1,6 @@
-#include "scene_changes_sfml_basic.h"
+#include "scene_sfml_basis.h"
 
-void ge::SceneChangesSfmlBasic::draw(sf::RenderWindow &window) {
+void ge::SceneSfmlBasis::draw(sf::RenderWindow &window) {
     window.draw(background_sprite_);
 
     for (const sf::Sprite &slots_spite: slots_spites_) {

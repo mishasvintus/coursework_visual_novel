@@ -3,29 +3,29 @@
 #include "actions.h"
 #include "dialogue_box.h"
 #include "visualizable.h"
-#include "scene_slots.h"
+#include "frame_slots.h"
 
 #include <string>
 
 namespace ge {
-    class Scene : Visualizable {
+    class Frame : Visualizable {
     public:
-        Scene() = default;
+        Frame() = default;
 
-        Scene(const Scene &scene);
+        Frame(const Frame &scene);
 
-        Scene(Scene &scene);
+        Frame(Frame &scene);
 
-        Scene(Scene &&scene) noexcept;
+        Frame(Frame &&scene) noexcept;
 
-        Scene(DialogueBox dialogue_box, std::string background_file, bool choice_of_action,
-              const std::vector<Action> &actions, SceneSlots scene_slots);
+        Frame(DialogueBox dialogue_box, std::string background_file, bool choice_of_action,
+              const std::vector<Action> &actions, FrameSlots scene_slots);
 
-        ~Scene() override = default;
+        ~Frame() override = default;
 
-        Scene &operator=(const Scene &scene);
+        Frame &operator=(const Frame &scene);
 
-        Scene &operator=(Scene &&scene) noexcept;
+        Frame &operator=(Frame &&scene) noexcept;
 
         void setDialogueBox(const DialogueBox &dialogue_box);
 
@@ -35,7 +35,7 @@ namespace ge {
 
         void setActions(const std::vector<Action> &actions);
 
-        void setSlots(const SceneSlots &scene_slots);
+        void setSlots(const FrameSlots &scene_slots);
 
         const DialogueBox &getDialogueBox() const;
 
@@ -45,7 +45,7 @@ namespace ge {
 
         [[nodiscard]] const std::vector<Action> &getActions() const;
 
-        [[nodiscard]] const SceneSlots &getSlots() const;
+        [[nodiscard]] const FrameSlots &getSlots() const;
 
     private:
         bool renderSfmlBasis(const sf::Vector2u &window_size) override {
@@ -64,6 +64,6 @@ namespace ge {
         std::string background_file_;
         bool choice_of_action_ = false;
         std::vector<Action> actions_;
-        SceneSlots scene_slots_;
+        FrameSlots scene_slots_;
     };
 }

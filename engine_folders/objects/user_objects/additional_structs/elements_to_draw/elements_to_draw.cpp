@@ -49,7 +49,7 @@ const ge::Info &ge::DrawableElements::getInfo() const {
     return *info_;
 }
 
-ge::Info ge::DrawableElements::putInfo() const {
+ge::Info &ge::DrawableElements::putInfo() const {
     return *info_;
 }
 

@@ -2,19 +2,19 @@
 
 #include <utility>
 
-ge::Chapter::Chapter(std::wstring chapter_name, const std::vector<Scene> &scenes)
+ge::Chapter::Chapter(std::wstring chapter_name, const std::vector<Frame> &frames)
     : chapter_name_(std::move(chapter_name))
-    , scenes_(scenes) {
+    , frames_(frames) {
 }
 
 ge::Chapter::Chapter(Chapter &&chapter) noexcept
     : chapter_name_(std::move(chapter.chapter_name_))
-    , scenes_(std::move(chapter.scenes_)){
+    , frames_(std::move(chapter.frames_)){
 }
 
 ge::Chapter &ge::Chapter::operator=(Chapter &&chapter) noexcept {
     chapter_name_= chapter.chapter_name_;
-    scenes_ = chapter.scenes_;
+    frames_ = chapter.frames_;
     return *this;
 }
 
