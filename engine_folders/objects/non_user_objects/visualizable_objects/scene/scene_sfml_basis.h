@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sfml_basis.h"
+#include "non_user_objects/visualizable_objects/sfml_basis.h"
 
 namespace ge {
     class SceneSfmlBasis : public ge::SfmlBasis {

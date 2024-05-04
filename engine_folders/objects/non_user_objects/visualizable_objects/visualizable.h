@@ -1,6 +1,6 @@
 #pragma once
 
-#include "non_user_objects/sfml_basis_objects/sfml_basis.h"
+#include "sfml_basis.h"
 #include <SFML/Graphics.hpp>
 #include <memory>
 

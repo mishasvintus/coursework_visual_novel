@@ -2,7 +2,7 @@
 
 #include "frame.h"
 #include "non_user_objects/visualizable_objects/visualizable.h"
-#include "scene_sfml_basis/scene_sfml_basis.h"
+#include "scene_sfml_basis.h"
 
 namespace ge {
     class Scene : Visualizable {

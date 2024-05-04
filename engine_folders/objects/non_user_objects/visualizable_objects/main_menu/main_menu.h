@@ -1,7 +1,7 @@
 #pragma once
 
 #include "non_user_objects/visualizable_objects/visualizable.h"
-#include "main_menu_sfml_basis/main_menu_sfml_basis.h"
+#include "main_menu_sfml_basis.h"
 
 namespace ge {
     class MainMenu : Visualizable {
