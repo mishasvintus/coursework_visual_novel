@@ -21,6 +21,8 @@ namespace ge {
 
         bool operator== (const DialogueBox& dialogue_box) const;
 
+        bool operator!= (const DialogueBox& dialogue_box) const;
+
         void setReplica(const std::wstring &replica);
 
         void setSpeaker(const std::wstring &speaker);
