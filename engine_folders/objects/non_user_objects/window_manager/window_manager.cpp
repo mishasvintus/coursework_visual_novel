@@ -69,6 +69,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
         }
         case GameMode::InGame:
             drawable_elements.setScene(std::make_shared<Scene>());
+            drawable_elements.resetMainMenu();
             // TODO reset mainmenu
             visual_novel.current_game_mode_ = GameMode::InGame;
             break;
