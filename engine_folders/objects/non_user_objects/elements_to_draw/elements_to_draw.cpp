@@ -37,6 +37,10 @@ ge::AboutAuthors &ge::DrawableElements::putAboutAuthors() const {
     return *about_authors_;
 }
 
+void ge::DrawableElements::resetAboutAuthors() {
+    about_authors_.reset();
+}
+
 void ge::DrawableElements::setInfo(const std::shared_ptr<Info> &info) {
     info_ = info;
 }
@@ -53,6 +57,9 @@ ge::Info &ge::DrawableElements::putInfo() const {
     return *info_;
 }
 
+void ge::DrawableElements::resetInfo() {
+    info_.reset();
+}
 
 void ge::DrawableElements::setIngameMenu(const std::shared_ptr<IngameMenu> &ingame_menu) {
     ingame_menu_ = ingame_menu;
@@ -68,6 +75,10 @@ const ge::IngameMenu &ge::DrawableElements::getIngameMenu() const {
 
 ge::IngameMenu &ge::DrawableElements::putIngameMenu() const {
     return *ingame_menu_;
+}
+
+void ge::DrawableElements::resetIngameMenu() {
+    ingame_menu_.reset();
 }
 
 void ge::DrawableElements::setIngameSettings(const std::shared_ptr<IngameSettings> &ingame_settings) {
@@ -86,6 +97,10 @@ ge::IngameSettings &ge::DrawableElements::putIngameSettings() const {
     return *ingame_settings_;
 }
 
+void ge::DrawableElements::resetIngameSettings() {
+    ingame_settings_.reset();
+}
+
 void ge::DrawableElements::setMainMenu(const std::shared_ptr<MainMenu> &main_menu) {
     main_menu_ = main_menu;
 }
@@ -100,6 +115,10 @@ const ge::MainMenu &ge::DrawableElements::getMainMenu() const {
 
 ge::MainMenu &ge::DrawableElements::putMainMenu() const {
     return *main_menu_;
+}
+
+void ge::DrawableElements::resetMainMenu() {
+    main_menu_.reset();
 }
 
 void ge::DrawableElements::setRecentScript(const std::shared_ptr<RecentScript> &recent_script) {
@@ -118,6 +137,10 @@ ge::RecentScript &ge::DrawableElements::putRecentScript() const {
     return *recent_script_;
 }
 
+void ge::DrawableElements::resetRecentScript() {
+    recent_script_.reset();
+}
+
 void ge::DrawableElements::setSettings(const std::shared_ptr<Settings> &settings) {
     settings_ = settings;
 }
@@ -134,6 +157,10 @@ ge::Settings &ge::DrawableElements::putSettings() const {
     return *settings_;
 }
 
+void ge::DrawableElements::resetSettings() {
+    settings_.reset();
+}
+
 void ge::DrawableElements::setScene(const std::shared_ptr<ge::Scene> &scene) {
     scene_ = scene;
 }
@@ -148,4 +175,8 @@ std::shared_ptr<ge::Scene> ge::DrawableElements::getScenePtr() {
 
 [[nodiscard]] ge::Scene &ge::DrawableElements::putScene() const {
     return *scene_;
+}
+
+void ge::DrawableElements::resetScene() {
+    scene_.reset();
 }

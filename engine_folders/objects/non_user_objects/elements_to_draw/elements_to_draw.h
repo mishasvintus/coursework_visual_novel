@@ -36,6 +36,8 @@ namespace ge {
 
         [[nodiscard]] ge::AboutAuthors &putAboutAuthors() const;
 
+        void resetAboutAuthors();
+
         void setInfo(const std::shared_ptr<ge::Info> &info);
 
         std::shared_ptr<ge::Info> getInfoPtr();
@@ -43,6 +45,8 @@ namespace ge {
         [[nodiscard]] const ge::Info &getInfo() const;
 
         [[nodiscard]] ge::Info &putInfo() const;
+
+        void resetInfo();
 
         void setIngameMenu(const std::shared_ptr<ge::IngameMenu> &ingame_menu);
 
@@ -52,6 +56,8 @@ namespace ge {
 
         [[nodiscard]] ge::IngameMenu &putIngameMenu() const;
 
+        void resetIngameMenu();
+
         void setIngameSettings(const std::shared_ptr<ge::IngameSettings> &ingame_settings);
 
         std::shared_ptr<ge::IngameSettings> getIngameSettingsPtr();
@@ -59,6 +65,8 @@ namespace ge {
         [[nodiscard]] const ge::IngameSettings &getIngameSettings() const;
 
         [[nodiscard]] ge::IngameSettings &putIngameSettings() const;
+
+        void resetIngameSettings();
 
         void setMainMenu(const std::shared_ptr<ge::MainMenu> &main_menu);
 
@@ -68,6 +76,8 @@ namespace ge {
 
         [[nodiscard]] ge::MainMenu &putMainMenu() const;
 
+        void resetMainMenu();
+
         void setRecentScript(const std::shared_ptr<ge::RecentScript> &recent_script);
 
         std::shared_ptr<ge::RecentScript> getRecentScriptPtr();
@@ -75,6 +85,8 @@ namespace ge {
         [[nodiscard]] const ge::RecentScript &getRecentScript() const;
 
         [[nodiscard]] ge::RecentScript &putRecentScript() const;
+
+        void resetRecentScript();
 
         void setSettings(const std::shared_ptr<ge::Settings> &settings);
 
@@ -84,6 +96,8 @@ namespace ge {
 
         [[nodiscard]] ge::Settings &putSettings() const;
 
+        void resetSettings();
+
         void setScene(const std::shared_ptr<ge::Scene> &scene);
 
         std::shared_ptr<ge::Scene> getScenePtr();
@@ -92,6 +106,7 @@ namespace ge {
 
         [[nodiscard]] ge::Scene &putScene() const;
 
+        void resetScene();
 
     private:
         std::shared_ptr<ge::AboutAuthors> about_authors_ = nullptr;
