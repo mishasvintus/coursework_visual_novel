@@ -43,6 +43,11 @@ ge::Scene &ge::Scene::operator=(Scene &&scene) noexcept {
     return *this;
 }
 
+void ge::Scene::setNewFrame(const std::shared_ptr<Frame> &frame) {
+    new_frame_ = frame;
+    new_frame_is_processed = false;
+}
+
 void ge::Scene::processNewFrame() {
     if (!is_rendered_) {
         throw std::runtime_error("sfml_basis_ was not rendered\n");
