@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+
 ge::Scene::Scene()
         : current_frame_(nullptr) {
 }
@@ -63,6 +64,7 @@ void ge::Scene::processNewFrame() {
         sfml_basis_->background_texture_.loadFromFile(current_frame_->getBackgroundFile());
         sfml_basis_->background_sprite_.setTexture(sfml_basis_->background_texture_);
     }
+
 
     {
         std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
@@ -163,6 +165,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     }
 
     sfml_basis_ = std::make_shared<SceneSfmlBasis>();
+
     // setting background
     if (!sfml_basis_->background_texture_.loadFromFile(new_frame_->getBackgroundFile())) {
         return false;
@@ -172,10 +175,11 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
                                                   static_cast<float>(window_size.x) / 3840.0f,
                                                   static_cast<float>(window_size.y) / 2160.0f
                                           });
+
     // setting slot pictures
-    sfml_basis_->font_.loadFromFile(FONT_NAME);
     size_t slots_quantity = new_frame_->getSlots().getQuantityOfSlots();
     unsigned int distance_between_slots = window_size.x / (slots_quantity + 1);
+    float slot_scale = 0.3f * static_cast<float>(distance_between_slots) / 3270.0f;
 
     const std::vector<std::string> &pictures_in_slots = new_frame_->getSlots().getPicturesInSlots();
     sfml_basis_->slots_textures_.resize(slots_quantity);
@@ -183,9 +187,89 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     for (size_t i = 0; i < slots_quantity; ++i) {
         sfml_basis_->slots_textures_[i].loadFromFile(pictures_in_slots[i]);
         sfml_basis_->slots_sprites_[i].setTexture(sfml_basis_->slots_textures_[i]);
-        sf::Vector2f slot_coords = {};
+        sfml_basis_->slots_sprites_[i].setScale(slot_scale, slot_scale);
+
+        sf::Vector2f slot_picture_size = {sfml_basis_->slots_sprites_[i].getLocalBounds().width,
+                                          sfml_basis_->slots_sprites_[i].getLocalBounds().height};
+        sfml_basis_->slots_sprites_[i].setOrigin(slot_picture_size.x / 2, slot_picture_size.y);
+        sf::Vector2f slot_coords = {static_cast<float>(distance_between_slots * (i + 1)),
+                                    static_cast<float>(4 * window_size.y) / 5.0f};
+        sfml_basis_->slots_sprites_[i].setPosition(slot_coords);
     }
 
+    // setting font
+    if (!sfml_basis_->font_.loadFromFile(FONT_NAME)) {
+        return false;
+    }
+
+    // setting actions or dialogue
+    const std::vector<Action> &actions = new_frame_->getActions();
+    sfml_basis_->action_buttons_.resize(actions.size());
+    for (size_t i = 0; i < actions.size(); ++i) {
+        sf::Text &action_buttons_i = sfml_basis_->action_buttons_[i];
+        action_buttons_i.setFont(sfml_basis_->font_);
+        action_buttons_i.setString(actions[i].getText());
+        action_buttons_i.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.035));
+        action_buttons_i.setOrigin(action_buttons_i.getLocalBounds().width / 2,
+                                   action_buttons_i.getLocalBounds().height / 2);
+        action_buttons_i.setPosition(static_cast<float>(window_size.x) * actions[i].getCoords().x,
+                                     static_cast<float>(window_size.y) * actions[i].getCoords().y);
+    }
+
+    // setting speaker box
+    sf::Vector2f speaker_size = {static_cast<float>(window_size.x) * 0.21f,
+                                 static_cast<float>(window_size.y) * 0.05f};
+    sf::Vector2f speaker_position = {static_cast<float>(window_size.x) * 0.14f,
+                                     static_cast<float>(window_size.y) * 0.8f};
+    sfml_basis_->speaker_background_.setSize(
+            speaker_size);
+    sfml_basis_->speaker_background_.setPosition(speaker_position);
+
+    sfml_basis_->speaker_.setFont(sfml_basis_->font_);
+    sfml_basis_->speaker_.setString(current_frame_->getDialogueBox().getSpeaker());
+    sfml_basis_->speaker_.setPosition(speaker_position);
+
+    // setting replica box
+    sf::Vector2f replica_size = {static_cast<float>(window_size.x) - 2.0f * speaker_position.x,
+                                 static_cast<float>(window_size.y) * 0.14f};
+    sf::Vector2f replica_position = {speaker_position.x,
+                                     speaker_position.y + speaker_size.y * 0.3f};
+    sfml_basis_->replica_background_.setSize(
+            replica_size);
+    sfml_basis_->replica_background_.setPosition(replica_position);
+
+    sfml_basis_->replica_.setFont(sfml_basis_->font_);
+    sfml_basis_->replica_.setString(current_frame_->getDialogueBox().getReplica());
+    sfml_basis_->replica_.setPosition(replica_position);
+
+    // setting replica and speaker colors
+    if (new_frame_->getChoiceOfAction()) {
+        sfml_basis_->replica_.setFillColor(sf::Color::Transparent);
+        sfml_basis_->replica_.setOutlineColor(sf::Color::Transparent);
+        sfml_basis_->speaker_.setFillColor(sf::Color::Transparent);
+        sfml_basis_->speaker_.setOutlineColor(sf::Color::Transparent);
+        sfml_basis_->replica_background_.setFillColor(sf::Color::Transparent);
+        sfml_basis_->replica_background_.setOutlineColor(sf::Color::Transparent);
+        sfml_basis_->speaker_background_.setFillColor(sf::Color::Transparent);
+        sfml_basis_->speaker_background_.setOutlineColor(sf::Color::Transparent);
+        for (sf::Text &action_button: sfml_basis_->action_buttons_) {
+            action_button.setFillColor(sf::Color::White);
+            action_button.setOutlineColor(sf::Color::Black);
+        }
+    } else {
+        sfml_basis_->replica_.setFillColor(sf::Color::White);
+        sfml_basis_->replica_.setOutlineColor(sf::Color::Black);
+        sfml_basis_->speaker_.setFillColor(sf::Color::White);
+        sfml_basis_->speaker_.setOutlineColor(sf::Color::Black);
+        sfml_basis_->replica_background_.setFillColor(sf::Color::White);
+        sfml_basis_->replica_background_.setOutlineColor(sf::Color::Black);
+        sfml_basis_->speaker_background_.setFillColor(sf::Color::White);
+        sfml_basis_->speaker_background_.setOutlineColor(sf::Color::Black);
+        for (sf::Text &action_button: sfml_basis_->action_buttons_) {
+            action_button.setFillColor(sf::Color::Transparent);
+            action_button.setOutlineColor(sf::Color::Transparent);
+        }
+    }
     return true;
 }
 
@@ -197,3 +281,4 @@ void ge::Scene::clearSfmlBasis() {
 std::shared_ptr<ge::SfmlBasis> ge::Scene::getSfmlBasis() {
     return std::static_pointer_cast<SfmlBasis>(sfml_basis_);
 }
+
