@@ -93,7 +93,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
         case GameMode::InGame: {
             window.clear();
             std::shared_ptr<Scene> scene = drawable_elements.getScenePtr();
-            scene->setNewFrame(std::make_shared<Frame>(visual_novel.script_.chapters_[visual_novel.current_chapter_].frames_[visual_novel.current_frame_]));
+            scene->setNewFrame(std::make_shared<Frame>(visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
             scene->renderSfmlBasis(window.getSize());
             std::shared_ptr<SfmlBasis> sfml_basis = scene->getSfmlBasis();
             sfml_basis->draw(window);

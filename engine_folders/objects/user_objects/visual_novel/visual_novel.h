@@ -49,8 +49,6 @@ namespace ge {
         std::wstring about_authors_;
         Script script_;
         std::wstring project_name_ = L"Visual Novel";
-        std::wstring current_chapter_;
-        int current_frame_ = -1;
         GameMode current_game_mode_ = GameMode::MainMenu;
     };
 }

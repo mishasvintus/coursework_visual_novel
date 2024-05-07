@@ -39,6 +39,13 @@ namespace ge {
         bool new_frame_is_processed = false;
         std::shared_ptr<const Frame> current_frame_ = nullptr;
         std::shared_ptr<const Frame> new_frame_ = nullptr;
+
+        std::wstring current_chapter_name_;
+        int current_frame_number_ = -1;
+
         std::shared_ptr<SceneSfmlBasis> sfml_basis_ = nullptr;
+
+        const std::vector<std::wstring> BUTTON_SYMBOLS_ = {L"М", L"Н", L"И"};
+        const unsigned int BUTTONS_QUANTITY_ = 3;
     };
 }
