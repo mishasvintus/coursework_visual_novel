@@ -24,10 +24,7 @@ namespace ge {
         }
 
         static bool inGameManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
-                                  ge::DrawableElements &drawable_elements) {
-            // TODO
-            return true;
-        }
+                                  ge::DrawableElements &drawable_elements);
 
         static bool recentScriptManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                         ge::DrawableElements &drawable_elements) {

@@ -68,7 +68,9 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
             break;
         }
         case GameMode::InGame:
-            // TODO : реализовать
+            drawable_elements.setScene(std::make_shared<Scene>());
+            // TODO reset mainmenu
+            visual_novel.current_game_mode_ = GameMode::InGame;
             break;
         case GameMode::MainSettings:
             // TODO : реализовать
@@ -76,6 +78,26 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
         case GameMode::AboutAuthors:
             // TODO : реализовать
             break;
+        default:
+            return false;
+    }
+    return true;
+}
+
+bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                      ge::DrawableElements &drawable_elements) {
+    sf::Event event{};
+    window.waitEvent(event);
+    switch (mainMenuEventHandler(window, drawable_elements.putMainMenu(), event)) {
+        case GameMode::InGame: {
+            window.clear();
+            std::shared_ptr<Scene> scene = drawable_elements.getScenePtr();
+            scene->setNewFrame(std::make_shared<Frame>(visual_novel.script_.chapters_[visual_novel.current_chapter_].frames_[visual_novel.current_frame_]));
+            scene->renderSfmlBasis(window.getSize());
+            std::shared_ptr<SfmlBasis> sfml_basis = scene->getSfmlBasis();
+            sfml_basis->draw(window);
+            break;
+        }
         default:
             return false;
     }
