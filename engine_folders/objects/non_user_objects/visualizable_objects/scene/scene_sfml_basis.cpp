@@ -3,7 +3,7 @@
 void ge::SceneSfmlBasis::draw(sf::RenderWindow &window) {
     window.draw(background_sprite_);
 
-    for (const sf::Sprite &slots_spite: slots_spites_) {
+    for (const sf::Sprite &slots_spite: slots_sprites_) {
         window.draw(slots_spite);
     }
 

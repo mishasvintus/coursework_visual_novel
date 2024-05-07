@@ -15,7 +15,7 @@ namespace ge {
         sf::Sprite background_sprite_;
         sf::Font font_;
         std::vector<sf::Texture> slots_textures_;
-        std::vector<sf::Sprite> slots_spites_;
+        std::vector<sf::Sprite> slots_sprites_;
         sf::Text replica_;
         sf::Text speaker_;
         sf::RectangleShape replica_background_;
