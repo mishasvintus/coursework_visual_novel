@@ -4,7 +4,7 @@
 
 void checkingCorrectness(const std::string &path) {
     sf::Image image;
-    if (image.loadFromFile(path)) {
+    if (!image.loadFromFile(path)) {
         throw std::runtime_error("file or file's path is incorrect\n");
     }
 }

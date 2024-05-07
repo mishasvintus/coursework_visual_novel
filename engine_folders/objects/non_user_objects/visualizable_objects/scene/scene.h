@@ -23,19 +23,22 @@ namespace ge {
 
         Scene &operator=(Scene &&scene) noexcept;
 
-        void Update(const std::shared_ptr<Frame> &frame) const;
-
+        void setNewFrame(const std::shared_ptr<Frame> &frame);
     private:
         friend class WindowManager;
 
         bool renderSfmlBasis(const sf::Vector2u &window_size) override;
+
+        void processNewFrame();
 
         void clearSfmlBasis() override;
 
         std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
         bool is_rendered_ = false;
+        bool new_frame_is_processed = false;
         std::shared_ptr<const Frame> current_frame_ = nullptr;
-        std::shared_ptr<SceneSfmlBasis> sfml_basic_ = nullptr;
+        std::shared_ptr<const Frame> new_frame_ = nullptr;
+        std::shared_ptr<SceneSfmlBasis> sfml_basis_ = nullptr;
     };
 }

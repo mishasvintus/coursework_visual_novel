@@ -8,24 +8,18 @@ void checkingCorrectness(const unsigned int selected_button, const unsigned int 
 }
 
 ge::MainMenu::MainMenu(const MainMenu &main_menu)
-    : title_(main_menu.title_)
-      , selected_button_(main_menu.selected_button_)
-      , is_rendered_(main_menu.is_rendered_)
-      , sfml_basis_(main_menu.sfml_basis_) {
+        : title_(main_menu.title_), selected_button_(main_menu.selected_button_), is_rendered_(main_menu.is_rendered_),
+          sfml_basis_(main_menu.sfml_basis_) {
 }
 
 ge::MainMenu::MainMenu(MainMenu &main_menu)
-    : title_(main_menu.title_)
-      , selected_button_(main_menu.selected_button_)
-      , is_rendered_(main_menu.is_rendered_)
-      , sfml_basis_(main_menu.sfml_basis_) {
+        : title_(main_menu.title_), selected_button_(main_menu.selected_button_), is_rendered_(main_menu.is_rendered_),
+          sfml_basis_(main_menu.sfml_basis_) {
 }
 
 ge::MainMenu::MainMenu(MainMenu &&main_menu) noexcept
-    : title_(std::move(main_menu.title_))
-      , selected_button_(main_menu.selected_button_)
-      , is_rendered_(main_menu.is_rendered_)
-      , sfml_basis_(std::move(main_menu.sfml_basis_)) {
+        : title_(std::move(main_menu.title_)), selected_button_(main_menu.selected_button_),
+          is_rendered_(main_menu.is_rendered_), sfml_basis_(std::move(main_menu.sfml_basis_)) {
 }
 
 ge::MainMenu &ge::MainMenu::operator=(const MainMenu &main_menu) {
@@ -85,18 +79,19 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->background_texture_.loadFromFile("engine_folders/data/images/abstraction.PNG");
     sfml_basis_->background_sprite_.setTexture(sfml_basis_->background_texture_);
     sfml_basis_->background_sprite_.scale({
-        static_cast<float>(window_size.x) / 3840.0f, static_cast<float>(window_size.y) / 2160.0f
-    });
+                                                  static_cast<float>(window_size.x) / 3840.0f,
+                                                  static_cast<float>(window_size.y) / 2160.0f
+                                          });
 
     if (!sfml_basis_->font_.loadFromFile(FONT_NAME)) {
         return false;
     }
 
     const sf::Vector2f title_background_size = {
-        0.4f * static_cast<float>(window_size.x), 0.18f * static_cast<float>(window_size.y)
+            0.4f * static_cast<float>(window_size.x), 0.18f * static_cast<float>(window_size.y)
     };
     const sf::Vector2f title_background_position = {
-        0.3f * static_cast<float>(window_size.x), 0.12f * static_cast<float>(window_size.y)
+            0.3f * static_cast<float>(window_size.x), 0.12f * static_cast<float>(window_size.y)
     };
 
     sfml_basis_->title_background_ = sf::RectangleShape(title_background_size);
@@ -112,8 +107,8 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->title_.setOrigin(sfml_basis_->title_.getLocalBounds().width / 2,
                                   sfml_basis_->title_.getLocalBounds().height / 2);
     const sf::Vector2f title_position = {
-        title_background_position.x + title_background_size.x / 2,
-        title_background_position.y + title_background_size.y / 2
+            title_background_position.x + title_background_size.x / 2,
+            title_background_position.y + title_background_size.y / 2
     };
     sfml_basis_->title_.setPosition(title_position);
 
@@ -134,8 +129,8 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
         sfml_basis_->buttons_[i].setOrigin(sfml_basis_->buttons_[i].getLocalBounds().width / 2,
                                            sfml_basis_->buttons_[0].getLocalBounds().height / 2);
         sf::Vector2f button_position = {
-            0.5f * static_cast<float>(window_size.x),
-            0.39f * static_cast<float>(window_size.y) + 0.075f * static_cast<float>(window_size.y * i)
+                0.5f * static_cast<float>(window_size.x),
+                0.39f * static_cast<float>(window_size.y) + 0.075f * static_cast<float>(window_size.y * i)
         };
         sfml_basis_->buttons_[i].setPosition(button_position);
     }

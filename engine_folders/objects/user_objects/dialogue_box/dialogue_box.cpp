@@ -28,7 +28,7 @@ bool ge::DialogueBox::operator==(const DialogueBox &dialogue_box) const {
     return speaker_ == dialogue_box.speaker_ && replica_ == dialogue_box.replica_;
 }
 
-bool ge::DialogueBox::operator!=(const ge::DialogueBox &dialogue_box) const {
+bool ge::DialogueBox::operator !=(const ge::DialogueBox &dialogue_box) const {
     return speaker_ != dialogue_box.speaker_ || replica_ != dialogue_box.replica_;
 }
 
