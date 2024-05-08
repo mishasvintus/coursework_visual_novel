@@ -24,6 +24,14 @@ namespace ge {
         Scene &operator=(Scene &&scene) noexcept;
 
         void setNewFrame(const std::shared_ptr<Frame> &frame);
+
+        void MoveUp();
+
+        void MoveDown();
+
+        void MoveLeft();
+
+        void MoveRight();
     private:
         friend class WindowManager;
 
@@ -45,7 +53,13 @@ namespace ge {
 
         std::shared_ptr<SceneSfmlBasis> sfml_basis_ = nullptr;
 
-        const std::vector<std::wstring> BUTTON_SYMBOLS_ = {L"М", L"Н", L"И"};
-        const unsigned int BUTTONS_QUANTITY_ = 3;
+        unsigned int selected_row_button_ = 0;
+        unsigned int selected_column_button_ = 0;
+        const unsigned int ROW_DIALOGUE_BOX = 0;
+        const unsigned int COLUMN_DIALOGUE_BOX = 0;
+        const unsigned int ROW_ACTIONS = 1;
+        const unsigned int ROW_BUTTONS = 2;
+        const std::vector<std::wstring> BUTTON_SYMBOLS = {L"М", L"Н", L"И"};
+        const unsigned int BUTTONS_QUANTITY = 3;
     };
 }

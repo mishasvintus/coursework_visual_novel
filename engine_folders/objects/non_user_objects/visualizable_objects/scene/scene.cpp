@@ -155,6 +155,95 @@ void ge::Scene::processNewFrame() {
     new_frame_is_processed = true;
 }
 
+template<typename T, typename Y>
+void ReHighlighting(T &to_dark, Y &to_light) {
+    to_dark.setOutlineColor(sf::Color::Black);
+    to_light.setOutlineColor(sf::Color::White);
+}
+
+void ge::Scene::MoveUp() {
+    if (selected_row_button_ == ROW_DIALOGUE_BOX) {
+        return;
+    }
+    if (!is_rendered_) {
+        --selected_row_button_;
+        selected_column_button_ = 0;
+        return;
+    }
+    if (selected_row_button_ == ROW_BUTTONS) {
+        if (!sfml_basis_->action_buttons.empty()) {
+            ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_], sfml_basis_->action_buttons[0]);
+        } else {
+            ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_], sfml_basis_->replica);
+            --selected_row_button_;
+        }
+    } else {
+        ReHighlighting(sfml_basis_->action_buttons[selected_column_button_], sfml_basis_->replica);
+    }
+    --selected_row_button_;
+    selected_column_button_ = 0;
+}
+
+void ge::Scene::MoveDown() {
+    if (selected_row_button_ == ROW_BUTTONS) {
+        return;
+    }
+    if (!is_rendered_) {
+        ++selected_row_button_;
+        selected_column_button_ = 0;
+        return;
+    }
+    if (selected_row_button_ == ROW_ACTIONS) {
+        ReHighlighting(sfml_basis_->action_buttons[selected_column_button_], sfml_basis_->button_backgrounds[0]);
+    } else {
+        if (!sfml_basis_->action_buttons.empty()) {
+            ReHighlighting(sfml_basis_->replica, sfml_basis_->action_buttons[0]);
+        } else {
+            ReHighlighting(sfml_basis_->replica, sfml_basis_->button_backgrounds[0]);
+            ++selected_row_button_;
+        }
+    }
+    ++selected_row_button_;
+    selected_column_button_ = 0;
+}
+
+void ge::Scene::MoveLeft() {
+    if (selected_row_button_ == ROW_DIALOGUE_BOX || selected_column_button_ == 0) {
+        return;
+    }
+    --selected_column_button_;
+    if (!is_rendered_) {
+        return;
+    }
+    if (selected_row_button_ == ROW_ACTIONS) {
+        ReHighlighting(sfml_basis_->action_buttons[selected_column_button_ + 1],
+                       sfml_basis_->action_buttons[selected_column_button_]);
+    } else {
+        ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_ + 1],
+                       sfml_basis_->button_backgrounds[selected_column_button_]);
+    }
+}
+
+void ge::Scene::MoveRight() {
+    if (selected_row_button_ == ROW_DIALOGUE_BOX) {
+        return;
+    }
+    if (selected_row_button_ == ROW_ACTIONS) {
+        if (is_rendered_) {
+            ReHighlighting(sfml_basis_->action_buttons[selected_column_button_],
+                           sfml_basis_->action_buttons[std::min<size_t>(selected_column_button_ + 1,
+                                                                        sfml_basis_->action_buttons.size() - 1)]);
+        }
+        selected_column_button_ = std::min<size_t>(selected_column_button_ + 1, sfml_basis_->action_buttons.size() - 1);
+    }
+    selected_column_button_ = std::min<size_t>(selected_column_button_ + 1, sfml_basis_->button_backgrounds.size() - 1);
+    if (is_rendered_) {
+        ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_],
+                       sfml_basis_->button_backgrounds[std::min<size_t>(selected_column_button_ + 1,
+                                                                        sfml_basis_->button_backgrounds.size() - 1)]);
+    }
+}
+
 bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_ && new_frame_is_processed) {
         return true;
@@ -172,9 +261,9 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     }
     sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
     sfml_basis_->background_sprite.scale({
-                                                  static_cast<float>(window_size.x) / 3840.0f,
-                                                  static_cast<float>(window_size.y) / 2160.0f
-                                          });
+                                                 static_cast<float>(window_size.x) / 3840.0f,
+                                                 static_cast<float>(window_size.y) / 2160.0f
+                                         });
 
     // setting slot pictures
     size_t slots_quantity = new_frame_->getSlots().getQuantityOfSlots();
@@ -280,25 +369,27 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     float circle_radius = static_cast<float>(window_size.y) * 0.05f;
     float distance_between_buttons = circle_radius * 3.0f;
-    float buttons_left_offset = distance_between_buttons * BUTTONS_QUANTITY_ / 2.0f;
+    float buttons_left_offset = distance_between_buttons * static_cast<float>(BUTTONS_QUANTITY) / 2.0f;
     float buttons_up_offset = static_cast<float>(window_size.y) - (replica_size.y + replica_position.y / 2.0f);
-    sfml_basis_->button_backgrounds.resize(BUTTONS_QUANTITY_);
-    sfml_basis_->button_backgrounds.resize(BUTTONS_QUANTITY_);
+    sfml_basis_->button_backgrounds.resize(BUTTONS_QUANTITY);
+    sfml_basis_->button_backgrounds.resize(BUTTONS_QUANTITY);
 
-    for (size_t i = 0; i < BUTTONS_QUANTITY_; ++i) {
+    for (size_t i = 0; i < BUTTONS_QUANTITY; ++i) {
         sfml_basis_->button_backgrounds[i].setRadius(circle_radius);
         sfml_basis_->button_backgrounds[i].setOutlineThickness(2);
         sfml_basis_->button_backgrounds[i].setOrigin(circle_radius / 2 + 2, circle_radius / 2 + 2);
-        sfml_basis_->button_backgrounds[i].setPosition(buttons_left_offset + distance_between_buttons * static_cast<float>(i), buttons_up_offset);
+        sfml_basis_->button_backgrounds[i].setPosition(
+                buttons_left_offset + distance_between_buttons * static_cast<float>(i), buttons_up_offset);
         sfml_basis_->button_backgrounds[i].setFillColor(sf::Color::White);
         sfml_basis_->button_backgrounds[i].setOutlineColor(sf::Color::Black);
 
         sfml_basis_->button_symbols[i].setFont(sfml_basis_->font);
-        sfml_basis_->button_symbols[i].setString(BUTTON_SYMBOLS_[i]);
+        sfml_basis_->button_symbols[i].setString(BUTTON_SYMBOLS[i]);
         sfml_basis_->button_symbols[i].setCharacterSize(static_cast<unsigned int>(circle_radius / 1.2f));
         sfml_basis_->button_symbols[i].setOutlineThickness(2);
         sfml_basis_->button_symbols[i].setOrigin(circle_radius / 2 + 2, circle_radius / 2 + 2);
-        sfml_basis_->button_symbols[i].setPosition(buttons_left_offset + distance_between_buttons * static_cast<float>(i), buttons_up_offset);
+        sfml_basis_->button_symbols[i].setPosition(
+                buttons_left_offset + distance_between_buttons * static_cast<float>(i), buttons_up_offset);
         sfml_basis_->button_symbols[i].setFillColor(sf::Color::White);
         sfml_basis_->button_symbols[i].setOutlineColor(sf::Color::Black);
     }

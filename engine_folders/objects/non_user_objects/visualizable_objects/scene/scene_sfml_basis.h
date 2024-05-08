@@ -22,7 +22,6 @@ namespace ge {
         sf::RectangleShape speaker_background;
         std::vector<sf::Text> action_buttons;
 
-
         std::vector<sf::CircleShape> button_backgrounds;
         std::vector<sf::Text> button_symbols;
         sf::Vector2u window_size;
