@@ -25,7 +25,8 @@ namespace ge {
 
         VisualNovel(VisualNovel &&visual_novel) noexcept;
 
-        VisualNovel(std::wstring about_authors, Script script, std::wstring project_name);
+        VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
+                    std::wstring  name_start_chapter);
 
         ~VisualNovel() = default;
 
@@ -34,6 +35,8 @@ namespace ge {
         void setScript(const Script &script);
 
         void setProjectName(const std::wstring &project_name);
+
+        void setNameStartChapter(const std::wstring& name_start_chapter);
 
         const std::wstring &getAboutAuthors();
 
@@ -50,5 +53,6 @@ namespace ge {
         Script script_;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;
+        std::wstring name_start_chapter_; //TODO: сделать проверку на наличие в мапе
     };
 }

@@ -11,11 +11,17 @@ void checkingCorrectness(const std::wstring &text, const size_t upper_limit_abou
 }
 
 ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
-    : about_authors_(std::move(visual_novel.about_authors_)), script_(std::move(visual_novel.script_)) {
+        : about_authors_(std::move(visual_novel.about_authors_)), script_(std::move(visual_novel.script_)),
+          project_name_(std::move(visual_novel.project_name_)),
+          name_start_chapter_(std::move(visual_novel.name_start_chapter_)) {
 }
 
-ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name)
-    : about_authors_(std::move(about_authors)), script_(std::move(script)), project_name_(std::move(project_name)) {
+ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
+                             std::wstring name_start_chapter)
+        : about_authors_(std::move(about_authors))
+        , script_(std::move(script))
+        , project_name_(std::move(project_name))
+        , name_start_chapter_(std::move(name_start_chapter)) {
     checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
                         UPPER_BOUND_LENGTH_PROJECT_NAME);
 }
@@ -36,6 +42,9 @@ void ge::VisualNovel::setProjectName(const std::wstring &project_name) {
     project_name_ = project_name;
 }
 
+void ge::VisualNovel::setNameStartChapter(const std::wstring &name_start_chapter) {
+    name_start_chapter_ = name_start_chapter;
+}
 
 const std::wstring &ge::VisualNovel::getAboutAuthors() {
     return about_authors_;
