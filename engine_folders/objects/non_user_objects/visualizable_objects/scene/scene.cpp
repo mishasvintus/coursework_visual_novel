@@ -174,11 +174,13 @@ void ge::Scene::MoveUp() {
         if (!sfml_basis_->action_buttons.empty()) {
             ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_], sfml_basis_->action_buttons[0]);
         } else {
-            ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_], sfml_basis_->replica);
+            ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_], sfml_basis_->replica_background);
+            sfml_basis_->speaker_background.setOutlineColor(sf::Color::White);
             --selected_row_button_;
         }
     } else {
-        ReHighlighting(sfml_basis_->action_buttons[selected_column_button_], sfml_basis_->replica);
+        ReHighlighting(sfml_basis_->action_buttons[selected_column_button_], sfml_basis_->replica_background);
+        sfml_basis_->speaker_background.setOutlineColor(sf::Color::White);
     }
     --selected_row_button_;
     selected_column_button_ = 0;
@@ -196,10 +198,11 @@ void ge::Scene::MoveDown() {
     if (selected_row_button_ == ROW_ACTIONS) {
         ReHighlighting(sfml_basis_->action_buttons[selected_column_button_], sfml_basis_->button_backgrounds[0]);
     } else {
+        sfml_basis_->speaker_background.setOutlineColor(sf::Color::Black);
         if (!sfml_basis_->action_buttons.empty()) {
-            ReHighlighting(sfml_basis_->replica, sfml_basis_->action_buttons[0]);
+            ReHighlighting(sfml_basis_->replica_background, sfml_basis_->action_buttons[0]);
         } else {
-            ReHighlighting(sfml_basis_->replica, sfml_basis_->button_backgrounds[0]);
+            ReHighlighting(sfml_basis_->replica_background, sfml_basis_->button_backgrounds[0]);
             ++selected_row_button_;
         }
     }
