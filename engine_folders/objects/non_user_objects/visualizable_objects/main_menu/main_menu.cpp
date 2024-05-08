@@ -76,7 +76,9 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     sfml_basis_ = std::make_shared<MainMenuSfmlBasis>();
 
-    sfml_basis_->background_texture_.loadFromFile("engine_folders/data/images/abstraction.PNG");
+    if (!sfml_basis_->background_texture_.loadFromFile("engine_folders/data/images/abstraction.PNG")) {
+        return false;
+    }
     sfml_basis_->background_sprite_.setTexture(sfml_basis_->background_texture_);
     sfml_basis_->background_sprite_.scale({
                                                   static_cast<float>(window_size.x) / 3840.0f,

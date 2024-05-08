@@ -61,7 +61,9 @@ void ge::Scene::processNewFrame() {
         throw std::runtime_error("new_frame_ was not set\n");
     }
     if (new_frame_->getBackgroundFile() != current_frame_->getBackgroundFile()) {
-        sfml_basis_->background_texture.loadFromFile(current_frame_->getBackgroundFile());
+        if (!sfml_basis_->background_texture.loadFromFile(current_frame_->getBackgroundFile())) {
+            throw std::runtime_error("can't load background file\n");
+        }
         sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
     }
 
@@ -91,7 +93,9 @@ void ge::Scene::processNewFrame() {
             if (fined.find(i) != fined.end() || new_paths[i].empty()) {
                 continue;
             }
-            sfml_basis_->slots_textures[i].loadFromFile(new_paths[i]);
+            if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
+                throw std::runtime_error("can't load sprite file\n");
+            }
             sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
         }
         sfml_basis_->slots_sprites.resize(new_paths.size());
