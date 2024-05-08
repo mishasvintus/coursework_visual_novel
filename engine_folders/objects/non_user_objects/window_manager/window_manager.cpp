@@ -1,4 +1,6 @@
 #include "window_manager.h"
+#include <thread>
+#include <chrono>
 
 std::unordered_map<ge::GameMode, WindowManagerPtr> ge::WindowManager::getMap() {
     std::unordered_map<ge::GameMode, WindowManagerPtr> result;
@@ -57,38 +59,40 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
 bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                         ge::DrawableElements &drawable_elements) {
     sf::Event event{};
-    window.waitEvent(event);
+    while (window.pollEvent(event)) {
+        switch (mainMenuEventHandler(window, drawable_elements.putMainMenu(), event)) {
+            case GameMode::MainMenu: {
+                break;
+            }
+            case GameMode::InGame: {
+                Frame &initial_frame = visual_novel.script_.chapters_[visual_novel.getNameStartChapter()].frames_[0];
+                std::shared_ptr<Scene> scene(
+                        new Scene(std::make_shared<Frame>(initial_frame),
+                                  visual_novel.getNameStartChapter(),
+                                  0));
 
-    switch (mainMenuEventHandler(window, drawable_elements.putMainMenu(), event)) {
-        case GameMode::MainMenu: {
-            window.clear();
-            std::shared_ptr<MainMenu> main_menu = drawable_elements.getMainMenuPtr();
-            main_menu->renderSfmlBasis(window.getSize());
-            std::shared_ptr<SfmlBasis> sfml_basis = main_menu->getSfmlBasis();
-            sfml_basis->draw(window);
-            break;
+                drawable_elements.setScene(scene);
+                drawable_elements.resetMainMenu();
+                visual_novel.current_game_mode_ = GameMode::InGame;
+                return true;
+            }
+            case GameMode::MainSettings:
+                // TODO : реализовать
+                break;
+            case GameMode::AboutAuthors:
+                // TODO : реализовать
+                break;
+            default:
+                return false;
         }
-        case GameMode::InGame: {
-            Frame &initial_frame = visual_novel.script_.chapters_[visual_novel.getNameStartChapter()].frames_[0];
-            std::shared_ptr<Scene> scene(
-                    new Scene(std::make_shared<Frame>(initial_frame),
-                              visual_novel.getNameStartChapter(),
-                              0));
-
-            drawable_elements.setScene(scene);
-            drawable_elements.resetMainMenu();
-            visual_novel.current_game_mode_ = GameMode::InGame;
-            break;
-        }
-        case GameMode::MainSettings:
-            // TODO : реализовать
-            break;
-        case GameMode::AboutAuthors:
-            // TODO : реализовать
-            break;
-        default:
-            return false;
     }
+
+    window.clear();
+    std::shared_ptr<MainMenu> main_menu = drawable_elements.getMainMenuPtr();
+    main_menu->renderSfmlBasis(window.getSize());
+    std::shared_ptr<SfmlBasis> sfml_basis = main_menu->getSfmlBasis();
+    sfml_basis->draw(window);
+    std::this_thread::sleep_for(std::chrono::milliseconds(8));
     return true;
 }
 
@@ -133,42 +137,34 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     if (!drawable_elements.getScenePtr()) {
         return false;
     }
-    if (!drawable_elements.getScenePtr()->is_rendered_) {
-        window.clear();
-        std::shared_ptr<Scene> scene = drawable_elements.getScenePtr();
-        scene->setNewFrame(std::make_shared<Frame>(
-                visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
-        scene->renderSfmlBasis(window.getSize());
-        std::shared_ptr<SfmlBasis> sfml_basis = scene->getSfmlBasis();
-        sfml_basis->draw(window);
-        return true;
-    }
     sf::Event event{};
-    window.waitEvent(event);
-    switch (inGameEventHandler(window, drawable_elements.putScene(), event)) {
-        case GameMode::InGame: {
-            window.clear();
-            std::shared_ptr<Scene> scene = drawable_elements.getScenePtr();
-            scene->setNewFrame(std::make_shared<Frame>(
-                    visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
-            scene->renderSfmlBasis(window.getSize());
-            std::shared_ptr<SfmlBasis> sfml_basis = scene->getSfmlBasis();
-            sfml_basis->draw(window);
-            break;
+    while (window.pollEvent(event)) {
+        switch (inGameEventHandler(window, drawable_elements.putScene(), event)) {
+            case GameMode::InGame: {
+                break;
+            }
+            case GameMode::MainMenu: {
+                window.clear();
+                std::shared_ptr<MainMenu> main_menu(new MainMenu);
+                main_menu->renderSfmlBasis(window.getSize());
+                std::shared_ptr<SfmlBasis> sfml_basis = main_menu->getSfmlBasis();
+                drawable_elements.resetScene();
+                drawable_elements.setMainMenu(main_menu);
+                sfml_basis->draw(window);
+                visual_novel.current_game_mode_ = GameMode::MainMenu;
+                return true;
+            }
+            default:
+                return false;
         }
-        case GameMode::MainMenu: {
-            window.clear();
-            std::shared_ptr<MainMenu> main_menu(new MainMenu);
-            main_menu->renderSfmlBasis(window.getSize());
-            std::shared_ptr<SfmlBasis> sfml_basis = main_menu->getSfmlBasis();
-            drawable_elements.resetScene();
-            drawable_elements.setMainMenu(main_menu);
-            sfml_basis->draw(window);
-            visual_novel.current_game_mode_ = GameMode::MainMenu;
-            break;
-        }
-        default:
-            return false;
     }
+    window.clear();
+    std::shared_ptr<Scene> scene = drawable_elements.getScenePtr();
+    scene->setNewFrame(std::make_shared<Frame>(
+            visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
+    scene->renderSfmlBasis(window.getSize());
+    std::shared_ptr<SfmlBasis> sfml_basis = scene->getSfmlBasis();
+    sfml_basis->draw(window);
+    std::this_thread::sleep_for(std::chrono::milliseconds(8));
     return true;
 }
