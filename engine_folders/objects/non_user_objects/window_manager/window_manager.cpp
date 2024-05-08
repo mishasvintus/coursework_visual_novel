@@ -58,6 +58,9 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
 
 bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                         ge::DrawableElements &drawable_elements) {
+    if (!drawable_elements.getMainMenuPtr()) {
+        return false;
+    }
     sf::Event event{};
     while (window.pollEvent(event)) {
         switch (mainMenuEventHandler(window, drawable_elements.putMainMenu(), event)) {
@@ -78,10 +81,10 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
             }
             case GameMode::MainSettings:
                 // TODO : реализовать
-                break;
+                return true;
             case GameMode::AboutAuthors:
                 // TODO : реализовать
-                break;
+                return true;
             default:
                 return false;
         }
@@ -154,6 +157,15 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
                 visual_novel.current_game_mode_ = GameMode::MainMenu;
                 return true;
             }
+            case GameMode::IngameMenu:
+                // TODO : реализовать
+                return true;
+            case GameMode::IngameSettings:
+                // TODO : реализовать
+                return true;
+            case GameMode::Info:
+                // TODO : реализовать
+                return true;
             default:
                 return false;
         }
