@@ -25,13 +25,13 @@ namespace ge {
 
         void setNewFrame(const std::shared_ptr<Frame> &frame);
 
-        void MoveUp();
+        void moveUp();
 
-        void MoveDown();
+        void moveDown();
 
-        void MoveLeft();
+        void moveLeft();
 
-        void MoveRight();
+        void moveRight();
     private:
         friend class WindowManager;
 
@@ -55,10 +55,9 @@ namespace ge {
 
         unsigned int selected_row_button_ = 0;
         unsigned int selected_column_button_ = 0;
-        const unsigned int ROW_DIALOGUE_BOX = 0;
+        const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
+        const unsigned int ROW_BUTTONS = 1;
         const unsigned int COLUMN_DIALOGUE_BOX = 0;
-        const unsigned int ROW_ACTIONS = 1;
-        const unsigned int ROW_BUTTONS = 2;
         const std::vector<std::wstring> BUTTON_SYMBOLS = {L"М", L"Н", L"И"};
         const unsigned int BUTTONS_QUANTITY = 3;
     };

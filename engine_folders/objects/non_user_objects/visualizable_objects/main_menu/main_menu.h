@@ -24,9 +24,9 @@ namespace ge {
 
         [[nodiscard]] unsigned int getSelectedButton() const;
 
-        void MoveUp();
+        void moveUp();
 
-        void MoveDown();
+        void moveDown();
 
     private:
         friend class WindowManager;
@@ -43,7 +43,7 @@ namespace ge {
         static constexpr unsigned int UPPER_BOUND_TITLE_LENGTH = 40;
 
         const std::vector<std::wstring> BUTTONS = {
-            L"НОВАЯ ИГРА", L"ЗАГРУЗИТЬ ИГРУ", L"НАСТРОЙКИ", L"ОБ АВТОРАХ", L"ВЫХОД"
+                L"НОВАЯ ИГРА", L"ЗАГРУЗИТЬ ИГРУ", L"НАСТРОЙКИ", L"ОБ АВТОРАХ", L"ВЫХОД"
         };
         std::wstring title_ = L"ФИДЕС";
         unsigned int selected_button_ = 0;

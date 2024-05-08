@@ -38,7 +38,7 @@ ge::MainMenu &ge::MainMenu::operator=(MainMenu &&main_menu) noexcept {
     return *this;
 }
 
-void ge::MainMenu::MoveUp() {
+void ge::MainMenu::moveUp() {
     if (selected_button_ == TOP_BUTTON_INDEX) {
         return;
     }
@@ -49,7 +49,7 @@ void ge::MainMenu::MoveUp() {
     --selected_button_;
 }
 
-void ge::MainMenu::MoveDown() {
+void ge::MainMenu::moveDown() {
     if (selected_button_ == BOTTOM_BUTTON_INDEX) {
         return;
     }

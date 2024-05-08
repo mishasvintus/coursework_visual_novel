@@ -22,11 +22,11 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
             break;
         case sf::Event::KeyReleased: {
             if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
-                main_menu.MoveUp();
+                main_menu.moveUp();
                 break;
             }
             if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) {
-                main_menu.MoveDown();
+                main_menu.moveDown();
                 break;
             }
             if (event.key.code != sf::Keyboard::Enter) {
@@ -93,7 +93,8 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
         case GameMode::InGame: {
             window.clear();
             std::shared_ptr<Scene> scene = drawable_elements.getScenePtr();
-            scene->setNewFrame(std::make_shared<Frame>(visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
+            scene->setNewFrame(std::make_shared<Frame>(
+                    visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
             scene->renderSfmlBasis(window.getSize());
             std::shared_ptr<SfmlBasis> sfml_basis = scene->getSfmlBasis();
             sfml_basis->draw(window);

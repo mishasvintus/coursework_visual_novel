@@ -159,95 +159,91 @@ void ge::Scene::processNewFrame() {
     new_frame_is_processed = true;
 }
 
-template<typename T, typename Y>
-void ReHighlighting(T &to_dark, Y &to_light) {
-    to_dark.setOutlineColor(sf::Color::Black);
-    to_light.setOutlineColor(sf::Color::White);
-}
-
-void ge::Scene::MoveUp() {
-    if (selected_row_button_ == ROW_DIALOGUE_BOX) {
+void ge::Scene::moveUp() {
+    if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE) {
         return;
     }
+
     if (!is_rendered_) {
         --selected_row_button_;
-        selected_column_button_ = 0;
         return;
     }
-    if (selected_row_button_ == ROW_BUTTONS) {
-        if (!sfml_basis_->action_buttons.empty()) {
-            ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_], sfml_basis_->action_buttons[0]);
-        } else {
-            ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_], sfml_basis_->replica_background);
-            sfml_basis_->speaker_background.setOutlineColor(sf::Color::White);
-            --selected_row_button_;
-        }
+
+    sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(sf::Color::Black);
+
+    if (current_frame_->getChoiceOfAction()) {
+        selected_column_button_ = static_cast<size_t>(selected_column_button_) % sfml_basis_->action_buttons.size();
+        sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(sf::Color::Yellow);
     } else {
-        ReHighlighting(sfml_basis_->action_buttons[selected_column_button_], sfml_basis_->replica_background);
-        sfml_basis_->speaker_background.setOutlineColor(sf::Color::White);
+        sfml_basis_->speaker_background.setOutlineColor(sf::Color::Yellow);
+        sfml_basis_->replica_background.setOutlineColor(sf::Color::Yellow);
     }
+
     --selected_row_button_;
-    selected_column_button_ = 0;
 }
 
-void ge::Scene::MoveDown() {
+void ge::Scene::moveDown() {
     if (selected_row_button_ == ROW_BUTTONS) {
         return;
     }
     if (!is_rendered_) {
         ++selected_row_button_;
-        selected_column_button_ = 0;
+        selected_column_button_ = std::min(selected_column_button_, BUTTONS_QUANTITY);
         return;
     }
-    if (selected_row_button_ == ROW_ACTIONS) {
-        ReHighlighting(sfml_basis_->action_buttons[selected_column_button_], sfml_basis_->button_backgrounds[0]);
+
+    if (current_frame_->getChoiceOfAction()) {
+        sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(sf::Color::Black);
     } else {
         sfml_basis_->speaker_background.setOutlineColor(sf::Color::Black);
-        if (!sfml_basis_->action_buttons.empty()) {
-            ReHighlighting(sfml_basis_->replica_background, sfml_basis_->action_buttons[0]);
-        } else {
-            ReHighlighting(sfml_basis_->replica_background, sfml_basis_->button_backgrounds[0]);
-            ++selected_row_button_;
-        }
+        sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
     }
+    selected_column_button_ = selected_column_button_ % BUTTONS_QUANTITY;
+    sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(sf::Color::Yellow);
+
     ++selected_row_button_;
-    selected_column_button_ = 0;
 }
 
-void ge::Scene::MoveLeft() {
-    if (selected_row_button_ == ROW_DIALOGUE_BOX || selected_column_button_ == 0) {
+void ge::Scene::moveLeft() {
+    if ((selected_row_button_ == ROW_ACTION_OR_DIALOGUE && !current_frame_->getChoiceOfAction()) ||
+        selected_column_button_ == 0) {
         return;
     }
     --selected_column_button_;
     if (!is_rendered_) {
         return;
     }
-    if (selected_row_button_ == ROW_ACTIONS) {
-        ReHighlighting(sfml_basis_->action_buttons[selected_column_button_ + 1],
-                       sfml_basis_->action_buttons[selected_column_button_]);
+    if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE) {
+        sfml_basis_->action_buttons[selected_column_button_ + 1].setOutlineColor(sf::Color::Black);
+        sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(sf::Color::Yellow);
     } else {
-        ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_ + 1],
-                       sfml_basis_->button_backgrounds[selected_column_button_]);
+        sfml_basis_->button_backgrounds[selected_column_button_ + 1].setOutlineColor(sf::Color::Black);
+        sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(sf::Color::Yellow);
     }
 }
 
-void ge::Scene::MoveRight() {
-    if (selected_row_button_ == ROW_DIALOGUE_BOX) {
+void ge::Scene::moveRight() {
+    if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE && !current_frame_->getChoiceOfAction()) {
         return;
     }
-    if (selected_row_button_ == ROW_ACTIONS) {
-        if (is_rendered_) {
-            ReHighlighting(sfml_basis_->action_buttons[selected_column_button_],
-                           sfml_basis_->action_buttons[std::min<size_t>(selected_column_button_ + 1,
-                                                                        sfml_basis_->action_buttons.size() - 1)]);
+    if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE) {
+        if (selected_column_button_ == sfml_basis_->action_buttons.size() - 1) {
+            return;
         }
-        selected_column_button_ = std::min<size_t>(selected_column_button_ + 1, sfml_basis_->action_buttons.size() - 1);
+        ++selected_column_button_;
+        if (is_rendered_) {
+            sfml_basis_->action_buttons[selected_column_button_ - 1].setOutlineColor(sf::Color::Black);
+            sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(sf::Color::Yellow);
+        }
+        return;
     }
-    selected_column_button_ = std::min<size_t>(selected_column_button_ + 1, sfml_basis_->button_backgrounds.size() - 1);
+    if (selected_column_button_ == BUTTONS_QUANTITY - 1) {
+        return;
+    }
+    ++selected_column_button_;
     if (is_rendered_) {
-        ReHighlighting(sfml_basis_->button_backgrounds[selected_column_button_],
-                       sfml_basis_->button_backgrounds[std::min<size_t>(selected_column_button_ + 1,
-                                                                        sfml_basis_->button_backgrounds.size() - 1)]);
+        sfml_basis_->button_backgrounds[selected_column_button_ - 1].setOutlineColor(sf::Color::Black);
+        sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(sf::Color::Yellow);
     }
 }
 
