@@ -57,7 +57,6 @@ namespace ge {
         unsigned int selected_column_button_ = 0;
         const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
         const unsigned int ROW_BUTTONS = 1;
-        const unsigned int COLUMN_DIALOGUE_BOX = 0;
         const std::vector<std::wstring> BUTTON_SYMBOLS = {L"М", L"Н", L"И"};
         const unsigned int BUTTONS_QUANTITY = 3;
     };
