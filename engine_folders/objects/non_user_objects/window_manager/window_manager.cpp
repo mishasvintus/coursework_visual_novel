@@ -85,11 +85,37 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
     return true;
 }
 
+ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::Event event) {
+    switch (event.type) {
+        case sf::Event::Closed:
+            window.close();
+            break;
+        case sf::Event::KeyReleased:
+            if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
+                scene.moveUp();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) {
+                scene.moveDown();
+                break;
+            }
+            if (event.key.code != sf::Keyboard::Enter) {
+                break;
+            }
+
+
+            break;
+        default:
+            break;
+    }
+    return ge::GameMode::InGame;
+}
+
 bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                       ge::DrawableElements &drawable_elements) {
     sf::Event event{};
     window.waitEvent(event);
-    switch (mainMenuEventHandler(window, drawable_elements.putMainMenu(), event)) {
+    switch (inGameEventHandler(window, drawable_elements.putScene(), event)) {
         case GameMode::InGame: {
             window.clear();
             std::shared_ptr<Scene> scene = drawable_elements.getScenePtr();
