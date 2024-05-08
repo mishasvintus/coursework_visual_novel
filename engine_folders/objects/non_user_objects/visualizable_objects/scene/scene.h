@@ -62,6 +62,6 @@ namespace ge {
         const std::vector<std::wstring> BUTTON_SYMBOLS = {L"М", L"Н", L"И"};
         const unsigned int BUTTONS_QUANTITY = 3;
         const sf::Color BACKGROUNDS_FILL_COLOR = sf::Color(sf::Color(71,74,81, 150));
-        const sf::Color HIGHLIGHT_COLOR = sf::Color(sf::Color(120,219,226));
+        const sf::Color HIGHLIGHT_COLOR = sf::Color(sf::Color(229,228,226));
     };
 }

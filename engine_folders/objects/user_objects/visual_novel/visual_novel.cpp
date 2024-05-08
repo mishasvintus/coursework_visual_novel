@@ -60,7 +60,7 @@ const std::wstring &ge::VisualNovel::getNameStartChapter() {
 
 bool ge::VisualNovel::run() {
     try {
-        sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen);
+        sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen, sf::ContextSettings(0, 0, 2));
         window.setVerticalSyncEnabled(true);
         std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
 

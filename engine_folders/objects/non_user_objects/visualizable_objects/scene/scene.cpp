@@ -124,7 +124,7 @@ void ge::Scene::processNewFrame() {
             action_button_i.setString(new_actions[i].getText());
             action_button_i.setFillColor(sf::Color::White);
             action_button_i.setOutlineColor(sf::Color::Black);
-            action_button_i.setOutlineThickness(2);
+            action_button_i.setOutlineThickness(3);
         }
     }
 
@@ -316,7 +316,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
                                             static_cast<float>(window_size.y) * 0.05f};
     sf::Vector2f speaker_background_position = {static_cast<float>(window_size.x) * 0.14f,
                                                 static_cast<float>(window_size.y) * 0.74f};
-    sfml_basis_->speaker_background.setOutlineThickness(2);
+    sfml_basis_->speaker_background.setOutlineThickness(3);
     sfml_basis_->speaker_background.setSize(
             speaker_background_size);
     sfml_basis_->speaker_background.setPosition(speaker_background_position);
@@ -340,7 +340,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->replica_background.setSize(
             replica_background_size);
     sfml_basis_->replica_background.setPosition(replica_background_position);
-    sfml_basis_->replica_background.setOutlineThickness(2);
+    sfml_basis_->replica_background.setOutlineThickness(3);
 
     sfml_basis_->replica.setFont(sfml_basis_->font);
     sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
@@ -384,13 +384,13 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     float buttons_left_offset = (window_size.x - distance_between_buttons * static_cast<float>(BUTTONS_QUANTITY)) / 2.0f;
 //    float buttons_up_offset = static_cast<float>(window_size.y) * 1.5f - (replica_background_position.y + replica_background_size.y) / 2.0f;
 
-    float buttons_up_offset = window_size.y * 0.965;
+    float buttons_up_offset = window_size.y * 0.963;
     sfml_basis_->button_backgrounds.resize(BUTTONS_QUANTITY);
     sfml_basis_->button_symbols.resize(BUTTONS_QUANTITY);
 
     for (size_t i = 0; i < BUTTONS_QUANTITY; ++i) {
         sfml_basis_->button_backgrounds[i].setRadius(circle_radius);
-        sfml_basis_->button_backgrounds[i].setOutlineThickness(2);
+        sfml_basis_->button_backgrounds[i].setOutlineThickness(3);
         sfml_basis_->button_backgrounds[i].setOrigin(circle_radius / 2, circle_radius / 2);
         sfml_basis_->button_backgrounds[i].setPosition(
                 buttons_left_offset + distance_between_buttons * static_cast<float>(i), buttons_up_offset);
