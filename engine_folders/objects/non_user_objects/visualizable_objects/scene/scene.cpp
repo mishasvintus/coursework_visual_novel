@@ -345,7 +345,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->replica.setFont(sfml_basis_->font);
     sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
     sfml_basis_->replica.setOutlineThickness(2);
-    sfml_basis_->replica.setCharacterSize(static_cast<unsigned int>(replica_background_size.y / 5.44f));
+    sfml_basis_->replica.setCharacterSize(static_cast<unsigned int>(replica_background_size.y / 5.45f));
     sfml_basis_->replica.setPosition(replica_background_position.x + speaker_background_size.x * 0.02, replica_background_position.y);
 
     // setting replica and speaker colors
