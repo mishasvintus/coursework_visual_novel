@@ -128,6 +128,16 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
 
 bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                       ge::DrawableElements &drawable_elements) {
+    if (!drawable_elements.getScenePtr()->is_rendered_) {
+        window.clear();
+        std::shared_ptr<Scene> scene = drawable_elements.getScenePtr();
+        scene->setNewFrame(std::make_shared<Frame>(
+                visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
+        scene->renderSfmlBasis(window.getSize());
+        std::shared_ptr<SfmlBasis> sfml_basis = scene->getSfmlBasis();
+        sfml_basis->draw(window);
+        return true;
+    }
     sf::Event event{};
     window.waitEvent(event);
     switch (inGameEventHandler(window, drawable_elements.putScene(), event)) {
