@@ -9,7 +9,7 @@ namespace ge {
 
         DialogueBox(const DialogueBox &other);
 
-        DialogueBox(std::wstring replica, std::wstring speaker);
+        DialogueBox(std::wstring speaker, std::wstring replica);
 
         DialogueBox(DialogueBox &&other) noexcept;
 
@@ -34,7 +34,7 @@ namespace ge {
     private:
         static constexpr size_t UPPER_BOUND_OF_LENGTH_SPEAKER = 50;
         static constexpr size_t UPPER_BOUND_OF_LENGTH_REPLICA = 500;
-        std::wstring replica_;
         std::wstring speaker_;
+        std::wstring replica_;
     };
 }
