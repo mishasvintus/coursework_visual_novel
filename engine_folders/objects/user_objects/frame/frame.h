@@ -17,8 +17,9 @@ namespace ge {
 
         Frame(Frame &&scene) noexcept;
 
-        Frame(DialogueBox dialogue_box, std::string background_file, bool choice_of_action,
-              const std::vector<Action> &actions, FrameSlots scene_slots);
+        Frame(DialogueBox dialogue_box, std::string background_file, FrameSlots slots);
+
+        Frame(const std::vector<Action>& actions, std::string background_file, FrameSlots slots);
 
         ~Frame() = default;
 

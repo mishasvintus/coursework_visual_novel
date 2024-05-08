@@ -9,7 +9,8 @@ namespace ge {
     public:
         Scene();
 
-        explicit Scene(const std::shared_ptr<Frame> &frame);
+        explicit Scene(const std::shared_ptr<Frame> &frame, const std::wstring &current_chapter_name,
+                       int current_frame_number);
 
         Scene(const Scene &scene);
 
@@ -32,6 +33,7 @@ namespace ge {
         void moveLeft();
 
         void moveRight();
+
     private:
         friend class WindowManager;
 

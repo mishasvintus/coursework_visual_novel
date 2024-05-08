@@ -14,11 +14,16 @@ ge::Frame::Frame(const Frame &scene)
           choice_of_action_(scene.choice_of_action_), actions_(scene.actions_), scene_slots_(scene.scene_slots_) {
 }
 
-ge::Frame::Frame(DialogueBox dialogue_box, std::string background_file, bool choice_of_action,
-                 const std::vector<Action> &actions, FrameSlots scene_slots)
-        : dialogue_box_(std::move(dialogue_box)), background_file_(std::move(background_file)),
-          choice_of_action_(choice_of_action), actions_(actions), scene_slots_(std::move(scene_slots)) {
-    checkingCorrectness(background_file);
+ge::Frame::Frame(ge::DialogueBox dialogue_box, std::string background_file, ge::FrameSlots slots)
+        : dialogue_box_(std::move(dialogue_box))
+        , background_file_(std::move(background_file))
+        , scene_slots_(std::move(slots)) {
+}
+
+ge::Frame::Frame(const std::vector<Action> &actions, std::string background_file, ge::FrameSlots slots)
+        : actions_(actions)
+        , background_file_(std::move(background_file))
+        , scene_slots_(std::move(slots)) {
 }
 
 ge::Frame::Frame(Frame &scene)

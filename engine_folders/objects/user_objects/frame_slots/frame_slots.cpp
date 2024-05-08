@@ -4,22 +4,22 @@
 
 void checkingCorrectness(const unsigned int count_slots, const unsigned up_limit_slots,
                          const std::vector<std::string> &slots) {
-    if (count_slots > up_limit_slots || slots.size() != count_slots) {
-        throw std::invalid_argument(
-                "the relationship between the vector size and the number of slots is incorrect, or the number of slots is too large\n");
-    }
-    sf::Image image;
-    for (const std::string& path : slots) {
-        if (!image.loadFromFile(path)) {
-            throw std::runtime_error("file or file's path is incorrect\n");
-        }
-    }
+//    if (count_slots > up_limit_slots || slots.size() != count_slots) {
+//        throw std::invalid_argument(
+//                "the relationship between the vector size and the number of slots is incorrect, or the number of slots is too large\n");
+//    }
+//    sf::Image image;
+//    for (const std::string& path : slots) {
+//        if (!image.loadFromFile(path)) {
+//            throw std::runtime_error("file or file's path is incorrect\n");
+//        }
+//    }
 }
 
 ge::FrameSlots::FrameSlots()
         : quantity_of_slots_(DEFAULT_COUNT_SLOTS), pictures_in_slots_(std::vector<std::string>()) {
     pictures_in_slots_.resize(DEFAULT_COUNT_SLOTS);
-    checkingCorrectness(quantity_of_slots_, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
+//    checkingCorrectness(quantity_of_slots_, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
 }
 
 ge::FrameSlots::FrameSlots(const FrameSlots &frame_slots)

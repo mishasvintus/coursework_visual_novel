@@ -42,6 +42,8 @@ namespace ge {
 
         const Script &getScript();
 
+        const std::wstring &getNameStartChapter();
+
         bool run();
 
     private:

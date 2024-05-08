@@ -8,8 +8,9 @@ ge::Scene::Scene()
         : current_frame_(nullptr) {
 }
 
-ge::Scene::Scene(const std::shared_ptr<Frame> &frame)
-        : current_frame_(frame) {
+ge::Scene::Scene(const std::shared_ptr<Frame> &frame, const std::wstring &current_chapter_name,
+                 int current_frame_number)
+        : new_frame_(frame), current_chapter_name_(current_chapter_name), current_frame_number_(current_frame_number) {
 }
 
 ge::Scene::Scene(const Scene &scene)
@@ -320,7 +321,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->speaker_background.setOutlineThickness(2);
 
     sfml_basis_->speaker.setFont(sfml_basis_->font);
-    sfml_basis_->speaker.setString(current_frame_->getDialogueBox().getSpeaker());
+    sfml_basis_->speaker.setString(new_frame_->getDialogueBox().getSpeaker());
     sfml_basis_->speaker.setPosition(speaker_position);
     sfml_basis_->speaker.setOutlineThickness(2);
 
@@ -335,7 +336,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->replica_background.setOutlineThickness(2);
 
     sfml_basis_->replica.setFont(sfml_basis_->font);
-    sfml_basis_->replica.setString(current_frame_->getDialogueBox().getReplica());
+    sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
     sfml_basis_->replica.setPosition(replica_position);
     sfml_basis_->replica.setOutlineThickness(2);
 
@@ -375,7 +376,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     float buttons_left_offset = distance_between_buttons * static_cast<float>(BUTTONS_QUANTITY) / 2.0f;
     float buttons_up_offset = static_cast<float>(window_size.y) - (replica_size.y + replica_position.y / 2.0f);
     sfml_basis_->button_backgrounds.resize(BUTTONS_QUANTITY);
-    sfml_basis_->button_backgrounds.resize(BUTTONS_QUANTITY);
+    sfml_basis_->button_symbols.resize(BUTTONS_QUANTITY);
 
     for (size_t i = 0; i < BUTTONS_QUANTITY; ++i) {
         sfml_basis_->button_backgrounds[i].setRadius(circle_radius);
@@ -396,7 +397,10 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
         sfml_basis_->button_symbols[i].setFillColor(sf::Color::White);
         sfml_basis_->button_symbols[i].setOutlineColor(sf::Color::Black);
     }
-
+    current_frame_ = new_frame_;
+    new_frame_.reset();
+    is_rendered_ = true;
+    new_frame_is_processed = true;
     return true;
 }
 

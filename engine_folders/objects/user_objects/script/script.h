@@ -20,6 +20,10 @@ namespace ge {
 
         Script &operator=(Script &&script) noexcept;
 
+        void addChapter(const std::wstring& name, const Chapter& chapter);
+
+        bool eraseChapter(const std::wstring& name);
+
         std::unordered_map<std::wstring, Chapter> chapters_;
     };
 }

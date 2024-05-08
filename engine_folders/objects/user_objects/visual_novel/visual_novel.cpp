@@ -54,6 +54,10 @@ const ge::Script &ge::VisualNovel::getScript() {
     return script_;
 }
 
+const std::wstring &ge::VisualNovel::getNameStartChapter() {
+    return name_start_chapter_;
+}
+
 bool ge::VisualNovel::run() {
     try {
         sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen);

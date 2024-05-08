@@ -58,6 +58,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                                         ge::DrawableElements &drawable_elements) {
     sf::Event event{};
     window.waitEvent(event);
+
     switch (mainMenuEventHandler(window, drawable_elements.putMainMenu(), event)) {
         case GameMode::MainMenu: {
             window.clear();
@@ -67,12 +68,18 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
             sfml_basis->draw(window);
             break;
         }
-        case GameMode::InGame:
-            drawable_elements.setScene(std::make_shared<Scene>());
+        case GameMode::InGame: {
+            Frame &initial_frame = visual_novel.script_.chapters_[visual_novel.getNameStartChapter()].frames_[0];
+            std::shared_ptr<Scene> scene(
+                    new Scene(std::make_shared<Frame>(initial_frame),
+                              visual_novel.getNameStartChapter(),
+                              0));
+
+            drawable_elements.setScene(scene);
             drawable_elements.resetMainMenu();
-            // TODO reset mainmenu
             visual_novel.current_game_mode_ = GameMode::InGame;
             break;
+        }
         case GameMode::MainSettings:
             // TODO : реализовать
             break;
@@ -97,6 +104,14 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
             }
             if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) {
                 scene.moveDown();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) {
+                scene.moveLeft();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D) {
+                scene.moveRight();
                 break;
             }
             if (event.key.code != sf::Keyboard::Enter) {
