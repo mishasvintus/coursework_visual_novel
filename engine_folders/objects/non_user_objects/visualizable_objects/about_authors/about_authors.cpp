@@ -57,7 +57,12 @@ bool ge::AboutAuthors::renderSfmlBasis(const sf::Vector2u &window_size) {
                                                  static_cast<float>(window_size.y) / 2160.0f
                                          });
 
-    sfml_basis_->text_.setFont(sfml_basis_->font_);
+    if (!sfml_basis_->font.loadFromFile(FONT_NAME)) {
+        return false;
+    }
+    sfml_basis_->text.setFont(sfml_basis_->font);
+    sfml_basis_->text.setString(text_);
+    sfml_basis_->text.setOutlineThickness(2);
     return true;
 }
 

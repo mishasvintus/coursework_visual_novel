@@ -13,8 +13,10 @@ namespace ge {
 
         sf::Texture background_texture;
         sf::Sprite background_sprite;
-        sf::Font font_;
-        sf::Text text_;
-        sf::Text back_button_;
+        sf::Font font;
+        sf::Text text;
+        sf::RectangleShape text_background;
+        sf::Text back_button;
+        sf::CircleShape back_button_background;
     };
 }
