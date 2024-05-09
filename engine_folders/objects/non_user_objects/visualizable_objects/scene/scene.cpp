@@ -284,8 +284,8 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     size_t slots_quantity = new_frame_->getSlots().getQuantityOfSlots();
     if (slots_quantity > 0) {
         float distance_between_slots =
-                static_cast<float>(window_size.x) / (static_cast<float>(slots_quantity + 1) * 1.7f);
-        float slot_scale = 0.5f * static_cast<float>(window_size.y) / 3270.0f;
+                static_cast<float>(window_size.x) / (static_cast<float>(slots_quantity + 1) * 1.3f);
+        float slot_scale = 0.8f * static_cast<float>(window_size.y) / 3270.0f;
         float left_slot_offset =
                 (static_cast<float>(window_size.x) - distance_between_slots * static_cast<float>(slots_quantity - 1)) /
                 2.0f;
@@ -302,7 +302,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
                                               sfml_basis_->slots_sprites[i].getLocalBounds().height};
             sfml_basis_->slots_sprites[i].setOrigin(slot_picture_size.x / 2, slot_picture_size.y);
             sf::Vector2f slot_coords = {left_slot_offset + distance_between_slots * static_cast<float>(i),
-                                        static_cast<float>(4 * window_size.y) / 5.0f};
+                                        static_cast<float>(window_size.y) * 1.2f};
             sfml_basis_->slots_sprites[i].setPosition(slot_coords);
         }
     }
@@ -439,7 +439,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
             2.0f;
 //    float buttons_up_offset = static_cast<float>(window_size.y) * 1.5f - (replica_background_position.y + replica_background_size.y) / 2.0f;
 
-    float buttons_up_offset = static_cast<float>(window_size.y) * 0.963f;
+    float buttons_up_offset = static_cast<float>(window_size.y) * 0.973f;
     sfml_basis_->button_backgrounds.resize(BUTTONS_QUANTITY);
     sfml_basis_->button_symbols.resize(BUTTONS_QUANTITY);
 
