@@ -24,6 +24,8 @@ namespace ge {
 
         void setText(const std::wstring &text);
 
+        void setBackgroundFile(const std::string& file);
+
     private:
         friend class WindowManager;
 
@@ -35,6 +37,7 @@ namespace ge {
 
         bool is_rendered_ = false;
         std::wstring text_;
-        std::shared_ptr<SfmlBasis> sfml_basis_ = nullptr;
+        std::string background_file_;
+        std::shared_ptr<AboutAuthorsSfmlBasis> sfml_basis_ = nullptr;
     };
 }

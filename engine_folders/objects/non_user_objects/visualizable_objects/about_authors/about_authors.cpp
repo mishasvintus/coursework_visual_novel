@@ -38,8 +38,31 @@ void ge::AboutAuthors::setText(const std::wstring &text) {
     text_ = text;
 }
 
+void ge::AboutAuthors::setBackgroundFile(const std::string& file) {
+    background_file_ = file;
+}
+
 bool ge::AboutAuthors::renderSfmlBasis(const sf::Vector2u &window_size) {
     //TODO: реализовать
+    if (is_rendered_) {
+        return true;
+    }
+    sfml_basis_ = std::make_shared<AboutAuthorsSfmlBasis>();
+    if (!sfml_basis_->background_texture.loadFromFile(background_file_)) {
+        return false;
+    }
+    sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
+    sfml_basis_->background_sprite.scale({
+                                                 static_cast<float>(window_size.x) / 3840.0f,
+                                                 static_cast<float>(window_size.y) / 2160.0f
+                                         });
+
+    if (!sfml_basis_->font.loadFromFile(FONT_NAME)) {
+        return false;
+    }
+    sfml_basis_->text.setFont(sfml_basis_->font);
+    sfml_basis_->text.setString(text_);
+    sfml_basis_->text.setOutlineThickness(2);
     return true;
 }
 
