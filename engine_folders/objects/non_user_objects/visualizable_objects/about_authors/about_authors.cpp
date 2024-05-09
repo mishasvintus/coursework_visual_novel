@@ -68,9 +68,33 @@ bool ge::AboutAuthors::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (!sfml_basis_->font.loadFromFile(FONT_NAME)) {
         return false;
     }
-    sfml_basis_->text.setFont(sfml_basis_->font);
-    sfml_basis_->text.setString(text_);
-    sfml_basis_->text.setOutlineThickness(2);
+
+    const sf::Vector2f title_background_size = {
+            0.4f * static_cast<float>(window_size.x), 0.18f * static_cast<float>(window_size.y)
+    };
+    const sf::Vector2f title_background_position = {
+            0.3f * static_cast<float>(window_size.x), 0.12f * static_cast<float>(window_size.y)
+    };
+
+    sfml_basis_->title_background = sf::RectangleShape(title_background_size);
+    sfml_basis_->title_background.setPosition(title_background_position);
+    sfml_basis_->title_background.setFillColor(sf::Color(66, 84, 127));
+
+    sfml_basis_->title.setFont(sfml_basis_->font);
+    sfml_basis_->title.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.05));
+    sfml_basis_->title.setString(title_);
+    sfml_basis_->title.setFillColor(sf::Color::White);
+    sfml_basis_->title.setOutlineColor(sf::Color::Black);
+    sfml_basis_->title.setOutlineThickness(2);
+    sfml_basis_->title.setOrigin(sfml_basis_->title.getLocalBounds().width / 2,
+                                  sfml_basis_->title.getLocalBounds().height / 2);
+    const sf::Vector2f title_position = {
+            title_background_position.x + title_background_size.x / 2,
+            title_background_position.y + title_background_size.y / 2
+    };
+    sfml_basis_->title.setPosition(title_position);
+
+    is_rendered_ = true;
     return true;
 }
 

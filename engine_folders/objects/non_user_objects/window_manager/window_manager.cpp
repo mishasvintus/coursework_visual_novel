@@ -1,4 +1,6 @@
 #include "window_manager.h"
+
+#include <iostream>
 #include <thread>
 #include <chrono>
 
@@ -84,9 +86,14 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
             case GameMode::MainSettings:
                 // TODO : реализовать
                 return true;
-            case GameMode::AboutAuthors:
-                // TODO : реализовать
+            case GameMode::AboutAuthors: {
+                std::shared_ptr<AboutAuthors> about_authors(new AboutAuthors);
+                about_authors->setText(L"сделано бибой и бобой");
+                drawable_elements.setAboutAuthors(about_authors);
+                drawable_elements.resetMainMenu();
+                visual_novel.current_game_mode_ = GameMode::AboutAuthors;
                 return true;
+            }
             default:
                 return false;
         }
@@ -193,5 +200,51 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     }
     scene->renderSfmlBasis(window.getSize());
     scene->getSfmlBasis()->draw(window);
+    return true;
+}
+
+ge::GameMode aboutAuthorsHandler(sf::RenderWindow &window, ge::AboutAuthors& about_authors, sf::Event event) {
+    switch (event.type) {
+        case sf::Event::Closed:
+            window.close();
+            break;
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::Enter || event.key.code == sf::Keyboard::Escape) {
+                return ge::GameMode::MainMenu;
+            }
+            break;
+        default:
+            break;
+    }
+    return ge::GameMode::AboutAuthors;
+}
+
+bool ge::WindowManager::aboutAuthorsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                            ge::DrawableElements &drawable_elements) {
+    std::shared_ptr<AboutAuthors> about_authors = drawable_elements.getAboutAuthorsPtr();
+    if (!about_authors) {
+        return false;
+    }
+    if (about_authors->is_rendered_) {
+        sf::Event event{};
+        window.waitEvent(event);
+        switch (aboutAuthorsHandler(window, drawable_elements.putAboutAuthors(), event)) {
+            case GameMode::MainMenu: {
+                std::shared_ptr<MainMenu> main_menu(new MainMenu);
+                std::shared_ptr<SfmlBasis> sfml_basis = main_menu->getSfmlBasis();
+                drawable_elements.setMainMenu(main_menu);
+                drawable_elements.resetAboutAuthors();
+                visual_novel.current_game_mode_ = GameMode::MainMenu;
+                break;
+            }
+            case GameMode::AboutAuthors:
+                break;
+            default:
+                break;
+        }
+    }
+    window.clear();
+    about_authors->renderSfmlBasis(window.getSize());
+    about_authors->getSfmlBasis()->draw(window);
     return true;
 }

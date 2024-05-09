@@ -39,8 +39,8 @@ namespace ge {
 
         bool is_rendered_ = false;
         std::wstring text_;
-        std::wstring title_;
-        std::string background_file_;
+        std::wstring title_ = L"ОБ АВТОРАХ";
+        std::string background_file_ = "engine_folders/data/images/locations/abstraction.PNG";
         std::shared_ptr<AboutAuthorsSfmlBasis> sfml_basis_ = nullptr;
     };
 }
