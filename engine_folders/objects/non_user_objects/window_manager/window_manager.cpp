@@ -125,7 +125,26 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
             if (event.key.code != sf::Keyboard::Enter) {
                 break;
             }
-
+            if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE && scene.getChoiceOfActions()) {
+                //TODO: переход по действию
+                break;
+            }
+            if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE) {
+                //TODO: далее
+                break;
+            }
+            if (scene.getSelectedColumn() == scene.COLUMN_MENU) {
+                //return ge::GameMode::IngameMenu;
+                return ge::GameMode::MainMenu;
+            }
+            if (scene.getSelectedColumn() == 1) {
+                //return ge::GameMode::IngameSettings;
+                break;
+            }
+            if (scene.getSelectedColumn() == 2) {
+                //return ge::GameMode::Info;
+                break;
+            }
             break;
         default:
             break;

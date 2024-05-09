@@ -34,6 +34,18 @@ namespace ge {
 
         void moveRight();
 
+        unsigned int getSelectedRow() const;
+
+        unsigned int getSelectedColumn() const;
+
+        bool getChoiceOfActions() const;
+
+        const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
+        const unsigned int ROW_BUTTONS = 1;
+        const unsigned int COLUMN_MENU = 0;
+        const unsigned int COLUMN_SETTINGS = 1;
+        const unsigned int COLUMN_INFO = 2;
+
     private:
         friend class WindowManager;
 
@@ -58,8 +70,6 @@ namespace ge {
 
         unsigned int selected_row_button_ = 0;
         unsigned int selected_column_button_ = 0;
-        const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
-        const unsigned int ROW_BUTTONS = 1;
         const std::vector<std::wstring> BUTTON_SYMBOLS = {L"М", L"Н", L"И"};
         const std::wstring NEXT_BUTTON_TEXT = L"Далее";
         const unsigned int BUTTONS_QUANTITY = 3;
