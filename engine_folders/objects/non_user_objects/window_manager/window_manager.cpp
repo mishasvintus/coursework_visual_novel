@@ -171,8 +171,10 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
         }
     }
     window.clear();
-    scene->setNewFrame(std::make_shared<Frame>(
-            visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
+    if (scene->is_waiting_new_frame_) {
+        scene->setNewFrame(std::make_shared<Frame>(
+                visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
+    }
     scene->renderSfmlBasis(window.getSize());
     scene->getSfmlBasis()->draw(window);
     return true;

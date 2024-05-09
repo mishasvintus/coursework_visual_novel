@@ -46,7 +46,8 @@ namespace ge {
         std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
         bool is_rendered_ = false;
-        bool new_frame_is_processed = false;
+        bool new_frame_is_processed_ = false;
+        bool is_waiting_new_frame_ = true;
         std::shared_ptr<const Frame> current_frame_ = nullptr;
         std::shared_ptr<const Frame> new_frame_ = nullptr;
 

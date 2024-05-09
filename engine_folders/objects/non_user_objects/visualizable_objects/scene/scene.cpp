@@ -14,19 +14,19 @@ ge::Scene::Scene(const std::shared_ptr<Frame> &frame, const std::wstring &curren
 }
 
 ge::Scene::Scene(const Scene &scene)
-        : is_rendered_(scene.is_rendered_), new_frame_is_processed(scene.new_frame_is_processed),
+        : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
           current_frame_(scene.current_frame_), new_frame_(scene.new_frame_),
           sfml_basis_(scene.sfml_basis_) {
 }
 
 ge::Scene::Scene(Scene &scene)
-        : is_rendered_(scene.is_rendered_), new_frame_is_processed(scene.new_frame_is_processed),
+        : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
           current_frame_(scene.current_frame_), new_frame_(scene.new_frame_),
           sfml_basis_(scene.sfml_basis_) {
 }
 
 ge::Scene::Scene(Scene &&scene) noexcept
-        : is_rendered_(scene.is_rendered_), new_frame_is_processed(scene.new_frame_is_processed),
+        : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
           current_frame_(std::move(scene.current_frame_)), new_frame_(std::move(scene.new_frame_)),
           sfml_basis_(std::move(scene.sfml_basis_)) {
 }
@@ -36,7 +36,7 @@ ge::Scene &ge::Scene::operator=(const Scene &scene) {
     new_frame_ = scene.new_frame_;
     sfml_basis_ = scene.sfml_basis_;
     is_rendered_ = scene.is_rendered_;
-    new_frame_is_processed = scene.new_frame_is_processed;
+    new_frame_is_processed_ = scene.new_frame_is_processed_;
     return *this;
 }
 
@@ -45,13 +45,14 @@ ge::Scene &ge::Scene::operator=(Scene &&scene) noexcept {
     new_frame_ = std::move(scene.new_frame_);
     sfml_basis_ = std::move(scene.sfml_basis_);
     is_rendered_ = scene.is_rendered_;
-    new_frame_is_processed = scene.new_frame_is_processed;
+    new_frame_is_processed_ = scene.new_frame_is_processed_;
     return *this;
 }
 
 void ge::Scene::setNewFrame(const std::shared_ptr<Frame> &frame) {
+    is_waiting_new_frame_ = false;
     new_frame_ = frame;
-    new_frame_is_processed = false;
+    new_frame_is_processed_ = false;
 }
 
 void ge::Scene::processNewFrame() {
@@ -142,9 +143,11 @@ void ge::Scene::processNewFrame() {
         sfml_basis_->next_background.setFillColor(sf::Color::Transparent);
         sfml_basis_->next_background.setOutlineColor(sf::Color::Transparent);
         for (size_t i = 0; i < sfml_basis_->action_buttons.size(); ++i) {
-            if (i == selected_column_button_ && (!current_frame_ || !current_frame_->getChoiceOfAction())) {
-                sfml_basis_->action_buttons[i].setFillColor(sf::Color::White);
+            sfml_basis_->action_buttons[i].setFillColor(sf::Color::White);
+            if (i == selected_column_button_) {
                 sfml_basis_->action_buttons[i].setOutlineColor(HIGHLIGHT_COLOR);
+            } else {
+                sfml_basis_->action_buttons[i].setOutlineColor(sf::Color::Black);
             }
         }
     } else if (current_frame_->getChoiceOfAction()) {
@@ -167,7 +170,7 @@ void ge::Scene::processNewFrame() {
     }
     current_frame_ = new_frame_;
     new_frame_ = nullptr;
-    new_frame_is_processed = true;
+    new_frame_is_processed_ = true;
 }
 
 void ge::Scene::moveUp() {
@@ -183,7 +186,7 @@ void ge::Scene::moveUp() {
     sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(sf::Color::Black);
 
     if (current_frame_->getChoiceOfAction()) {
-        selected_column_button_ = static_cast<size_t>(selected_column_button_) % sfml_basis_->action_buttons.size();
+        selected_column_button_ = std::min(static_cast<size_t>(selected_column_button_), sfml_basis_->action_buttons.size() - 1);
         sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(HIGHLIGHT_COLOR);
     } else {
         sfml_basis_->next_background.setOutlineColor(HIGHLIGHT_COLOR);
@@ -198,7 +201,7 @@ void ge::Scene::moveDown() {
     }
     if (!is_rendered_) {
         ++selected_row_button_;
-        selected_column_button_ = std::min(selected_column_button_, BUTTONS_QUANTITY);
+        selected_column_button_ = std::min(selected_column_button_, BUTTONS_QUANTITY - 1);
         return;
     }
 
@@ -207,7 +210,7 @@ void ge::Scene::moveDown() {
     } else {
         sfml_basis_->next_background.setOutlineColor(sf::Color::Black);
     }
-    selected_column_button_ = selected_column_button_ % BUTTONS_QUANTITY;
+    selected_column_button_ = std::min(selected_column_button_, BUTTONS_QUANTITY - 1);
     sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(HIGHLIGHT_COLOR);
 
     ++selected_row_button_;
@@ -257,10 +260,10 @@ void ge::Scene::moveRight() {
 }
 
 bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
-    if (is_rendered_ && new_frame_is_processed) {
+    if (is_rendered_ && new_frame_is_processed_) {
         return true;
     }
-    if (is_rendered_ && !new_frame_is_processed) {
+    if (is_rendered_ && !new_frame_is_processed_) {
         processNewFrame();
         return true;
     }
@@ -400,9 +403,13 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
         sfml_basis_->next_background.setOutlineColor(sf::Color::Transparent);
         sfml_basis_->next.setFillColor(sf::Color::Transparent);
         sfml_basis_->next.setOutlineColor(sf::Color::Transparent);
-        for (sf::Text &action_button: sfml_basis_->action_buttons) {
-            action_button.setFillColor(sf::Color::White);
-            action_button.setOutlineColor(HIGHLIGHT_COLOR);
+        for (size_t i = 0; i < sfml_basis_->action_buttons.size(); ++i) {
+            sfml_basis_->action_buttons[i].setFillColor(sf::Color::White);
+            if (i == selected_column_button_) {
+                sfml_basis_->action_buttons[i].setOutlineColor(HIGHLIGHT_COLOR);
+            } else {
+                sfml_basis_->action_buttons[i].setOutlineColor(sf::Color::Black);
+            }
         }
     } else {
         sfml_basis_->replica.setFillColor(sf::Color::White);
@@ -460,7 +467,7 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     current_frame_ = new_frame_;
     new_frame_.reset();
     is_rendered_ = true;
-    new_frame_is_processed = true;
+    new_frame_is_processed_ = true;
     return true;
 }
 
