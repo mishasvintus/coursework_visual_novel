@@ -95,7 +95,6 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
     main_menu->renderSfmlBasis(window.getSize());
     std::shared_ptr<SfmlBasis> sfml_basis = main_menu->getSfmlBasis();
     sfml_basis->draw(window);
-    std::this_thread::sleep_for(std::chrono::milliseconds(8));
     return true;
 }
 
@@ -177,6 +176,5 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     scene->renderSfmlBasis(window.getSize());
     std::shared_ptr<SfmlBasis> sfml_basis = scene->getSfmlBasis();
     sfml_basis->draw(window);
-    std::this_thread::sleep_for(std::chrono::milliseconds(8));
     return true;
 }

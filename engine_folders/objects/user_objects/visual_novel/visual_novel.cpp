@@ -61,7 +61,7 @@ const std::wstring &ge::VisualNovel::getNameStartChapter() {
 bool ge::VisualNovel::run() {
     try {
         sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen, sf::ContextSettings(0, 0, 2));
-        window.setVerticalSyncEnabled(true);
+        window.setFramerateLimit(60);
         std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
 
         std::shared_ptr<MainMenu> main_menu(new MainMenu);
