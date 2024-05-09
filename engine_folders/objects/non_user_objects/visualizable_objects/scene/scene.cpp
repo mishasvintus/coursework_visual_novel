@@ -2,7 +2,6 @@
 
 #include <unordered_map>
 #include <unordered_set>
-#include <iostream>
 
 
 ge::Scene::Scene()
@@ -260,14 +259,6 @@ void ge::Scene::moveRight() {
     }
 }
 
-unsigned int ge::Scene::getSelectedRow() const {
-    return selected_row_button_;
-}
-
-unsigned int ge::Scene::getSelectedColumn() const {
-    return selected_column_button_;
-}
-
 bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_ && new_frame_is_processed_) {
         return true;
@@ -488,4 +479,3 @@ void ge::Scene::clearSfmlBasis() {
 std::shared_ptr<ge::SfmlBasis> ge::Scene::getSfmlBasis() {
     return std::static_pointer_cast<SfmlBasis>(sfml_basis_);
 }
-
