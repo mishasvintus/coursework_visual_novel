@@ -21,7 +21,7 @@ ge::Action::Action(const Action &action)
     checkingCorrectness(relative_coords_, COORDS_LOW_LIMIT, COORDS_HIGH_LIMIT);
 }
 
-ge::Action::Action(const sf::Vector2i &coords, std::wstring text, std::wstring chapter_name_to_go)
+ge::Action::Action(const sf::Vector2f &coords, std::wstring text, std::wstring chapter_name_to_go)
         : relative_coords_(coords), text_(std::move(text)), chapter_name_to_go_(std::move(chapter_name_to_go)) {
     checkingCorrectness(relative_coords_, COORDS_LOW_LIMIT, COORDS_HIGH_LIMIT);
 }

@@ -9,7 +9,7 @@ namespace ge {
     public:
         Action();
 
-        Action(const sf::Vector2i &coords, std::wstring text, std::wstring chapter_name_to_go);
+        Action(const sf::Vector2f &coords, std::wstring text, std::wstring chapter_name_to_go);
 
         Action(const Action &action);
 

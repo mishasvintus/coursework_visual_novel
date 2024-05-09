@@ -15,15 +15,13 @@ ge::Frame::Frame(const Frame &scene)
 }
 
 ge::Frame::Frame(ge::DialogueBox dialogue_box, std::string background_file, ge::FrameSlots slots)
-        : dialogue_box_(std::move(dialogue_box))
-        , background_file_(std::move(background_file))
-        , scene_slots_(std::move(slots)) {
+        : dialogue_box_(std::move(dialogue_box)), background_file_(std::move(background_file)),
+          scene_slots_(std::move(slots)) {
 }
 
 ge::Frame::Frame(const std::vector<Action> &actions, std::string background_file, ge::FrameSlots slots)
-        : actions_(actions)
-        , background_file_(std::move(background_file))
-        , scene_slots_(std::move(slots)) {
+        : actions_(actions), background_file_(std::move(background_file)), scene_slots_(std::move(slots)),
+          choice_of_action_(true) {
 }
 
 ge::Frame::Frame(Frame &scene)
