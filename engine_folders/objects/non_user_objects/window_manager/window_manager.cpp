@@ -22,7 +22,7 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
         case sf::Event::Closed:
             window.close();
             break;
-        case sf::Event::KeyReleased: {
+        case sf::Event::KeyPressed: {
             if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
                 main_menu.moveUp();
                 break;
@@ -102,7 +102,7 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
         case sf::Event::Closed:
             window.close();
             break;
-        case sf::Event::KeyReleased:
+        case sf::Event::KeyPressed:
             if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
                 scene.moveUp();
                 break;
