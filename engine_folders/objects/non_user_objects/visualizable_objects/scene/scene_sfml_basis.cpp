@@ -9,8 +9,10 @@ void ge::SceneSfmlBasis::draw(sf::RenderWindow &window) {
 
     window.draw(replica_background);
     window.draw(speaker_background);
+    window.draw(next_background);
     window.draw(replica);
     window.draw(speaker);
+    window.draw(next);
 
     for (const sf::Text &action_button: action_buttons) {
         window.draw(action_button);

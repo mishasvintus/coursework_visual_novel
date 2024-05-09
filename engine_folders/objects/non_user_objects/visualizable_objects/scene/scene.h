@@ -60,6 +60,7 @@ namespace ge {
         const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
         const unsigned int ROW_BUTTONS = 1;
         const std::vector<std::wstring> BUTTON_SYMBOLS = {L"М", L"Н", L"И"};
+        const std::wstring NEXT_BUTTON_TEXT = L"Далее";
         const unsigned int BUTTONS_QUANTITY = 3;
         const sf::Color BACKGROUNDS_FILL_COLOR = sf::Color(sf::Color(71,74,81, 120));
         const sf::Color HIGHLIGHT_COLOR = sf::Color(sf::Color(229,228,226));

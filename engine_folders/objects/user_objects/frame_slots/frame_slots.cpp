@@ -26,8 +26,8 @@ ge::FrameSlots::FrameSlots(const FrameSlots &frame_slots)
         : quantity_of_slots_(frame_slots.quantity_of_slots_), pictures_in_slots_(frame_slots.pictures_in_slots_) {
 }
 
-ge::FrameSlots::FrameSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots)
-        : quantity_of_slots_(quantity_of_slots), pictures_in_slots_(pictures_in_slots) {
+ge::FrameSlots::FrameSlots(const std::vector<std::string> &pictures_in_slots)
+        : quantity_of_slots_(pictures_in_slots.size()), pictures_in_slots_(pictures_in_slots) {
     checkingCorrectness(quantity_of_slots_, UPPER_BOUND_COUNT_SLOTS, pictures_in_slots_);
 }
 

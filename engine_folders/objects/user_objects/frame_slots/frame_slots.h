@@ -13,7 +13,7 @@ namespace ge {
 
         FrameSlots(FrameSlots &&frame_slots) noexcept;
 
-        FrameSlots(unsigned int quantity_of_slots, const std::vector<std::string> &pictures_in_slots);
+        explicit FrameSlots(const std::vector<std::string> &pictures_in_slots);
 
         ~FrameSlots() = default;
 
