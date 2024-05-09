@@ -24,6 +24,8 @@ namespace ge {
 
         void setText(const std::wstring &text);
 
+        void setTitle(const std::wstring &title);
+
         void setBackgroundFile(const std::string& file);
 
     private:
@@ -37,6 +39,7 @@ namespace ge {
 
         bool is_rendered_ = false;
         std::wstring text_;
+        std::wstring title_;
         std::string background_file_;
         std::shared_ptr<AboutAuthorsSfmlBasis> sfml_basis_ = nullptr;
     };

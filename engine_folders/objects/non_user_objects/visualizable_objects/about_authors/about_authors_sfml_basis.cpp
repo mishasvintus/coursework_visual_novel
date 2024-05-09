@@ -6,4 +6,6 @@ void ge::AboutAuthorsSfmlBasis::draw(sf::RenderWindow &window) {
     window.draw(text);
     window.draw(back_button_background);
     window.draw(back_button);
+    window.draw(title_background);
+    window.draw(title);
 }
