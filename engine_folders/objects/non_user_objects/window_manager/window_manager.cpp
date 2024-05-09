@@ -137,11 +137,11 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 //return ge::GameMode::IngameMenu;
                 return ge::GameMode::MainMenu;
             }
-            if (scene.getSelectedColumn() == 1) {
+            if (scene.getSelectedColumn() == scene.COLUMN_SETTINGS) {
                 //return ge::GameMode::IngameSettings;
                 break;
             }
-            if (scene.getSelectedColumn() == 2) {
+            if (scene.getSelectedColumn() == scene.COLUMN_INFO) {
                 //return ge::GameMode::Info;
                 break;
             }
@@ -166,13 +166,10 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
                 break;
             }
             case GameMode::MainMenu: {
-                window.clear();
                 std::shared_ptr<MainMenu> main_menu(new MainMenu);
-                main_menu->renderSfmlBasis(window.getSize());
                 std::shared_ptr<SfmlBasis> sfml_basis = main_menu->getSfmlBasis();
                 drawable_elements.resetScene();
                 drawable_elements.setMainMenu(main_menu);
-                sfml_basis->draw(window);
                 visual_novel.current_game_mode_ = GameMode::MainMenu;
                 return true;
             }
