@@ -259,6 +259,18 @@ void ge::Scene::moveRight() {
     }
 }
 
+unsigned int ge::Scene::getSelectedRow() const {
+    return selected_row_button_;
+}
+
+unsigned int ge::Scene::getSelectedColumn() const {
+    return selected_column_button_;
+}
+
+bool ge::Scene::getChoiceOfActions() const {
+    return current_frame_->getChoiceOfAction();
+}
+
 bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_ && new_frame_is_processed_) {
         return true;

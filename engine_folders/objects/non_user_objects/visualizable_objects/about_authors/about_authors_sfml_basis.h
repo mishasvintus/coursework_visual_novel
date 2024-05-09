@@ -17,6 +17,8 @@ namespace ge {
         sf::Text text;
         sf::RectangleShape text_background;
         sf::Text back_button;
-        sf::CircleShape back_button_background;
+        sf::RectangleShape back_button_background;
+        sf::Text title;
+        sf::RectangleShape title_background;
     };
 }
