@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <iostream>
 
 
 ge::Scene::Scene()
@@ -257,6 +258,14 @@ void ge::Scene::moveRight() {
         sfml_basis_->button_backgrounds[selected_column_button_ - 1].setOutlineColor(sf::Color::Black);
         sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(HIGHLIGHT_COLOR);
     }
+}
+
+unsigned int ge::Scene::getSelectedRow() const {
+    return selected_row_button_;
+}
+
+unsigned int ge::Scene::getSelectedColumn() const {
+    return selected_column_button_;
 }
 
 bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {

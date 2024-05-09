@@ -34,6 +34,10 @@ namespace ge {
 
         void moveRight();
 
+        unsigned int getSelectedRow() const;
+
+        unsigned int getSelectedColumn() const;
+
     private:
         friend class WindowManager;
 

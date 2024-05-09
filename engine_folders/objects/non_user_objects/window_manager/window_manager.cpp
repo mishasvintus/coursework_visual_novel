@@ -1,4 +1,6 @@
 #include "window_manager.h"
+
+#include <iostream>
 #include <thread>
 #include <chrono>
 
@@ -122,10 +124,22 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
             if (event.key.code == sf::Keyboard::Escape) {
                 return ge::GameMode::MainMenu;
             }
-            if (event.key.code != sf::Keyboard::Enter) {
+            if (event.key.code == sf::Keyboard::Enter && scene.getSelectedRow() == 0) {
+                // TODO: реализовать переход далее, проверку на наличие выбора действий, возможно, вынести в поле сцены переменную для этого
                 break;
             }
-
+            if (event.key.code == sf::Keyboard::Enter && scene.getSelectedColumn() == 0) {
+                //return ge::GameMode::IngameMenu; //TODO: потом раскомментить, когда будет готов соответсвующий класс
+                return ge::GameMode::MainMenu;
+            }
+            if (event.key.code == sf::Keyboard::Enter && scene.getSelectedColumn() == 1) {
+                //return ge::GameMode::IngameSettings;
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Enter && scene.getSelectedColumn() == 2) {
+                //return ge::GameMode::Info;
+                break;
+            }
             break;
         default:
             break;
