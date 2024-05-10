@@ -3,19 +3,19 @@
 #include <utility>
 
 ge::AboutAuthors::AboutAuthors(const ge::AboutAuthors &about_authors)
-        : is_rendered_(about_authors.is_rendered_), text_(about_authors.text_), title_(about_authors.title_),
+        : is_rendered_(about_authors.is_rendered_), title_(about_authors.title_), text_(about_authors.text_),
           sfml_basis_(about_authors.sfml_basis_) {
 }
 
 ge::AboutAuthors::AboutAuthors(ge::AboutAuthors &about_authors) : is_rendered_(about_authors.is_rendered_),
-                                                                  text_(about_authors.text_),
                                                                   title_(about_authors.title_),
+                                                                  text_(about_authors.text_),
                                                                   sfml_basis_(about_authors.sfml_basis_) {
 }
 
 ge::AboutAuthors::AboutAuthors(ge::AboutAuthors &&about_authors) noexcept
-        : is_rendered_(about_authors.is_rendered_), text_(std::move(about_authors.text_)),
-          title_(std::move(about_authors.title_)), sfml_basis_(std::move(about_authors.sfml_basis_)) {
+        : is_rendered_(about_authors.is_rendered_), title_(std::move(about_authors.title_)), text_(std::move(about_authors.text_)),
+          sfml_basis_(std::move(about_authors.sfml_basis_)) {
 }
 
 ge::AboutAuthors::AboutAuthors(std::wstring text)
@@ -25,7 +25,6 @@ ge::AboutAuthors::AboutAuthors(std::wstring text)
 ge::AboutAuthors &ge::AboutAuthors::operator=(const ge::AboutAuthors &about_authors) {
     is_rendered_ = about_authors.is_rendered_;
     text_ = about_authors.text_;
-    title_ = about_authors.title_;
     sfml_basis_ = about_authors.sfml_basis_;
     return *this;
 }
@@ -33,7 +32,6 @@ ge::AboutAuthors &ge::AboutAuthors::operator=(const ge::AboutAuthors &about_auth
 ge::AboutAuthors &ge::AboutAuthors::operator=(ge::AboutAuthors &&about_authors) noexcept {
     is_rendered_ = about_authors.is_rendered_;
     text_ = std::move(about_authors.text_);
-    title_ = std::move(about_authors.title_);
     sfml_basis_ = std::move(about_authors.sfml_basis_);
     return *this;
 }
@@ -51,7 +49,6 @@ void ge::AboutAuthors::setTitle(const std::wstring &title) {
 }
 
 bool ge::AboutAuthors::renderSfmlBasis(const sf::Vector2u &window_size) {
-    //TODO: реализовать
     if (is_rendered_) {
         return true;
     }
@@ -70,29 +67,64 @@ bool ge::AboutAuthors::renderSfmlBasis(const sf::Vector2u &window_size) {
     }
 
     const sf::Vector2f title_background_size = {
-            0.4f * static_cast<float>(window_size.x), 0.18f * static_cast<float>(window_size.y)
+            0.6f * static_cast<float>(window_size.x), 0.7f * static_cast<float>(window_size.y)
     };
     const sf::Vector2f title_background_position = {
-            0.3f * static_cast<float>(window_size.x), 0.12f * static_cast<float>(window_size.y)
+            0.2f * static_cast<float>(window_size.x), 0.1f * static_cast<float>(window_size.y)
     };
 
-    sfml_basis_->title_background = sf::RectangleShape(title_background_size);
-    sfml_basis_->title_background.setPosition(title_background_position);
-    sfml_basis_->title_background.setFillColor(sf::Color(66, 84, 127));
+    sfml_basis_->text_background = sf::RectangleShape(title_background_size);
+    sfml_basis_->text_background.setPosition(title_background_position);
+    sfml_basis_->text_background.setFillColor(sf::Color(66, 84, 127));
 
     sfml_basis_->title.setFont(sfml_basis_->font);
-    sfml_basis_->title.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.05));
+    sfml_basis_->title.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.02));
     sfml_basis_->title.setString(title_);
     sfml_basis_->title.setFillColor(sf::Color::White);
     sfml_basis_->title.setOutlineColor(sf::Color::Black);
     sfml_basis_->title.setOutlineThickness(2);
-    sfml_basis_->title.setOrigin(sfml_basis_->title.getLocalBounds().width / 2,
-                                  sfml_basis_->title.getLocalBounds().height / 2);
+
     const sf::Vector2f title_position = {
-            title_background_position.x + title_background_size.x / 2,
-            title_background_position.y + title_background_size.y / 2
+            title_background_position.x + title_background_size.x / 2.325f,
+            title_background_position.y + title_background_size.y / 100
     };
+
     sfml_basis_->title.setPosition(title_position);
+
+    sfml_basis_->text.setFont(sfml_basis_->font);
+    sfml_basis_->text.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.02));
+    sfml_basis_->text.setString(text_);
+    sfml_basis_->text.setFillColor(sf::Color::White);
+    sfml_basis_->text.setOutlineColor(sf::Color::Black);
+    sfml_basis_->text.setOutlineThickness(2);
+
+    const sf::Vector2f text_position = {
+            title_background_position.x + title_background_size.x / 35,
+            title_background_position.y + title_background_size.y / 12
+    };
+    sfml_basis_->text.setPosition(text_position);
+
+    sfml_basis_->back_button.setFont(sfml_basis_->font);
+    sfml_basis_->back_button.setString(BACK_BUTTON_TEXT);
+    sfml_basis_->back_button.setCharacterSize(static_cast<unsigned int>(static_cast<float>(window_size.y) * 0.0256f));
+    sfml_basis_->back_button.setOutlineThickness(2);
+    sfml_basis_->back_button_background.setFillColor(sf::Color::Transparent);
+    sfml_basis_->back_button_background.setOutlineColor(sf::Color::White);
+
+    sf::Vector2f next_background_size = {sfml_basis_->back_button.getGlobalBounds().getSize().x * 1.3f,
+                                         sfml_basis_->back_button.getGlobalBounds().getSize().y * 1.3f};
+    sfml_basis_->back_button_background.setSize(next_background_size);
+    sfml_basis_->back_button_background.setOutlineThickness(3);
+
+    sf::Vector2f next_background_position = {
+            0.5f * title_background_size.x + title_background_position.x - 0.5f * next_background_size.x,
+            title_background_position.y + title_background_size.y + next_background_size.y};
+    sfml_basis_->back_button_background.setPosition(next_background_position);
+
+    sfml_basis_->back_button.setOrigin(
+            sfml_basis_->back_button.getGlobalBounds().getSize() / 2.f + sfml_basis_->back_button.getLocalBounds().getPosition());
+    sfml_basis_->back_button.setPosition(
+            sfml_basis_->back_button_background.getPosition() + (sfml_basis_->back_button_background.getSize() / 2.f));
 
     is_rendered_ = true;
     return true;
