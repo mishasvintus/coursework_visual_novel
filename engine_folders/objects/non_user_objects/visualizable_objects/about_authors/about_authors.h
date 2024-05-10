@@ -43,5 +43,7 @@ namespace ge {
         const std::wstring BACK_BUTTON_TEXT = L"Назад";
         std::string background_file_ = "engine_folders/data/images/locations/abstraction.PNG";
         std::shared_ptr<AboutAuthorsSfmlBasis> sfml_basis_ = nullptr;
+        const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127);
+        const sf::Color HIGHLIGHT_COLOR = sf::Color(229,228,226);
     };
 }

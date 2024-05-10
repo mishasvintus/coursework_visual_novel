@@ -47,5 +47,7 @@ namespace ge {
         const unsigned int PARAMETERS_QUANTITY = 1;
         const std::wstring BACK_BUTTON_TEXT = L"Назад";
         const unsigned int MAX_PARAMETER_VALUE = 100;
+        const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127);
+        const sf::Color HIGHLIGHT_COLOR = sf::Color(229,228,226);
     };
 }

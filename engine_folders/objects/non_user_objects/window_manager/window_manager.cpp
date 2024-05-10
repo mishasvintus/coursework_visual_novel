@@ -107,7 +107,9 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
         }
     }
     window.clear();
-    main_menu->renderSfmlBasis(window.getSize());
+    if (!main_menu->renderSfmlBasis(window.getSize())) {
+        return false;
+    }
     main_menu->getSfmlBasis()->draw(window);
     return true;
 }
@@ -253,7 +255,9 @@ bool ge::WindowManager::aboutAuthorsManager(ge::VisualNovel &visual_novel, sf::R
         }
     }
     window.clear();
-    about_authors->renderSfmlBasis(window.getSize());
+    if (!about_authors->renderSfmlBasis(window.getSize())) {
+        return false;
+    }
     about_authors->getSfmlBasis()->draw(window);
     return true;
 }
@@ -300,7 +304,9 @@ bool ge::WindowManager::mainSettingsManager(ge::VisualNovel &visual_novel, sf::R
         }
     }
     window.clear();
-    settings->renderSfmlBasis(window.getSize());
+    if (!settings->renderSfmlBasis(window.getSize())) {
+        return false;
+    }
     settings->getSfmlBasis()->draw(window);
     return true;
 }

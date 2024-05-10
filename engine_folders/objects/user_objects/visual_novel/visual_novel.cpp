@@ -2,6 +2,7 @@
 #include "non_user_objects/window_manager/window_manager.h"
 
 #include <utility>
+#include <iostream>
 
 void checkingCorrectness(const std::wstring &text, const size_t upper_limit_about_authors,
                          const std::wstring &project_name, const size_t upper_limit_project_name) {
@@ -72,7 +73,8 @@ bool ge::VisualNovel::run() {
 
         while (window.isOpen()) {
             if (!window_managers[current_game_mode_](*this, window, drawable_elements)) {
-                throw std::runtime_error("Something went wrong");
+                std::cerr << "Something went wrong while managing window" << std::endl;
+                break;
             }
             window.display();
         }

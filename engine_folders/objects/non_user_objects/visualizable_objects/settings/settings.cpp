@@ -12,7 +12,8 @@ bool isParameterValuesCorrect(const std::vector<unsigned int> &parameter_values,
     }
     for (int i = 0; i < parameter_values.size(); ++i) {
         if (parameter_values[i] > max_parameter_value) {
-            std::cerr << "Parameter with index " << i << " is bigger than maximum parameter value " << parameter_values[i] << " > " << max_parameter_value << std::endl;
+            std::cerr << "Parameter with index " << i << " is bigger than maximum parameter value "
+                      << parameter_values[i] << " > " << max_parameter_value << std::endl;
             return false;
         }
     }
@@ -71,7 +72,10 @@ bool ge::Settings::renderSfmlBasis(const sf::Vector2u &window_size) {
         return true;
     }
     sfml_basis_ = std::make_shared<SettingsSfmlBasis>();
+
+    // setting background
     if (!sfml_basis_->background_texture.loadFromFile(background_file_)) {
+        std::cerr << "File for background image of Settings not found: " << background_file_ << std::endl;
         return false;
     }
     sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
@@ -84,47 +88,89 @@ bool ge::Settings::renderSfmlBasis(const sf::Vector2u &window_size) {
         return false;
     }
 
-    const sf::Vector2f title_background_size = {
+    //setting parameters_background
+    const sf::Vector2f parameters_background_size = {
             0.6f * static_cast<float>(window_size.x), 0.7f * static_cast<float>(window_size.y)
     };
-    const sf::Vector2f title_background_position = {
+    const sf::Vector2f parameters_background_position = {
             0.2f * static_cast<float>(window_size.x), 0.1f * static_cast<float>(window_size.y)
     };
+    sfml_basis_->parameters_background = sf::RectangleShape(parameters_background_size);
+    sfml_basis_->parameters_background.setPosition(parameters_background_position);
+    sfml_basis_->parameters_background.setFillColor(BACKGROUND_FILL_COLOR);
 
-    sfml_basis_->parameters_background = sf::RectangleShape(title_background_size);
-    sfml_basis_->parameters_background.setPosition(title_background_position);
-    sfml_basis_->parameters_background.setFillColor(sf::Color(66, 84, 127));
+    // setting title
+    const sf::Vector2f title_position = {
+            parameters_background_position.x + parameters_background_size.x * 0.5f,
+            parameters_background_position.y + parameters_background_size.y * 0.07f
+    };
 
     sfml_basis_->title.setFont(sfml_basis_->font);
-    sfml_basis_->title.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.02));
+    sfml_basis_->title.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.04));
     sfml_basis_->title.setString(TITLE);
     sfml_basis_->title.setFillColor(sf::Color::White);
     sfml_basis_->title.setOutlineColor(sf::Color::Black);
     sfml_basis_->title.setOutlineThickness(2);
-
-    const sf::Vector2f title_position = {
-            title_background_position.x + title_background_size.x / 2.325f,
-            title_background_position.y + title_background_size.y / 100
-    };
-
+    sfml_basis_->title.setOrigin(
+            sfml_basis_->title.getGlobalBounds().getSize() / 2.0f + sfml_basis_->title.getLocalBounds().getPosition());
     sfml_basis_->title.setPosition(title_position);
 
+    // setting parameter
+
+    float parameter_left_offset = sfml_basis_->parameters_background.getPosition().x * 1.1f;
+    float parameter_up_offset = sfml_basis_->parameters_background.getPosition().y * 1.1f + title_position.y;
+    float distance_between_parameters = sfml_basis_->parameters_background.getSize().y * 0.05;
+    unsigned int parameter_character_size = static_cast<unsigned int>(static_cast<float>(window_size.y) * 0.03);
+    sfml_basis_->parameters.resize(PARAMETERS_QUANTITY);
+    sfml_basis_->arrow_switches.resize(PARAMETERS_QUANTITY);
+
+    for (int i = 0; i < PARAMETERS_QUANTITY; ++i) {
+        sfml_basis_->parameters[i].setFont(sfml_basis_->font);
+        sfml_basis_->parameters[i].setCharacterSize(parameter_character_size);
+        sfml_basis_->parameters[i].setString(PARAMETERS[i]);
+        sfml_basis_->parameters[i].setPosition(parameter_left_offset,
+                                               parameter_up_offset + distance_between_parameters * i);
+
+        sfml_basis_->arrow_switches[i].resize(3);
+        sfml_basis_->arrow_switches[i][0].setFont(sfml_basis_->font);
+        sfml_basis_->arrow_switches[i][0].setCharacterSize(parameter_character_size);
+        sfml_basis_->arrow_switches[i][0].setString(L"<");
+        sfml_basis_->arrow_switches[i][0].setPosition(static_cast<float>(window_size.x) - parameter_left_offset,
+                                                      parameter_up_offset + distance_between_parameters * i);
+
+        sfml_basis_->arrow_switches[i][1].setFont(sfml_basis_->font);
+        sfml_basis_->arrow_switches[i][1].setCharacterSize(parameter_character_size);
+        sfml_basis_->arrow_switches[i][1].setString(std::to_string(parameter_values_[i]));
+        sfml_basis_->arrow_switches[i][1].setPosition(static_cast<float>(window_size.x) - parameter_left_offset,
+                                                      parameter_up_offset + distance_between_parameters * i);
+
+        sfml_basis_->arrow_switches[i][2].setFont(sfml_basis_->font);
+        sfml_basis_->arrow_switches[i][2].setCharacterSize(parameter_character_size);
+        sfml_basis_->arrow_switches[i][2].setString(L">");
+        sfml_basis_->arrow_switches[i][2].setPosition(static_cast<float>(window_size.x) - parameter_left_offset,
+                                                      parameter_up_offset + distance_between_parameters * i);
+
+    }
+
+
+
+    // setting back_button
     sfml_basis_->back_button.setFont(sfml_basis_->font);
     sfml_basis_->back_button.setString(BACK_BUTTON_TEXT);
     sfml_basis_->back_button.setCharacterSize(static_cast<unsigned int>(static_cast<float>(window_size.y) * 0.0256f));
     sfml_basis_->back_button.setOutlineThickness(2);
     sfml_basis_->back_button_background.setFillColor(sf::Color::Transparent);
-    sfml_basis_->back_button_background.setOutlineColor(sf::Color::White);
+    sfml_basis_->back_button_background.setOutlineColor(HIGHLIGHT_COLOR);
 
-    sf::Vector2f next_background_size = {sfml_basis_->back_button.getGlobalBounds().getSize().x * 1.3f,
+    sf::Vector2f back_background_size = {sfml_basis_->back_button.getGlobalBounds().getSize().x * 1.3f,
                                          sfml_basis_->back_button.getGlobalBounds().getSize().y * 1.3f};
-    sfml_basis_->back_button_background.setSize(next_background_size);
+    sfml_basis_->back_button_background.setSize(back_background_size);
     sfml_basis_->back_button_background.setOutlineThickness(3);
 
-    sf::Vector2f next_background_position = {
-            0.5f * title_background_size.x + title_background_position.x - 0.5f * next_background_size.x,
-            title_background_position.y + title_background_size.y + next_background_size.y};
-    sfml_basis_->back_button_background.setPosition(next_background_position);
+    sf::Vector2f back_background_position = {
+            0.5f * parameters_background_size.x + parameters_background_position.x - 0.5f * back_background_size.x,
+            parameters_background_position.y + parameters_background_size.y + back_background_size.y};
+    sfml_basis_->back_button_background.setPosition(back_background_position);
 
     sfml_basis_->back_button.setOrigin(
             sfml_basis_->back_button.getGlobalBounds().getSize() / 2.f +
