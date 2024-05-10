@@ -1,7 +1,6 @@
 #include "window_manager.h"
 
 #include <iostream>
-#include <thread>
 #include <chrono>
 
 std::unordered_map<ge::GameMode, WindowManagerPtr> ge::WindowManager::getMap() {
@@ -86,13 +85,20 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
             }
-            case GameMode::MainSettings:
-                // TODO : реализовать
+            case GameMode::MainSettings: {
+                if (!drawable_elements.getSettingsPtr()) {
+                    std::shared_ptr<Settings> settings(new Settings);
+                    drawable_elements.setSettings(settings);
+                }
+                visual_novel.current_game_mode_ = GameMode::MainSettings;
                 return true;
+            }
             case GameMode::AboutAuthors: {
-                std::shared_ptr<AboutAuthors> about_authors(new AboutAuthors);
-                about_authors->setText(visual_novel.about_authors_);
-                drawable_elements.setAboutAuthors(about_authors);
+                if (!drawable_elements.getAboutAuthorsPtr()) {
+                    std::shared_ptr<AboutAuthors> about_authors(new AboutAuthors);
+                    about_authors->setText(visual_novel.about_authors_);
+                    drawable_elements.setAboutAuthors(about_authors);
+                }
                 visual_novel.current_game_mode_ = GameMode::AboutAuthors;
                 return true;
             }
@@ -206,7 +212,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     return true;
 }
 
-ge::GameMode aboutAuthorsHandler(sf::RenderWindow &window, ge::AboutAuthors& about_authors, sf::Event event) {
+ge::GameMode aboutAuthorsHandler(sf::RenderWindow &window, ge::AboutAuthors &about_authors, sf::Event event) {
     switch (event.type) {
         case sf::Event::Closed:
             window.close();
@@ -249,5 +255,52 @@ bool ge::WindowManager::aboutAuthorsManager(ge::VisualNovel &visual_novel, sf::R
     window.clear();
     about_authors->renderSfmlBasis(window.getSize());
     about_authors->getSfmlBasis()->draw(window);
+    return true;
+}
+
+
+ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, sf::Event event) {
+    switch (event.type) {
+        case sf::Event::Closed:
+            window.close();
+            break;
+        case sf::Event::LostFocus:
+            window.setMouseCursorVisible(true);
+        case sf::Event::GainedFocus:
+            window.setMouseCursorVisible(false);
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::Enter || event.key.code == sf::Keyboard::Escape) {
+                return ge::GameMode::MainMenu;
+            }
+            break;
+        default:
+            break;
+    }
+    return ge::GameMode::MainSettings;
+}
+
+bool ge::WindowManager::mainSettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                            ge::DrawableElements &drawable_elements) {
+    std::shared_ptr<Settings> settings = drawable_elements.getSettingsPtr();
+    if (!settings) {
+        return false;
+    }
+    if (settings->is_rendered_) {
+        sf::Event event{};
+        window.waitEvent(event);
+        switch (settingsHandler(window, drawable_elements.putSettings(), event)) {
+            case GameMode::MainSettings:
+                break;
+            case GameMode::MainMenu: {
+                visual_novel.current_game_mode_ = GameMode::MainMenu;
+                return true;
+            }
+            default:
+                return false;
+        }
+    }
+    window.clear();
+    settings->renderSfmlBasis(window.getSize());
+    settings->getSfmlBasis()->draw(window);
     return true;
 }

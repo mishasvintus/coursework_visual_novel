@@ -18,10 +18,8 @@ ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
 
 ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
                              std::wstring name_start_chapter)
-        : about_authors_(std::move(about_authors))
-        , script_(std::move(script))
-        , project_name_(std::move(project_name))
-        , name_start_chapter_(std::move(name_start_chapter)) {
+        : about_authors_(std::move(about_authors)), script_(std::move(script)), project_name_(std::move(project_name)),
+          name_start_chapter_(std::move(name_start_chapter)) {
     checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
                         UPPER_BOUND_LENGTH_PROJECT_NAME);
 }
@@ -60,7 +58,8 @@ const std::wstring &ge::VisualNovel::getNameStartChapter() {
 
 bool ge::VisualNovel::run() {
     try {
-        sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen, sf::ContextSettings(0, 0, 2));
+        sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen,
+                                sf::ContextSettings(0, 0, 2));
         sf::Image icon;
         icon.loadFromFile("engine_folders/data/images/icon128.png");
         window.setIcon(128, 128, icon.getPixelsPtr());
@@ -68,11 +67,13 @@ bool ge::VisualNovel::run() {
         window.setMouseCursorVisible(false);
         std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
 
-        std::shared_ptr<MainMenu> main_menu(new MainMenu);
         ge::DrawableElements drawable_elements;
-        drawable_elements.setMainMenu(main_menu);
+        drawable_elements.setMainMenu(std::shared_ptr<MainMenu>(new MainMenu));
+
         while (window.isOpen()) {
-            window_managers[current_game_mode_](*this, window, drawable_elements);
+            if (!window_managers[current_game_mode_](*this, window, drawable_elements)) {
+                throw std::runtime_error("Something went wrong");
+            }
             window.display();
         }
     } catch (...) {
