@@ -276,7 +276,22 @@ ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, s
             if (event.key.code == sf::Keyboard::Enter || event.key.code == sf::Keyboard::Escape) {
                 return ge::GameMode::MainMenu;
             }
-            break;
+            if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
+                settings.moveUp();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) {
+                settings.moveDown();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) {
+                settings.moveLeft();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D) {
+                settings.moveRight();
+                break;
+            }
         default:
             break;
     }

@@ -112,7 +112,7 @@ bool ge::AboutAuthors::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->back_button.setString(BACK_BUTTON_TEXT);
     sfml_basis_->back_button.setCharacterSize(static_cast<unsigned int>(static_cast<float>(window_size.y) * 0.0256f));
     sfml_basis_->back_button.setOutlineThickness(2);
-    sfml_basis_->back_button_background.setFillColor(sf::Color::Transparent);
+    sfml_basis_->back_button_background.setFillColor(BACKGROUND_FILL_COLOR);
     sfml_basis_->back_button_background.setOutlineColor(HIGHLIGHT_COLOR);
 
     sf::Vector2f next_background_size = {sfml_basis_->back_button.getGlobalBounds().getSize().x * 1.3f,

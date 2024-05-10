@@ -26,6 +26,14 @@ namespace ge {
 
         void setBackgroundFile(const std::string &file);
 
+        void moveUp();
+
+        void moveDown();
+
+        void moveLeft();
+
+        void moveRight();
+
     private:
         friend class WindowManager;
 
@@ -35,19 +43,21 @@ namespace ge {
 
         std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
-
         bool is_rendered_ = false;
-        std::vector<unsigned int> parameter_values_ = {100};
+        std::vector<unsigned int> parameter_values_ = {100, 86};
         std::string background_file_ = "engine_folders/data/images/locations/abstraction.PNG";
         std::shared_ptr<SettingsSfmlBasis> sfml_basis_ = nullptr;
 
+        unsigned int selected_row_button_;
+        unsigned int selected_column_button_ = 0;
+
 
         const std::wstring TITLE = L"НАСТРОЙКИ";
-        const std::vector<std::wstring> PARAMETERS = {L"Громкость звука"};
-        const unsigned int PARAMETERS_QUANTITY = 1;
+        const unsigned int PARAMETERS_QUANTITY = 2;
+        const std::vector<std::wstring> PARAMETERS = {L"Громкость звука", L"Громкость звука"};
+        const std::vector<unsigned int> MAX_PARAMETER_VALUES = {100, 100};
         const std::wstring BACK_BUTTON_TEXT = L"Назад";
-        const unsigned int MAX_PARAMETER_VALUE = 100;
-        const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127);
-        const sf::Color HIGHLIGHT_COLOR = sf::Color(229,228,226);
+        const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127, 160);
+        const sf::Color HIGHLIGHT_COLOR = sf::Color(229, 228, 226);
     };
 }
