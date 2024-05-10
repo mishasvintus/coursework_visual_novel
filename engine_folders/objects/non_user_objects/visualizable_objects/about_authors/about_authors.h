@@ -24,9 +24,9 @@ namespace ge {
 
         void setText(const std::wstring &text);
 
-        void setTitle(const std::wstring &title);
+        void setBackgroundFile(const std::string &file);
 
-        void setBackgroundFile(const std::string& file);
+        void setTitle(const std::wstring &title);
 
     private:
         friend class WindowManager;
@@ -38,8 +38,9 @@ namespace ge {
         std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
         bool is_rendered_ = false;
-        std::wstring text_;
         std::wstring title_ = L"ОБ АВТОРАХ";
+        std::wstring text_;
+        const std::wstring BACK_BUTTON_TEXT = L"Назад";
         std::string background_file_ = "engine_folders/data/images/locations/abstraction.PNG";
         std::shared_ptr<AboutAuthorsSfmlBasis> sfml_basis_ = nullptr;
     };
