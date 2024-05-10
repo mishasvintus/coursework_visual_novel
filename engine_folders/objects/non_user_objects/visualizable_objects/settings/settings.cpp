@@ -296,3 +296,27 @@ void ge::Settings::moveRight() {
     sfml_basis_->arrow_switches[selected_row_button_][2].setOutlineColor(HIGHLIGHT_COLOR);
     sfml_basis_->arrow_switches[selected_row_button_][0].setOutlineColor(sf::Color::Black);
 }
+
+void ge::Settings::decreaseParameter() {
+    if (parameter_values_[selected_row_button_] > MIN_PARAMETER_VALUES[selected_row_button_]) {
+        --parameter_values_[selected_row_button_];
+        sfml_basis_->arrow_switches[selected_row_button_][1].setString(
+                std::to_string(parameter_values_[selected_row_button_]));
+    }
+}
+
+void ge::Settings::increaseParameter() {
+    if (parameter_values_[selected_row_button_] < MAX_PARAMETER_VALUES[selected_row_button_]) {
+        ++parameter_values_[selected_row_button_];
+        sfml_basis_->arrow_switches[selected_row_button_][1].setString(
+                std::to_string(parameter_values_[selected_row_button_]));
+    }
+}
+
+unsigned int ge::Settings::getSelectedRow() const {
+    return selected_row_button_;
+}
+
+unsigned int ge::Settings::getSelectedColumn() const {
+    return selected_column_button_;
+}

@@ -273,7 +273,8 @@ ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, s
         case sf::Event::GainedFocus:
             window.setMouseCursorVisible(false);
         case sf::Event::KeyPressed:
-            if (event.key.code == sf::Keyboard::Enter || event.key.code == sf::Keyboard::Escape) {
+            if ((event.key.code == sf::Keyboard::Enter && settings.getSelectedRow() == settings.BACK_BUTTON_ROW) ||
+                event.key.code == sf::Keyboard::Escape) {
                 return ge::GameMode::MainMenu;
             }
             if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
@@ -292,6 +293,18 @@ ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, s
                 settings.moveRight();
                 break;
             }
+            if (event.key.code != sf::Keyboard::Enter) {
+                break;
+            }
+            if (settings.getSelectedColumn() == settings.LEFT) {
+                settings.decreaseParameter();
+                break;
+            }
+            if (settings.getSelectedColumn() == settings.RIGHT) {
+                settings.increaseParameter();
+                break;
+            }
+            break;
         default:
             break;
     }
