@@ -65,6 +65,7 @@ bool ge::VisualNovel::run() {
         icon.loadFromFile("engine_folders/data/images/icon128.png");
         window.setIcon(128, 128, icon.getPixelsPtr());
         window.setFramerateLimit(60);
+        window.setMouseCursorVisible(false);
         std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
 
         std::shared_ptr<MainMenu> main_menu(new MainMenu);

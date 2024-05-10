@@ -24,6 +24,10 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
         case sf::Event::Closed:
             window.close();
             break;
+        case sf::Event::LostFocus:
+            window.setMouseCursorVisible(true);
+        case sf::Event::GainedFocus:
+            window.setMouseCursorVisible(false);
         case sf::Event::KeyPressed: {
             if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
                 main_menu.moveUp();
@@ -107,6 +111,10 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
         case sf::Event::Closed:
             window.close();
             break;
+        case sf::Event::LostFocus:
+            window.setMouseCursorVisible(true);
+        case sf::Event::GainedFocus:
+            window.setMouseCursorVisible(false);
         case sf::Event::KeyPressed:
             if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
                 scene.moveUp();
@@ -203,6 +211,10 @@ ge::GameMode aboutAuthorsHandler(sf::RenderWindow &window, ge::AboutAuthors& abo
         case sf::Event::Closed:
             window.close();
             break;
+        case sf::Event::LostFocus:
+            window.setMouseCursorVisible(true);
+        case sf::Event::GainedFocus:
+            window.setMouseCursorVisible(false);
         case sf::Event::KeyPressed:
             if (event.key.code == sf::Keyboard::Enter || event.key.code == sf::Keyboard::Escape) {
                 return ge::GameMode::MainMenu;
