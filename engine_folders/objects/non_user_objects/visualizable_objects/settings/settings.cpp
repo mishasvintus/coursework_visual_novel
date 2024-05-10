@@ -298,6 +298,9 @@ void ge::Settings::moveRight() {
 }
 
 void ge::Settings::decreaseParameter() {
+    if (selected_row_button_ == PARAMETERS_QUANTITY) {
+        return;
+    }
     if (parameter_values_[selected_row_button_] > MIN_PARAMETER_VALUES[selected_row_button_]) {
         --parameter_values_[selected_row_button_];
         sfml_basis_->arrow_switches[selected_row_button_][1].setString(
@@ -312,6 +315,9 @@ void ge::Settings::decreaseParameter() {
 }
 
 void ge::Settings::increaseParameter() {
+    if (selected_row_button_ == PARAMETERS_QUANTITY) {
+        return;
+    }
     if (parameter_values_[selected_row_button_] < MAX_PARAMETER_VALUES[selected_row_button_]) {
         ++parameter_values_[selected_row_button_];
         sfml_basis_->arrow_switches[selected_row_button_][1].setString(
