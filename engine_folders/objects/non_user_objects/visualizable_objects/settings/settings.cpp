@@ -302,7 +302,13 @@ void ge::Settings::decreaseParameter() {
         --parameter_values_[selected_row_button_];
         sfml_basis_->arrow_switches[selected_row_button_][1].setString(
                 std::to_string(parameter_values_[selected_row_button_]));
+        sf::Vector2f position = sfml_basis_->arrow_switches[selected_row_button_][1].getPosition();
+        sfml_basis_->arrow_switches[selected_row_button_][1].setOrigin(
+                sfml_basis_->arrow_switches[selected_row_button_][1].getGlobalBounds().getSize() / 2.0f +
+                sfml_basis_->arrow_switches[selected_row_button_][1].getLocalBounds().getPosition());
+        sfml_basis_->arrow_switches[selected_row_button_][1].setPosition(position);
     }
+
 }
 
 void ge::Settings::increaseParameter() {
@@ -310,6 +316,11 @@ void ge::Settings::increaseParameter() {
         ++parameter_values_[selected_row_button_];
         sfml_basis_->arrow_switches[selected_row_button_][1].setString(
                 std::to_string(parameter_values_[selected_row_button_]));
+        sf::Vector2f position = sfml_basis_->arrow_switches[selected_row_button_][1].getPosition();
+        sfml_basis_->arrow_switches[selected_row_button_][1].setOrigin(
+                sfml_basis_->arrow_switches[selected_row_button_][1].getGlobalBounds().getSize() / 2.0f +
+                sfml_basis_->arrow_switches[selected_row_button_][1].getLocalBounds().getPosition());
+        sfml_basis_->arrow_switches[selected_row_button_][1].setPosition(position);
     }
 }
 
