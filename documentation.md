@@ -86,3 +86,42 @@
 ---
 
 **ge::FrameSlots**
+
+Класс представляет собой слоты, в которых размещаются действующие в конкретном кадре персонажи. Имеет характеристики 
+количество слотов (в формате unsigned int в диапазоне [0, 10]) и пути к картинкам, которые будут устанавливаться на 
+сцене в качестве слотов (в формате std::vector<<std::string>> длина которого не превышает 10).
+
+Конструкторы:
+
+    FrameSlots() // конструктор по умолчанию, инициализирует количество слотов нулем и вектор путей остается пустой
+
+    FrameSlots(const FrameSlots &frame_slots) // конструктор копирования
+
+    FrameSlots(FrameSlots &&frame_slots) noexcept // move-конструктор
+
+    explicit FrameSlots(const std::vector<std::string> &pictures_in_slots) // конструктор принимающий вектор путей и 
+                                                                                проверяющий, что размер вектора не 
+                                                                                превосходит 10.
+
+Операторы:
+
+    FrameSlots &operator=(const FrameSlots &frame_slots) // оператор присваивания при помощи копирования
+
+    FrameSlots &operator=(FrameSlots &&frame_slots) noexcept // оператор присваивания при помощи move-конструкции
+
+Методы:
+
+    void setQuantityOfSlots(unsigned int quantity_of_slots) // устанавливает количество слотов
+
+    void setPicturesInSlots(const std::vector<std::string> &pictures_in_slots) // устанавливает вектор путей
+
+    [[nodiscard]] unsigned int getQuantityOfSlots() const // возвращает количество слотов
+
+    [[nodiscard]] const std::vector<std::string> &getPicturesInSlots() const // возвращает вектор путей
+
+---
+
+**ge::Frame**
+
+Класс представляет собой сцену/кадр, которая может содержать диалоговое окно, слоты с персонажами и выбор действий. 
+Имеет такие харакетристики, как диалоговое окно (в формате ge::DialogueBox).
