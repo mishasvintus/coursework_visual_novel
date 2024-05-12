@@ -124,4 +124,107 @@
 **ge::Frame**
 
 Класс представляет собой сцену/кадр, которая может содержать диалоговое окно, слоты с персонажами и выбор действий. 
-Имеет такие харакетристики, как диалоговое окно (в формате ge::DialogueBox).
+Имеет такие харакетристики, как диалоговое окно (в формате ge::DialogueBox), путь к файлу, который будет использоваться 
+для установки фона (в формате std::string), зависимость от выбора действий (в формате bool), набор действий для выбора
+(в формате std::vector<<ge::Action>>) и слоты персонажей (в формате ge::FrameSlots).
+
+Конструкторы:
+
+    Frame() // конструктор по умолчанию, все поля инициализируются по умолчанию, за исключением зависимости от выбора 
+                                                                                    действий, она инициализируется false.
+
+    Frame(const Frame &scene) // констуктор копирования
+
+    Frame(Frame &&scene) noexcept // move-конструктор
+
+    Frame(DialogueBox dialogue_box, std::string background_file, FrameSlots slots) // конструктор без зависимости от 
+                                                                                        выбора действий
+
+    Frame(const std::vector<Action>& actions, std::string background_file, FrameSlots slots) // конструктор с 
+                                                                                                зависимостью от выбора
+                                                                                                действий.
+
+Операторы:
+
+    Frame &operator=(const Frame &scene) // оператор присваивания с помощью копирования
+
+    Frame &operator=(Frame &&scene) noexcept // оператор присваивания с помощью move-конструкции
+
+Методы:
+
+    void setDialogueBox(const DialogueBox &dialogue_box) // устанавливает диалоговое окно
+
+    void setBackgroundFile(const std::string &background_file) // устанавливает путь к фоновому изображению
+
+    void setChoiceOfAction(bool choice_of_action) // устанавливает зависимость от выбора действий
+
+    void setActions(const std::vector<Action> &actions) // устанавливает выбор действий
+
+    void setSlots(const FrameSlots &scene_slots) // устанавливает слоты с действующими лицами
+
+    const DialogueBox &getDialogueBox() const // возвращает диалоговое окно
+
+    [[nodiscard]] const std::string &getBackgroundFile() const // возвращает путь к фоновому изображению
+
+    [[nodiscard]] bool getChoiceOfAction() const // возвращает зависимость от выбора действий
+
+    [[nodiscard]] const std::vector<Action> &getActions() const // возвращает список для выбора действий
+
+    [[nodiscard]] const FrameSlots &getSlots() const // возвращает слоты с действующими лицами
+
+---
+
+**ge::Chapter**
+
+Класс представляет собой главу, то есть список кадров, которые последовательно воспроизводятся. Имеет такие 
+характеристики, как название (в формате std::wstring) и список кадров (в формате std::vector<<ge::Frame>>).
+
+Конструкторы:
+    
+    Chapter() // конструктор по умолчанию
+
+    Chapter(const Chapter &chapter) // конструктор копирования
+
+    Chapter(std::wstring chapter_name, const std::vector<Frame> &frames) // конструктор, принимающий все необходимые 
+                                                                            аргументы для полноценной работы.
+
+    Chapter(Chapter &&chapter) noexcept // move-конструктор
+
+Операторы:
+    
+    Chapter &operator=(const Chapter &chapter) // оператор присваивания с помощью копирования
+
+    Chapter &operator=(Chapter &&chapter) noexcept // оператор присваивания с помощью move-конструкции
+
+Методы нет.
+
+---
+
+**ge::Script**
+
+Структура представляет собой хранилище глав, с помощью которого организуются переходы между ними. Имеет харакетристику 
+список глав (в формате std::unordered_map<std::wstring, Chapter>).
+
+Конструкторы:
+
+    Script() // констурктор по умолчанию
+
+    Script(const Script &script) // конструктор копирования
+
+    explicit Script(const std::unordered_map<std::wstring, Chapter> &chapters) // констуктор от хранилища
+
+    Script(Script &&script) noexcept // move-конструктор
+
+Операторы:
+
+    Script &operator=(const Script &script) // оператор присваивания с помощью копирования
+
+    Script &operator=(Script &&script) noexcept // оператор присванивания с помощью move-конструкции
+
+Методы:
+
+    void addChapter(const std::wstring& name, const Chapter& chapter) // добавляет главу в хранилище
+
+    bool eraseChapter(const std::wstring& name) // возвращает true, если главу удалось удалить, иначе false
+
+---
