@@ -2,50 +2,80 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+#include <iostream>
 
 
 ge::Scene::Scene()
         : current_frame_(nullptr) {
 }
 
-ge::Scene::Scene(const std::shared_ptr<Frame> &frame, const std::wstring &current_chapter_name,
+ge::Scene::Scene(const std::shared_ptr<Frame> &frame, std::wstring current_chapter_name,
                  int current_frame_number)
-        : new_frame_(frame), current_chapter_name_(current_chapter_name), current_frame_number_(current_frame_number) {
+        : new_frame_(frame), current_chapter_name_(std::move(current_chapter_name)),
+          current_frame_number_(current_frame_number) {
 }
 
 ge::Scene::Scene(const Scene &scene)
         : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
+          is_waiting_next_frame_(scene.is_waiting_next_frame_),
+          is_waiting_new_frame_(scene.is_waiting_new_frame_),
           current_frame_(scene.current_frame_), new_frame_(scene.new_frame_),
-          sfml_basis_(scene.sfml_basis_) {
+          current_chapter_name_(scene.current_chapter_name_),
+          current_frame_number_(scene.current_frame_number_), sfml_basis_(scene.sfml_basis_),
+          selected_row_button_(scene.selected_row_button_),
+          selected_column_button_(scene.selected_column_button_) {
 }
 
 ge::Scene::Scene(Scene &scene)
         : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
+          is_waiting_next_frame_(scene.is_waiting_next_frame_),
+          is_waiting_new_frame_(scene.is_waiting_new_frame_),
           current_frame_(scene.current_frame_), new_frame_(scene.new_frame_),
-          sfml_basis_(scene.sfml_basis_) {
+          current_chapter_name_(scene.current_chapter_name_),
+          current_frame_number_(scene.current_frame_number_), sfml_basis_(scene.sfml_basis_),
+          selected_row_button_(scene.selected_row_button_),
+          selected_column_button_(scene.selected_column_button_) {
 }
 
 ge::Scene::Scene(Scene &&scene) noexcept
         : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
+          is_waiting_next_frame_(scene.is_waiting_next_frame_),
+          is_waiting_new_frame_(scene.is_waiting_new_frame_),
           current_frame_(std::move(scene.current_frame_)), new_frame_(std::move(scene.new_frame_)),
-          sfml_basis_(std::move(scene.sfml_basis_)) {
+          current_chapter_name_(std::move(scene.current_chapter_name_)),
+          current_frame_number_(scene.current_frame_number_), sfml_basis_(std::move(scene.sfml_basis_)),
+          selected_row_button_(scene.selected_row_button_),
+          selected_column_button_(scene.selected_column_button_) {
 }
 
 ge::Scene &ge::Scene::operator=(const Scene &scene) {
-    current_frame_ = scene.current_frame_;
-    new_frame_ = scene.new_frame_;
-    sfml_basis_ = scene.sfml_basis_;
     is_rendered_ = scene.is_rendered_;
     new_frame_is_processed_ = scene.new_frame_is_processed_;
+    is_waiting_new_frame_ = scene.is_waiting_new_frame_;
+    is_waiting_next_frame_ = scene.is_waiting_next_frame_;
+    current_frame_ = scene.current_frame_;
+    new_frame_ = scene.new_frame_;
+    current_chapter_name_ = scene.current_chapter_name_;
+    current_frame_number_ = scene.current_frame_number_;
+    sfml_basis_ = scene.sfml_basis_;
+    selected_row_button_ = scene.selected_row_button_;
+    selected_column_button_ = scene.selected_column_button_;
     return *this;
 }
 
 ge::Scene &ge::Scene::operator=(Scene &&scene) noexcept {
-    current_frame_ = std::move(scene.current_frame_);
-    new_frame_ = std::move(scene.new_frame_);
-    sfml_basis_ = std::move(scene.sfml_basis_);
     is_rendered_ = scene.is_rendered_;
     new_frame_is_processed_ = scene.new_frame_is_processed_;
+    is_waiting_new_frame_ = scene.is_waiting_new_frame_;
+    is_waiting_next_frame_ = scene.is_waiting_next_frame_;
+    current_frame_ = std::move(scene.current_frame_);
+    new_frame_ = std::move(scene.new_frame_);
+    current_chapter_name_ = std::move(scene.current_chapter_name_);
+    current_frame_number_ = scene.current_frame_number_;
+    sfml_basis_ = std::move(scene.sfml_basis_);
+    selected_row_button_ = scene.selected_row_button_;
+    selected_column_button_ = scene.selected_column_button_;
     return *this;
 }
 
@@ -63,12 +93,11 @@ void ge::Scene::processNewFrame() {
         throw std::runtime_error("new_frame_ was not set\n");
     }
     if (new_frame_->getBackgroundFile() != current_frame_->getBackgroundFile()) {
-        if (!sfml_basis_->background_texture.loadFromFile(current_frame_->getBackgroundFile())) {
+        if (!sfml_basis_->background_texture.loadFromFile(new_frame_->getBackgroundFile())) {
             throw std::runtime_error("can't load background file\n");
         }
         sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
     }
-
 
     {
         std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
@@ -91,21 +120,23 @@ void ge::Scene::processNewFrame() {
                 break;
             }
         }
-        for (size_t i = 0; i < curr_paths.size(); ++i) {
-            if (fined.find(i) != fined.end() || new_paths[i].empty()) {
-                continue;
+        if (curr_paths.size() >= new_paths.size()) {
+            for (size_t i = 0; i < curr_paths.size(); ++i) {
+                if (fined.find(i) != fined.end() || new_paths[i].empty()) {
+                    continue;
+                }
+                if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
+                    throw std::runtime_error("can't load sprite file\n");
+                }
+                sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
             }
-            if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
-                throw std::runtime_error("can't load sprite file\n");
-            }
-            sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
         }
         sfml_basis_->slots_sprites.resize(new_paths.size());
         sfml_basis_->slots_textures.resize(new_paths.size());
     }
 
-    sfml_basis_->replica.setString(current_frame_->getDialogueBox().getReplica());
-    sfml_basis_->speaker.setString(current_frame_->getDialogueBox().getSpeaker());
+    sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
+    sfml_basis_->speaker.setString(new_frame_->getDialogueBox().getSpeaker());
 
     if (new_frame_->getActions() != current_frame_->getActions()) {
         const std::vector<Action> &new_actions = new_frame_->getActions();
@@ -171,6 +202,7 @@ void ge::Scene::processNewFrame() {
     current_frame_ = new_frame_;
     new_frame_ = nullptr;
     new_frame_is_processed_ = true;
+    is_waiting_next_frame_ = false;
 }
 
 void ge::Scene::moveUp() {
@@ -186,7 +218,8 @@ void ge::Scene::moveUp() {
     sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(sf::Color::Black);
 
     if (current_frame_->getChoiceOfAction()) {
-        selected_column_button_ = std::min(static_cast<size_t>(selected_column_button_), sfml_basis_->action_buttons.size() - 1);
+        selected_column_button_ = std::min(static_cast<size_t>(selected_column_button_),
+                                           sfml_basis_->action_buttons.size() - 1);
         sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(HIGHLIGHT_COLOR);
     } else {
         sfml_basis_->next_background.setOutlineColor(HIGHLIGHT_COLOR);
@@ -257,6 +290,10 @@ void ge::Scene::moveRight() {
         sfml_basis_->button_backgrounds[selected_column_button_ - 1].setOutlineColor(sf::Color::Black);
         sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(HIGHLIGHT_COLOR);
     }
+}
+
+void ge::Scene::WaitNextFrame() {
+    is_waiting_next_frame_ = true;
 }
 
 unsigned int ge::Scene::getSelectedRow() const {

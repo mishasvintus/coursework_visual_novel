@@ -56,5 +56,6 @@ namespace ge {
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;
         std::wstring name_start_chapter_; //TODO: сделать проверку на наличие в мапе
+        unsigned int current_frame_number_ = 0;
     };
 }

@@ -1,6 +1,7 @@
 #include "visual_novel.h"
 #include "non_user_objects/window_manager/window_manager.h"
 
+#include <memory>
 #include <utility>
 #include <iostream>
 
@@ -14,7 +15,8 @@ void checkingCorrectness(const std::wstring &text, const size_t upper_limit_abou
 ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
         : about_authors_(std::move(visual_novel.about_authors_)), script_(std::move(visual_novel.script_)),
           project_name_(std::move(visual_novel.project_name_)),
-          name_start_chapter_(std::move(visual_novel.name_start_chapter_)) {
+          name_start_chapter_(std::move(visual_novel.name_start_chapter_)),
+          current_frame_number_(visual_novel.current_frame_number_) {
 }
 
 ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
@@ -69,7 +71,7 @@ bool ge::VisualNovel::run() {
         std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
 
         ge::DrawableElements drawable_elements;
-        drawable_elements.setMainMenu(std::shared_ptr<MainMenu>(new MainMenu));
+        drawable_elements.setMainMenu(std::make_shared<MainMenu>());
 
         while (window.isOpen()) {
             if (!window_managers[current_game_mode_](*this, window, drawable_elements)) {

@@ -9,7 +9,7 @@ namespace ge {
     public:
         Scene();
 
-        explicit Scene(const std::shared_ptr<Frame> &frame, const std::wstring &current_chapter_name,
+        explicit Scene(const std::shared_ptr<Frame> &frame, std::wstring current_chapter_name,
                        int current_frame_number);
 
         Scene(const Scene &scene);
@@ -33,6 +33,8 @@ namespace ge {
         void moveLeft();
 
         void moveRight();
+
+        void WaitNextFrame();
 
         unsigned int getSelectedRow() const;
 
@@ -59,6 +61,7 @@ namespace ge {
 
         bool is_rendered_ = false;
         bool new_frame_is_processed_ = false;
+        bool is_waiting_next_frame_ = false;
         bool is_waiting_new_frame_ = true;
         std::shared_ptr<const Frame> current_frame_ = nullptr;
         std::shared_ptr<const Frame> new_frame_ = nullptr;

@@ -151,7 +151,7 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 break;
             }
             if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE) {
-                //TODO: далее
+                scene.WaitNextFrame();
                 break;
             }
             if (scene.getSelectedColumn() == scene.COLUMN_MENU) {
@@ -208,6 +208,13 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     if (scene->is_waiting_new_frame_) {
         scene->setNewFrame(std::make_shared<Frame>(
                 visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
+    } else if (scene->is_waiting_next_frame_) {
+        if (scene->current_frame_number_ + 1 == visual_novel.script_.chapters_[scene->current_chapter_name_].frames_.size()) {
+            throw std::runtime_error("invalid frame's format\n");
+        }
+        scene->setNewFrame(std::make_shared<Frame>(
+                visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[++scene->current_frame_number_]));
+        scene->processNewFrame();
     }
     scene->renderSfmlBasis(window.getSize());
     scene->getSfmlBasis()->draw(window);
@@ -248,8 +255,6 @@ bool ge::WindowManager::aboutAuthorsManager(ge::VisualNovel &visual_novel, sf::R
                 visual_novel.current_game_mode_ = GameMode::MainMenu;
                 break;
             }
-            case GameMode::AboutAuthors:
-                break;
             default:
                 break;
         }
