@@ -208,14 +208,13 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     if (scene->is_waiting_new_frame_) {
         scene->setNewFrame(std::make_shared<Frame>(
                 visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));
-    } else if (scene->is_waiting_next_frame_) {
-        if (scene->current_frame_number_ + 1 == visual_novel.script_.chapters_[scene->current_chapter_name_].frames_.size()) {
-            throw std::runtime_error("invalid frame's format\n");
-        }
+    } else if (scene->is_waiting_next_frame_ && scene->current_frame_number_ + 1 !=
+                                                visual_novel.script_.chapters_[scene->current_chapter_name_].frames_.size()) {
         scene->setNewFrame(std::make_shared<Frame>(
                 visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[++scene->current_frame_number_]));
         scene->processNewFrame();
     }
+    scene->is_waiting_next_frame_ = false;
     scene->renderSfmlBasis(window.getSize());
     scene->getSfmlBasis()->draw(window);
     return true;

@@ -108,7 +108,7 @@ void ge::Scene::processNewFrame() {
             sfml_basis_->slots_textures.resize(new_paths.size());
         }
         std::unordered_set<size_t> fined;
-        for (size_t i = 0; i < curr_paths.size(); ++i) {
+        for (size_t i = 0; i < std::min(new_paths.size(), curr_paths.size()); ++i) {
             for (size_t j = 0; j < curr_paths.size(); ++j) {
                 if (fined.find(j) != fined.end() || curr_paths[j] != new_paths[i]) {
                     continue;
@@ -120,21 +120,19 @@ void ge::Scene::processNewFrame() {
                 break;
             }
         }
-        if (curr_paths.size() >= new_paths.size()) {
-            for (size_t i = 0; i < curr_paths.size(); ++i) {
-                if (fined.find(i) != fined.end() || new_paths[i].empty()) {
-                    continue;
-                }
-                if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
-                    throw std::runtime_error("can't load sprite file\n");
-                }
-                sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
+        curr_paths.resize(new_paths.size());
+        for (size_t i = 0; i < curr_paths.size(); ++i) {
+            if (fined.find(i) != fined.end() || new_paths[i].empty()) {
+                continue;
             }
+            if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
+                throw std::runtime_error("can't load sprite file\n");
+            }
+            sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
         }
         sfml_basis_->slots_sprites.resize(new_paths.size());
         sfml_basis_->slots_textures.resize(new_paths.size());
     }
-
     sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
     sfml_basis_->speaker.setString(new_frame_->getDialogueBox().getSpeaker());
 
