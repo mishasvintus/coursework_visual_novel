@@ -219,22 +219,38 @@ void ge::Scene::processNewFrame() {
                 sfml_basis_->action_buttons[i].setOutlineColor(sf::Color::Black);
             }
         }
-    } else if (current_frame_->getChoiceOfAction()) {
-        sfml_basis_->replica.setFillColor(sf::Color::White);
-        sfml_basis_->replica.setOutlineColor(sf::Color::Black);
-        sfml_basis_->speaker.setFillColor(sf::Color::White);
-        sfml_basis_->speaker.setOutlineColor(sf::Color::Black);
-        sfml_basis_->next.setFillColor(sf::Color::White);
-        sfml_basis_->next.setOutlineColor(sf::Color::Black);
-        sfml_basis_->replica_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-        sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
-        sfml_basis_->speaker_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-        sfml_basis_->speaker_background.setOutlineColor(HIGHLIGHT_COLOR);
-        sfml_basis_->next_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-        sfml_basis_->next_background.setOutlineColor(sf::Color::Black);
-        for (sf::Text &action_button: sfml_basis_->action_buttons) {
-            action_button.setFillColor(sf::Color::Transparent);
-            action_button.setOutlineColor(sf::Color::Transparent);
+    } else {
+        if (new_frame_->getDialogueBox().getSpeaker().empty()) {
+            sfml_basis_->speaker.setFillColor(sf::Color::Transparent);
+            sfml_basis_->speaker.setOutlineColor(sf::Color::Transparent);
+            sfml_basis_->speaker_background.setFillColor(sf::Color::Transparent);
+            sfml_basis_->speaker_background.setOutlineColor(sf::Color::Transparent);
+        } else {
+            sfml_basis_->speaker.setFillColor(sf::Color::White);
+            sfml_basis_->speaker.setOutlineColor(sf::Color::Black);
+            sfml_basis_->speaker_background.setFillColor(BACKGROUNDS_FILL_COLOR);
+            sfml_basis_->speaker_background.setOutlineColor(sf::Color::Black);
+        }
+        if (new_frame_->getDialogueBox().getSpeaker().empty() && new_frame_->getDialogueBox().getReplica().empty()) {
+            sfml_basis_->replica.setFillColor(sf::Color::Transparent);
+            sfml_basis_->replica.setOutlineColor(sf::Color::Transparent);
+            sfml_basis_->replica_background.setFillColor(sf::Color::Transparent);
+            sfml_basis_->replica_background.setOutlineColor(sf::Color::Transparent);
+        } else {
+            sfml_basis_->replica.setFillColor(sf::Color::White);
+            sfml_basis_->replica.setOutlineColor(sf::Color::Black);
+            sfml_basis_->replica_background.setFillColor(BACKGROUNDS_FILL_COLOR);
+            sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
+        }
+        if (current_frame_->getChoiceOfAction()) { ;
+            sfml_basis_->next.setFillColor(sf::Color::White);
+            sfml_basis_->next.setOutlineColor(sf::Color::Black);
+            sfml_basis_->next_background.setFillColor(BACKGROUNDS_FILL_COLOR);
+            sfml_basis_->next_background.setOutlineColor(sf::Color::Black);
+            for (sf::Text &action_button: sfml_basis_->action_buttons) {
+                action_button.setFillColor(sf::Color::Transparent);
+                action_button.setOutlineColor(sf::Color::Transparent);
+            }
         }
     }
     current_frame_ = new_frame_;
@@ -256,9 +272,11 @@ void ge::Scene::moveUp() {
     sfml_basis_->button_backgrounds[selected_column_button_].setOutlineColor(sf::Color::Black);
 
     if (current_frame_->getChoiceOfAction()) {
-        selected_column_button_ = std::min(static_cast<size_t>(selected_column_button_),
-                                           sfml_basis_->action_buttons.size() - 1);
-        sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(HIGHLIGHT_COLOR);
+        if (!current_frame_->getActions().empty()) {
+            selected_column_button_ = std::min(static_cast<size_t>(selected_column_button_),
+                                               sfml_basis_->action_buttons.size() - 1);
+            sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(HIGHLIGHT_COLOR);
+        }
     } else {
         sfml_basis_->next_background.setOutlineColor(HIGHLIGHT_COLOR);
     }
@@ -277,7 +295,9 @@ void ge::Scene::moveDown() {
     }
 
     if (current_frame_->getChoiceOfAction()) {
-        sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(sf::Color::Black);
+        if (!current_frame_->getActions().empty()) {
+            sfml_basis_->action_buttons[selected_column_button_].setOutlineColor(sf::Color::Black);
+        }
     } else {
         sfml_basis_->next_background.setOutlineColor(sf::Color::Black);
     }
@@ -288,7 +308,8 @@ void ge::Scene::moveDown() {
 }
 
 void ge::Scene::moveLeft() {
-    if ((selected_row_button_ == ROW_ACTION_OR_DIALOGUE && !current_frame_->getChoiceOfAction()) ||
+    if ((selected_row_button_ == ROW_ACTION_OR_DIALOGUE &&
+         (!current_frame_->getChoiceOfAction() || current_frame_->getActions().empty())) ||
         selected_column_button_ == 0) {
         return;
     }
@@ -306,7 +327,8 @@ void ge::Scene::moveLeft() {
 }
 
 void ge::Scene::moveRight() {
-    if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE && !current_frame_->getChoiceOfAction()) {
+    if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE &&
+        (!current_frame_->getChoiceOfAction() || current_frame_->getActions().empty())) {
         return;
     }
     if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE) {
@@ -336,8 +358,12 @@ void ge::Scene::waitNextFrame() {
 }
 
 void ge::Scene::waitNextChapter() {
-    if (current_frame_->getChoiceOfAction()) {
+    if (!current_frame_->getChoiceOfAction()) {
         throw std::runtime_error("can't wait next chapter untill current frame is choice of action");
+    }
+    size_t quantity_of_actions = current_frame_->getActions().size();
+    if (quantity_of_actions == 0) {
+        return;
     }
     if (selected_column_button_ >= current_frame_->getActions().size()) {
         throw std::runtime_error("number of selected action is outside of the boundaries of the vector of actions");
