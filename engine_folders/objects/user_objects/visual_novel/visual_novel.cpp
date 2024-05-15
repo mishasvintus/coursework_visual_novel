@@ -43,12 +43,20 @@ void ge::VisualNovel::setProjectName(const std::wstring &project_name) {
     project_name_ = project_name;
 }
 
+void ge::VisualNovel::setEndingFrame(const Frame &ending_frame) {
+    ending_frame_ = ending_frame;
+}
+
 void ge::VisualNovel::setNameStartChapter(const std::wstring &name_start_chapter) {
     name_start_chapter_ = name_start_chapter;
 }
 
 const std::wstring &ge::VisualNovel::getAboutAuthors() {
     return about_authors_;
+}
+
+const ge::Frame &ge::VisualNovel::getEndingFrame() {
+    return ending_frame_;
 }
 
 const ge::Script &ge::VisualNovel::getScript() {

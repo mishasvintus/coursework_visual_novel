@@ -34,7 +34,9 @@ namespace ge {
 
         void moveRight();
 
-        void WaitNextFrame();
+        void waitNextFrame();
+
+        void waitNextChapter();
 
         unsigned int getSelectedRow() const;
 
@@ -50,6 +52,8 @@ namespace ge {
 
     private:
         friend class WindowManager;
+
+        void setSlotSpriteParameters(const sf::Vector2u &window_size);
 
         bool renderSfmlBasis(const sf::Vector2u &window_size) override;
 

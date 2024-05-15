@@ -19,7 +19,6 @@ ge::Scene::Scene(const std::shared_ptr<Frame> &frame, std::wstring current_chapt
 ge::Scene::Scene(const Scene &scene)
         : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
           is_waiting_next_frame_(scene.is_waiting_next_frame_),
-          is_waiting_new_frame_(scene.is_waiting_new_frame_),
           current_frame_(scene.current_frame_), new_frame_(scene.new_frame_),
           current_chapter_name_(scene.current_chapter_name_),
           current_frame_number_(scene.current_frame_number_), sfml_basis_(scene.sfml_basis_),
@@ -30,7 +29,6 @@ ge::Scene::Scene(const Scene &scene)
 ge::Scene::Scene(Scene &scene)
         : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
           is_waiting_next_frame_(scene.is_waiting_next_frame_),
-          is_waiting_new_frame_(scene.is_waiting_new_frame_),
           current_frame_(scene.current_frame_), new_frame_(scene.new_frame_),
           current_chapter_name_(scene.current_chapter_name_),
           current_frame_number_(scene.current_frame_number_), sfml_basis_(scene.sfml_basis_),
@@ -41,7 +39,6 @@ ge::Scene::Scene(Scene &scene)
 ge::Scene::Scene(Scene &&scene) noexcept
         : is_rendered_(scene.is_rendered_), new_frame_is_processed_(scene.new_frame_is_processed_),
           is_waiting_next_frame_(scene.is_waiting_next_frame_),
-          is_waiting_new_frame_(scene.is_waiting_new_frame_),
           current_frame_(std::move(scene.current_frame_)), new_frame_(std::move(scene.new_frame_)),
           current_chapter_name_(std::move(scene.current_chapter_name_)),
           current_frame_number_(scene.current_frame_number_), sfml_basis_(std::move(scene.sfml_basis_)),
@@ -52,7 +49,6 @@ ge::Scene::Scene(Scene &&scene) noexcept
 ge::Scene &ge::Scene::operator=(const Scene &scene) {
     is_rendered_ = scene.is_rendered_;
     new_frame_is_processed_ = scene.new_frame_is_processed_;
-    is_waiting_new_frame_ = scene.is_waiting_new_frame_;
     is_waiting_next_frame_ = scene.is_waiting_next_frame_;
     current_frame_ = scene.current_frame_;
     new_frame_ = scene.new_frame_;
@@ -67,7 +63,6 @@ ge::Scene &ge::Scene::operator=(const Scene &scene) {
 ge::Scene &ge::Scene::operator=(Scene &&scene) noexcept {
     is_rendered_ = scene.is_rendered_;
     new_frame_is_processed_ = scene.new_frame_is_processed_;
-    is_waiting_new_frame_ = scene.is_waiting_new_frame_;
     is_waiting_next_frame_ = scene.is_waiting_next_frame_;
     current_frame_ = std::move(scene.current_frame_);
     new_frame_ = std::move(scene.new_frame_);
@@ -80,9 +75,47 @@ ge::Scene &ge::Scene::operator=(Scene &&scene) noexcept {
 }
 
 void ge::Scene::setNewFrame(const std::shared_ptr<Frame> &frame) {
-    is_waiting_new_frame_ = false;
+    is_waiting_next_frame_ = false;
     new_frame_ = frame;
     new_frame_is_processed_ = false;
+}
+
+void ge::Scene::setSlotSpriteParameters(const sf::Vector2u &window_size) {
+    if (sfml_basis_->slots_sprites.size() != sfml_basis_->slots_textures.size()) {
+        return;
+    }
+    size_t slots_quantity = sfml_basis_->slots_sprites.size();
+    if (slots_quantity > 0) {
+        float distance_between_slots =
+                static_cast<float>(window_size.x) / (static_cast<float>(slots_quantity + 1) * 1.3f);
+        float slot_scale = 0.8f * static_cast<float>(window_size.y) / 3270.0f;
+        float left_slot_offset =
+                (static_cast<float>(window_size.x) - distance_between_slots * static_cast<float>(slots_quantity - 1)) /
+                2.0f;
+
+        for (size_t i = 0; i < slots_quantity; ++i) {
+            sfml_basis_->slots_sprites[i].setScale(slot_scale, slot_scale);
+
+            sf::Vector2f slot_picture_size = {sfml_basis_->slots_sprites[i].getLocalBounds().width,
+                                              sfml_basis_->slots_sprites[i].getLocalBounds().height};
+            sfml_basis_->slots_sprites[i].setOrigin(slot_picture_size.x / 2, slot_picture_size.y);
+            sf::Vector2f slot_coords = {left_slot_offset + distance_between_slots * static_cast<float>(i),
+                                        static_cast<float>(window_size.y) * 1.2f};
+            sfml_basis_->slots_sprites[i].setPosition(slot_coords);
+        }
+    }
+}
+
+unsigned int ge::Scene::getSelectedRow() const {
+    return selected_row_button_;
+}
+
+unsigned int ge::Scene::getSelectedColumn() const {
+    return selected_column_button_;
+}
+
+bool ge::Scene::getChoiceOfActions() const {
+    return current_frame_->getChoiceOfAction();
 }
 
 void ge::Scene::processNewFrame() {
@@ -92,6 +125,8 @@ void ge::Scene::processNewFrame() {
     if (new_frame_ == nullptr) {
         throw std::runtime_error("new_frame_ was not set\n");
     }
+
+    // Updating background
     if (new_frame_->getBackgroundFile() != current_frame_->getBackgroundFile()) {
         if (!sfml_basis_->background_texture.loadFromFile(new_frame_->getBackgroundFile())) {
             throw std::runtime_error("can't load background file\n");
@@ -99,43 +134,47 @@ void ge::Scene::processNewFrame() {
         sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
     }
 
-    {
-        std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
-        std::vector<std::string> curr_paths = current_frame_->getSlots().getPicturesInSlots();
-        if (curr_paths.size() < new_paths.size()) {
-            curr_paths.resize(new_paths.size());
-            sfml_basis_->slots_sprites.resize(new_paths.size());
-            sfml_basis_->slots_textures.resize(new_paths.size());
-        }
-        std::unordered_set<size_t> fined;
-        for (size_t i = 0; i < std::min(new_paths.size(), curr_paths.size()); ++i) {
-            for (size_t j = 0; j < curr_paths.size(); ++j) {
-                if (fined.find(j) != fined.end() || curr_paths[j] != new_paths[i]) {
-                    continue;
-                }
-                std::swap(curr_paths[i], curr_paths[j]);
-                std::swap(sfml_basis_->slots_sprites[i], sfml_basis_->slots_sprites[j]);
-                std::swap(sfml_basis_->slots_textures[i], sfml_basis_->slots_textures[j]);
-                fined.insert(i);
-                break;
-            }
-        }
-        curr_paths.resize(new_paths.size());
-        for (size_t i = 0; i < curr_paths.size(); ++i) {
-            if (fined.find(i) != fined.end() || new_paths[i].empty()) {
-                continue;
-            }
-            if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
-                throw std::runtime_error("can't load sprite file\n");
-            }
-            sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
-        }
+    // Updating frame slots (optimized)
+    std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
+    std::vector<std::string> current_paths = current_frame_->getSlots().getPicturesInSlots();
+    if (current_paths.size() < new_paths.size()) {
+        current_paths.resize(new_paths.size());
         sfml_basis_->slots_sprites.resize(new_paths.size());
         sfml_basis_->slots_textures.resize(new_paths.size());
     }
+    std::unordered_set<size_t> fined;
+    for (size_t i = 0; i < std::min(new_paths.size(), current_paths.size()); ++i) {
+        for (size_t j = 0; j < current_paths.size(); ++j) {
+            if (fined.find(j) != fined.end() || current_paths[j] != new_paths[i]) {
+                continue;
+            }
+            std::swap(current_paths[i], current_paths[j]);
+            std::swap(sfml_basis_->slots_sprites[i], sfml_basis_->slots_sprites[j]);
+            std::swap(sfml_basis_->slots_textures[i], sfml_basis_->slots_textures[j]);
+            fined.insert(i);
+            break;
+        }
+    }
+    current_paths.resize(new_paths.size());
+    for (size_t i = 0; i < current_paths.size(); ++i) {
+        if (fined.find(i) != fined.end() || new_paths[i].empty()) {
+            continue;
+        }
+        if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
+            throw std::runtime_error("can't load sprite file\n");
+        }
+        sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
+    }
+    sfml_basis_->slots_sprites.resize(new_paths.size());
+    sfml_basis_->slots_textures.resize(new_paths.size());
+
+    setSlotSpriteParameters(sfml_basis_->window_size);
+
+    // Updating dialogue box
     sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
     sfml_basis_->speaker.setString(new_frame_->getDialogueBox().getSpeaker());
 
+    // Updating actions
     if (new_frame_->getActions() != current_frame_->getActions()) {
         const std::vector<Action> &new_actions = new_frame_->getActions();
         sfml_basis_->action_buttons.clear();
@@ -158,6 +197,7 @@ void ge::Scene::processNewFrame() {
         }
     }
 
+    // Setting colors
     if (new_frame_->getChoiceOfAction()) {
         sfml_basis_->replica.setFillColor(sf::Color::Transparent);
         sfml_basis_->replica.setOutlineColor(sf::Color::Transparent);
@@ -290,20 +330,22 @@ void ge::Scene::moveRight() {
     }
 }
 
-void ge::Scene::WaitNextFrame() {
+void ge::Scene::waitNextFrame() {
+    ++current_frame_number_;
     is_waiting_next_frame_ = true;
 }
 
-unsigned int ge::Scene::getSelectedRow() const {
-    return selected_row_button_;
-}
+void ge::Scene::waitNextChapter() {
+    if (current_frame_->getChoiceOfAction()) {
+        throw std::runtime_error("can't wait next chapter untill current frame is choice of action");
+    }
+    if (selected_column_button_ >= current_frame_->getActions().size()) {
+        throw std::runtime_error("number of selected action is outside of the boundaries of the vector of actions");
+    }
+    current_frame_number_ = 0;
+    current_chapter_name_ = current_frame_->getActions()[selected_column_button_].getChapterNameToGo();
+    is_waiting_next_frame_ = true;
 
-unsigned int ge::Scene::getSelectedColumn() const {
-    return selected_column_button_;
-}
-
-bool ge::Scene::getChoiceOfActions() const {
-    return current_frame_->getChoiceOfAction();
 }
 
 bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
@@ -317,6 +359,8 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     sfml_basis_ = std::make_shared<SceneSfmlBasis>();
 
+    sfml_basis_->window_size = window_size;
+
     // setting background
     if (!sfml_basis_->background_texture.loadFromFile(new_frame_->getBackgroundFile())) {
         return false;
@@ -329,29 +373,15 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     // setting slot pictures
     size_t slots_quantity = new_frame_->getSlots().getQuantityOfSlots();
+    sfml_basis_->slots_textures.resize(slots_quantity);
+    sfml_basis_->slots_sprites.resize(slots_quantity);
     if (slots_quantity > 0) {
-        float distance_between_slots =
-                static_cast<float>(window_size.x) / (static_cast<float>(slots_quantity + 1) * 1.3f);
-        float slot_scale = 0.8f * static_cast<float>(window_size.y) / 3270.0f;
-        float left_slot_offset =
-                (static_cast<float>(window_size.x) - distance_between_slots * static_cast<float>(slots_quantity - 1)) /
-                2.0f;
-
         const std::vector<std::string> &pictures_in_slots = new_frame_->getSlots().getPicturesInSlots();
-        sfml_basis_->slots_textures.resize(slots_quantity);
-        sfml_basis_->slots_sprites.resize(slots_quantity);
         for (size_t i = 0; i < slots_quantity; ++i) {
             sfml_basis_->slots_textures[i].loadFromFile(pictures_in_slots[i]);
             sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
-            sfml_basis_->slots_sprites[i].setScale(slot_scale, slot_scale);
-
-            sf::Vector2f slot_picture_size = {sfml_basis_->slots_sprites[i].getLocalBounds().width,
-                                              sfml_basis_->slots_sprites[i].getLocalBounds().height};
-            sfml_basis_->slots_sprites[i].setOrigin(slot_picture_size.x / 2, slot_picture_size.y);
-            sf::Vector2f slot_coords = {left_slot_offset + distance_between_slots * static_cast<float>(i),
-                                        static_cast<float>(window_size.y) * 1.2f};
-            sfml_basis_->slots_sprites[i].setPosition(slot_coords);
         }
+        setSlotSpriteParameters(window_size);
     }
 
     // setting font

@@ -64,10 +64,10 @@ namespace ge {
         unsigned int selected_column_button_ = 0;
 
         const std::wstring TITLE = L"НАСТРОЙКИ";
-        const unsigned int PARAMETERS_QUANTITY = 2;
-        const std::vector<std::wstring> PARAMETERS = {L"Громкость звука", L"Громкость звука"};
-        const std::vector<unsigned int> MIN_PARAMETER_VALUES  = {0, 0};
-        const std::vector<unsigned int> MAX_PARAMETER_VALUES = {100, 100};
+        const unsigned int PARAMETERS_QUANTITY = 1;
+        const std::vector<std::wstring> PARAMETERS = {L"Громкость звука"};
+        const std::vector<unsigned int> MIN_PARAMETER_VALUES  = {0};
+        const std::vector<unsigned int> MAX_PARAMETER_VALUES = {100};
         const std::wstring BACK_BUTTON_TEXT = L"Назад";
         const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127, 160);
         const sf::Color HIGHLIGHT_COLOR = sf::Color(229, 228, 226);

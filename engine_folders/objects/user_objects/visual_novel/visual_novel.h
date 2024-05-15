@@ -36,6 +36,8 @@ namespace ge {
 
         void setProjectName(const std::wstring &project_name);
 
+        void setEndingFrame(const Frame &ending_frame);
+
         void setNameStartChapter(const std::wstring& name_start_chapter);
 
         const std::wstring &getAboutAuthors();
@@ -43,6 +45,8 @@ namespace ge {
         const Script &getScript();
 
         const std::wstring &getNameStartChapter();
+
+        const Frame &getEndingFrame();
 
         bool run();
 
@@ -53,6 +57,7 @@ namespace ge {
         static constexpr size_t UPPER_BOUND_LENGTH_PROJECT_NAME = 50;
         std::wstring about_authors_;
         Script script_;
+        Frame ending_frame_;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;
         std::wstring name_start_chapter_; //TODO: сделать проверку на наличие в мапе
