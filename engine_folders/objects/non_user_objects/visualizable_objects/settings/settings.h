@@ -38,11 +38,11 @@ namespace ge {
 
         void increaseParameter();
 
-        unsigned int getSelectedRow() const;
+        [[nodiscard]] unsigned int getSelectedRow() const;
 
-        unsigned int getSelectedColumn() const;
+        [[nodiscard]] unsigned int getSelectedColumn() const;
 
-        const unsigned int BACK_BUTTON_ROW = 2;
+        const unsigned int BACK_BUTTON_ROW = 1;
         const unsigned int LEFT = 0;
         const unsigned int RIGHT = 1;
 

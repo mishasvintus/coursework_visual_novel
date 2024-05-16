@@ -242,11 +242,11 @@ void ge::Scene::processNewFrame() {
             sfml_basis_->replica_background.setFillColor(BACKGROUNDS_FILL_COLOR);
             sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
         }
-        if (current_frame_->getChoiceOfAction()) { ;
+        if (current_frame_->getChoiceOfAction()) {
             sfml_basis_->next.setFillColor(sf::Color::White);
             sfml_basis_->next.setOutlineColor(sf::Color::Black);
             sfml_basis_->next_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-            sfml_basis_->next_background.setOutlineColor(sf::Color::Black);
+            sfml_basis_->next_background.setOutlineColor(sf::Color::White);
             for (sf::Text &action_button: sfml_basis_->action_buttons) {
                 action_button.setFillColor(sf::Color::Transparent);
                 action_button.setOutlineColor(sf::Color::Transparent);
