@@ -41,7 +41,7 @@ namespace ge {
 
         std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
-        std::wstring title_ = L"ФИДЕС";
+        std::wstring title_;
         unsigned int selected_button_ = 0;
         bool is_rendered_ = false;
         std::shared_ptr<MainMenuSfmlBasis> sfml_basis_ = nullptr;

@@ -86,19 +86,10 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 return true;
             }
             case GameMode::MainSettings: {
-                if (!drawable_elements.getSettingsPtr()) {
-                    std::shared_ptr<Settings> settings(new Settings);
-                    drawable_elements.setSettings(settings);
-                }
                 visual_novel.current_game_mode_ = GameMode::MainSettings;
                 return true;
             }
             case GameMode::AboutAuthors: {
-                if (!drawable_elements.getAboutAuthorsPtr()) {
-                    std::shared_ptr<AboutAuthors> about_authors(new AboutAuthors);
-                    about_authors->setText(visual_novel.about_authors_);
-                    drawable_elements.setAboutAuthors(about_authors);
-                }
                 visual_novel.current_game_mode_ = GameMode::AboutAuthors;
                 return true;
             }
