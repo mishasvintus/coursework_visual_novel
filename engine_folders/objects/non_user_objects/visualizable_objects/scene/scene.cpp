@@ -118,147 +118,6 @@ bool ge::Scene::getChoiceOfActions() const {
     return current_frame_->getChoiceOfAction();
 }
 
-void ge::Scene::processNewFrame() {
-    if (!is_rendered_) {
-        throw std::runtime_error("sfml_basis_ was not rendered\n");
-    }
-    if (new_frame_ == nullptr) {
-        throw std::runtime_error("new_frame_ was not set\n");
-    }
-
-    // Updating background
-    if (new_frame_->getBackgroundFile() != current_frame_->getBackgroundFile()) {
-        if (!sfml_basis_->background_texture.loadFromFile(new_frame_->getBackgroundFile())) {
-            throw std::runtime_error("can't load background file\n");
-        }
-        sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
-    }
-
-    // Updating frame slots (optimized)
-    std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
-    std::vector<std::string> current_paths = current_frame_->getSlots().getPicturesInSlots();
-    if (current_paths.size() < new_paths.size()) {
-        current_paths.resize(new_paths.size());
-        sfml_basis_->slots_sprites.resize(new_paths.size());
-        sfml_basis_->slots_textures.resize(new_paths.size());
-    }
-    std::unordered_set<size_t> fined;
-    for (size_t i = 0; i < std::min(new_paths.size(), current_paths.size()); ++i) {
-        for (size_t j = 0; j < current_paths.size(); ++j) {
-            if (fined.find(j) != fined.end() || current_paths[j] != new_paths[i]) {
-                continue;
-            }
-            std::swap(current_paths[i], current_paths[j]);
-            std::swap(sfml_basis_->slots_sprites[i], sfml_basis_->slots_sprites[j]);
-            std::swap(sfml_basis_->slots_textures[i], sfml_basis_->slots_textures[j]);
-            fined.insert(i);
-            break;
-        }
-    }
-    current_paths.resize(new_paths.size());
-    for (size_t i = 0; i < current_paths.size(); ++i) {
-        if (fined.find(i) != fined.end() || new_paths[i].empty()) {
-            continue;
-        }
-        if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
-            throw std::runtime_error("can't load sprite file\n");
-        }
-        sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
-    }
-    sfml_basis_->slots_sprites.resize(new_paths.size());
-    sfml_basis_->slots_textures.resize(new_paths.size());
-
-    setSlotSpriteParameters(sfml_basis_->window_size);
-
-    // Updating dialogue box
-    sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
-    sfml_basis_->speaker.setString(new_frame_->getDialogueBox().getSpeaker());
-
-    // Updating actions
-    if (new_frame_->getActions() != current_frame_->getActions()) {
-        const std::vector<Action> &new_actions = new_frame_->getActions();
-        sfml_basis_->action_buttons.clear();
-        sfml_basis_->action_buttons.resize(new_actions.size());
-        for (size_t i = 0; i < new_actions.size(); ++i) {
-            sf::Text &action_button_i = sfml_basis_->action_buttons[i];
-            auto action_button_size = static_cast<unsigned int>(sfml_basis_->window_size.y * 0.035);
-            sf::Vector2f action_relative_coords = new_actions[i].getCoords();
-            sf::Vector2f action_button_coords = {action_relative_coords.x *
-                                                 static_cast<float>(sfml_basis_->window_size.x),
-                                                 action_relative_coords.y *
-                                                 static_cast<float>(sfml_basis_->window_size.y)};
-            action_button_i.setPosition(action_button_coords);
-            action_button_i.setFont(sfml_basis_->font);
-            action_button_i.setCharacterSize(action_button_size);
-            action_button_i.setString(new_actions[i].getText());
-            action_button_i.setFillColor(sf::Color::White);
-            action_button_i.setOutlineColor(sf::Color::Black);
-            action_button_i.setOutlineThickness(3);
-        }
-    }
-
-    // Setting colors
-    if (new_frame_->getChoiceOfAction()) {
-        sfml_basis_->replica.setFillColor(sf::Color::Transparent);
-        sfml_basis_->replica.setOutlineColor(sf::Color::Transparent);
-        sfml_basis_->speaker.setFillColor(sf::Color::Transparent);
-        sfml_basis_->speaker.setOutlineColor(sf::Color::Transparent);
-        sfml_basis_->next.setFillColor(sf::Color::Transparent);
-        sfml_basis_->next.setOutlineColor(sf::Color::Transparent);
-        sfml_basis_->replica_background.setFillColor(sf::Color::Transparent);
-        sfml_basis_->replica_background.setOutlineColor(sf::Color::Transparent);
-        sfml_basis_->speaker_background.setFillColor(sf::Color::Transparent);
-        sfml_basis_->speaker_background.setOutlineColor(sf::Color::Transparent);
-        sfml_basis_->next_background.setFillColor(sf::Color::Transparent);
-        sfml_basis_->next_background.setOutlineColor(sf::Color::Transparent);
-        for (size_t i = 0; i < sfml_basis_->action_buttons.size(); ++i) {
-            sfml_basis_->action_buttons[i].setFillColor(sf::Color::White);
-            if (i == selected_column_button_) {
-                sfml_basis_->action_buttons[i].setOutlineColor(HIGHLIGHT_COLOR);
-            } else {
-                sfml_basis_->action_buttons[i].setOutlineColor(sf::Color::Black);
-            }
-        }
-    } else {
-        if (new_frame_->getDialogueBox().getSpeaker().empty()) {
-            sfml_basis_->speaker.setFillColor(sf::Color::Transparent);
-            sfml_basis_->speaker.setOutlineColor(sf::Color::Transparent);
-            sfml_basis_->speaker_background.setFillColor(sf::Color::Transparent);
-            sfml_basis_->speaker_background.setOutlineColor(sf::Color::Transparent);
-        } else {
-            sfml_basis_->speaker.setFillColor(sf::Color::White);
-            sfml_basis_->speaker.setOutlineColor(sf::Color::Black);
-            sfml_basis_->speaker_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-            sfml_basis_->speaker_background.setOutlineColor(sf::Color::Black);
-        }
-        if (new_frame_->getDialogueBox().getSpeaker().empty() && new_frame_->getDialogueBox().getReplica().empty()) {
-            sfml_basis_->replica.setFillColor(sf::Color::Transparent);
-            sfml_basis_->replica.setOutlineColor(sf::Color::Transparent);
-            sfml_basis_->replica_background.setFillColor(sf::Color::Transparent);
-            sfml_basis_->replica_background.setOutlineColor(sf::Color::Transparent);
-        } else {
-            sfml_basis_->replica.setFillColor(sf::Color::White);
-            sfml_basis_->replica.setOutlineColor(sf::Color::Black);
-            sfml_basis_->replica_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-            sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
-        }
-        if (current_frame_->getChoiceOfAction()) {
-            sfml_basis_->next.setFillColor(sf::Color::White);
-            sfml_basis_->next.setOutlineColor(sf::Color::Black);
-            sfml_basis_->next_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-            sfml_basis_->next_background.setOutlineColor(sf::Color::White);
-            for (sf::Text &action_button: sfml_basis_->action_buttons) {
-                action_button.setFillColor(sf::Color::Transparent);
-                action_button.setOutlineColor(sf::Color::Transparent);
-            }
-        }
-    }
-    current_frame_ = new_frame_;
-    new_frame_ = nullptr;
-    new_frame_is_processed_ = true;
-    is_waiting_next_frame_ = false;
-}
-
 void ge::Scene::moveUp() {
     if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE) {
         return;
@@ -372,6 +231,148 @@ void ge::Scene::waitNextChapter() {
     current_chapter_name_ = current_frame_->getActions()[selected_column_button_].getChapterNameToGo();
     is_waiting_next_frame_ = true;
 
+}
+
+void ge::Scene::processNewFrame() {
+    if (!is_rendered_) {
+        throw std::runtime_error("sfml_basis_ was not rendered\n");
+    }
+    if (new_frame_ == nullptr) {
+        throw std::runtime_error("new_frame_ was not set\n");
+    }
+
+    // Updating background
+    if (new_frame_->getBackgroundFile() != current_frame_->getBackgroundFile()) {
+        if (!sfml_basis_->background_texture.loadFromFile(new_frame_->getBackgroundFile())) {
+            throw std::runtime_error("can't load background file\n");
+        }
+        sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
+    }
+
+    // Updating frame slots (optimized)
+    std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
+    std::vector<std::string> current_paths = current_frame_->getSlots().getPicturesInSlots();
+    if (current_paths.size() < new_paths.size()) {
+        current_paths.resize(new_paths.size());
+        sfml_basis_->slots_sprites.resize(new_paths.size());
+        sfml_basis_->slots_textures.resize(new_paths.size());
+    }
+    std::unordered_set<size_t> fined;
+    for (size_t i = 0; i < std::min(new_paths.size(), current_paths.size()); ++i) {
+        for (size_t j = 0; j < current_paths.size(); ++j) {
+            if (fined.find(j) != fined.end() || current_paths[j] != new_paths[i]) {
+                continue;
+            }
+            std::swap(current_paths[i], current_paths[j]);
+            std::swap(sfml_basis_->slots_sprites[i], sfml_basis_->slots_sprites[j]);
+            std::swap(sfml_basis_->slots_textures[i], sfml_basis_->slots_textures[j]);
+            fined.insert(i);
+            break;
+        }
+    }
+    current_paths.resize(new_paths.size());
+    for (size_t i = 0; i < current_paths.size(); ++i) {
+        if (fined.find(i) != fined.end() || new_paths[i].empty()) {
+            continue;
+        }
+        if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
+            throw std::runtime_error("can't load sprite file\n");
+        }
+        sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
+    }
+    sfml_basis_->slots_sprites.resize(new_paths.size());
+    sfml_basis_->slots_textures.resize(new_paths.size());
+
+    setSlotSpriteParameters(sfml_basis_->window_size);
+
+    // Updating dialogue box
+    sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
+    sfml_basis_->speaker.setString(new_frame_->getDialogueBox().getSpeaker());
+
+    // Updating actions
+    if (new_frame_->getActions() != current_frame_->getActions()) {
+        const std::vector<Action> &new_actions = new_frame_->getActions();
+        sfml_basis_->action_buttons.clear();
+        sfml_basis_->action_buttons.resize(new_actions.size());
+        for (size_t i = 0; i < new_actions.size(); ++i) {
+            sf::Text &action_button_i = sfml_basis_->action_buttons[i];
+            auto action_button_size = static_cast<unsigned int>(sfml_basis_->window_size.y * 0.035);
+            sf::Vector2f action_relative_coords = new_actions[i].getCoords();
+            sf::Vector2f action_button_coords = {action_relative_coords.x *
+                                                 static_cast<float>(sfml_basis_->window_size.x),
+                                                 action_relative_coords.y *
+                                                 static_cast<float>(sfml_basis_->window_size.y)};
+            action_button_i.setFont(sfml_basis_->font);
+            action_button_i.setCharacterSize(action_button_size);
+            action_button_i.setString(new_actions[i].getText());
+            action_button_i.setOutlineThickness(3);
+            action_button_i.setOrigin(action_button_i.getGlobalBounds().getSize() / 2.0f + action_button_i.getLocalBounds().getPosition());
+            action_button_i.setPosition(action_button_coords);
+            action_button_i.setFillColor(sf::Color::White);
+            action_button_i.setOutlineColor(sf::Color::Black);
+        }
+    }
+
+    // Setting colors
+    if (new_frame_->getChoiceOfAction()) {
+        sfml_basis_->replica.setFillColor(sf::Color::Transparent);
+        sfml_basis_->replica.setOutlineColor(sf::Color::Transparent);
+        sfml_basis_->speaker.setFillColor(sf::Color::Transparent);
+        sfml_basis_->speaker.setOutlineColor(sf::Color::Transparent);
+        sfml_basis_->next.setFillColor(sf::Color::Transparent);
+        sfml_basis_->next.setOutlineColor(sf::Color::Transparent);
+        sfml_basis_->replica_background.setFillColor(sf::Color::Transparent);
+        sfml_basis_->replica_background.setOutlineColor(sf::Color::Transparent);
+        sfml_basis_->speaker_background.setFillColor(sf::Color::Transparent);
+        sfml_basis_->speaker_background.setOutlineColor(sf::Color::Transparent);
+        sfml_basis_->next_background.setFillColor(sf::Color::Transparent);
+        sfml_basis_->next_background.setOutlineColor(sf::Color::Transparent);
+        for (size_t i = 0; i < sfml_basis_->action_buttons.size(); ++i) {
+            sfml_basis_->action_buttons[i].setFillColor(sf::Color::White);
+            if (i == selected_column_button_) {
+                sfml_basis_->action_buttons[i].setOutlineColor(HIGHLIGHT_COLOR);
+            } else {
+                sfml_basis_->action_buttons[i].setOutlineColor(sf::Color::Black);
+            }
+        }
+    } else {
+        if (new_frame_->getDialogueBox().getSpeaker().empty()) {
+            sfml_basis_->speaker.setFillColor(sf::Color::Transparent);
+            sfml_basis_->speaker.setOutlineColor(sf::Color::Transparent);
+            sfml_basis_->speaker_background.setFillColor(sf::Color::Transparent);
+            sfml_basis_->speaker_background.setOutlineColor(sf::Color::Transparent);
+        } else {
+            sfml_basis_->speaker.setFillColor(sf::Color::White);
+            sfml_basis_->speaker.setOutlineColor(sf::Color::Black);
+            sfml_basis_->speaker_background.setFillColor(BACKGROUNDS_FILL_COLOR);
+            sfml_basis_->speaker_background.setOutlineColor(sf::Color::Black);
+        }
+        if (new_frame_->getDialogueBox().getSpeaker().empty() && new_frame_->getDialogueBox().getReplica().empty()) {
+            sfml_basis_->replica.setFillColor(sf::Color::Transparent);
+            sfml_basis_->replica.setOutlineColor(sf::Color::Transparent);
+            sfml_basis_->replica_background.setFillColor(sf::Color::Transparent);
+            sfml_basis_->replica_background.setOutlineColor(sf::Color::Transparent);
+        } else {
+            sfml_basis_->replica.setFillColor(sf::Color::White);
+            sfml_basis_->replica.setOutlineColor(sf::Color::Black);
+            sfml_basis_->replica_background.setFillColor(BACKGROUNDS_FILL_COLOR);
+            sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
+        }
+        if (current_frame_->getChoiceOfAction()) {
+            sfml_basis_->next.setFillColor(sf::Color::White);
+            sfml_basis_->next.setOutlineColor(sf::Color::Black);
+            sfml_basis_->next_background.setFillColor(BACKGROUNDS_FILL_COLOR);
+            sfml_basis_->next_background.setOutlineColor(sf::Color::White);
+            for (sf::Text &action_button: sfml_basis_->action_buttons) {
+                action_button.setFillColor(sf::Color::Transparent);
+                action_button.setOutlineColor(sf::Color::Transparent);
+            }
+        }
+    }
+    current_frame_ = new_frame_;
+    new_frame_ = nullptr;
+    new_frame_is_processed_ = true;
+    is_waiting_next_frame_ = false;
 }
 
 bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
