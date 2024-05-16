@@ -27,18 +27,22 @@ ge::Settings::Settings() {
 
 ge::Settings::Settings(const ge::Settings &settings) : is_rendered_(settings.is_rendered_),
                                                        parameter_values_(settings.parameter_values_),
-                                                       sfml_basis_(settings.sfml_basis_) {
+                                                       sfml_basis_(settings.sfml_basis_),
+                                                       background_(settings.background_) {
+    selected_row_button_ = PARAMETERS_QUANTITY;
 }
 
 ge::Settings::Settings(ge::Settings &settings) : is_rendered_(settings.is_rendered_),
                                                  parameter_values_(settings.parameter_values_),
-                                                 sfml_basis_(settings.sfml_basis_) {
+                                                 sfml_basis_(settings.sfml_basis_),
+                                                 background_(settings.background_) {
     selected_row_button_ = PARAMETERS_QUANTITY;
 }
 
 ge::Settings::Settings(ge::Settings &&settings) noexcept: is_rendered_(settings.is_rendered_),
                                                           parameter_values_(std::move(settings.parameter_values_)),
-                                                          sfml_basis_(std::move(settings.sfml_basis_)) {
+                                                          sfml_basis_(std::move(settings.sfml_basis_)),
+                                                          background_(std::move(settings.background_)) {
     selected_row_button_ = PARAMETERS_QUANTITY;
 }
 
@@ -52,6 +56,7 @@ ge::Settings &ge::Settings::operator=(const ge::Settings &settings) {
     is_rendered_ = settings.is_rendered_;
     parameter_values_ = settings.parameter_values_;
     sfml_basis_ = settings.sfml_basis_;
+    background_ = settings.background_;
     return *this;
 }
 
@@ -59,16 +64,13 @@ ge::Settings &ge::Settings::operator=(ge::Settings &&settings) noexcept {
     is_rendered_ = settings.is_rendered_;
     parameter_values_ = std::move(settings.parameter_values_);
     sfml_basis_ = std::move(settings.sfml_basis_);
+    background_ = settings.background_;
     return *this;
 }
 
 void ge::Settings::setParameterValues(const std::vector<unsigned int> &parameter_values) {
     isParameterValuesCorrect(parameter_values, PARAMETERS_QUANTITY, MAX_PARAMETER_VALUES);
     parameter_values_ = parameter_values;
-}
-
-void ge::Settings::setBackgroundFile(const std::string &file) {
-    background_file_ = file;
 }
 
 bool ge::Settings::renderSfmlBasis(const sf::Vector2u &window_size) {
@@ -78,8 +80,8 @@ bool ge::Settings::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_ = std::make_shared<SettingsSfmlBasis>();
 
     // setting background
-    if (!sfml_basis_->background_texture.loadFromFile(background_file_)) {
-        std::cerr << "File for background image of Settings not found: " << background_file_ << std::endl;
+    if (!sfml_basis_->background_texture.loadFromFile(background_)) {
+        std::cerr << "File for background image of Settings not found: " << background_ << std::endl;
         return false;
     }
     sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
@@ -336,4 +338,12 @@ unsigned int ge::Settings::getSelectedRow() const {
 
 unsigned int ge::Settings::getSelectedColumn() const {
     return selected_column_button_;
+}
+
+void ge::Settings::setBackground(const std::string &background) {
+    background_ = background;
+}
+
+const std::string &ge::Settings::getBackground() {
+    return background_;
 }

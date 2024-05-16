@@ -5,18 +5,19 @@
 
 ge::AboutAuthors::AboutAuthors(const ge::AboutAuthors &about_authors)
         : is_rendered_(about_authors.is_rendered_), title_(about_authors.title_), text_(about_authors.text_),
-          sfml_basis_(about_authors.sfml_basis_) {
+          sfml_basis_(about_authors.sfml_basis_), background_(about_authors.background_) {
 }
 
 ge::AboutAuthors::AboutAuthors(ge::AboutAuthors &about_authors) : is_rendered_(about_authors.is_rendered_),
                                                                   title_(about_authors.title_),
                                                                   text_(about_authors.text_),
-                                                                  sfml_basis_(about_authors.sfml_basis_) {
+                                                                  sfml_basis_(about_authors.sfml_basis_),
+                                                                  background_(about_authors.background_) {
 }
 
 ge::AboutAuthors::AboutAuthors(ge::AboutAuthors &&about_authors) noexcept
         : is_rendered_(about_authors.is_rendered_), title_(std::move(about_authors.title_)), text_(std::move(about_authors.text_)),
-          sfml_basis_(std::move(about_authors.sfml_basis_)) {
+          sfml_basis_(std::move(about_authors.sfml_basis_)), background_(std::move(about_authors.background_)) {
 }
 
 ge::AboutAuthors::AboutAuthors(std::wstring text)
@@ -27,6 +28,7 @@ ge::AboutAuthors &ge::AboutAuthors::operator=(const ge::AboutAuthors &about_auth
     is_rendered_ = about_authors.is_rendered_;
     text_ = about_authors.text_;
     sfml_basis_ = about_authors.sfml_basis_;
+    background_ = about_authors.background_;
     return *this;
 }
 
@@ -34,6 +36,7 @@ ge::AboutAuthors &ge::AboutAuthors::operator=(ge::AboutAuthors &&about_authors) 
     is_rendered_ = about_authors.is_rendered_;
     text_ = std::move(about_authors.text_);
     sfml_basis_ = std::move(about_authors.sfml_basis_);
+    background_ = std::move(about_authors.background_);
     return *this;
 }
 
@@ -41,8 +44,12 @@ void ge::AboutAuthors::setText(const std::wstring &text) {
     text_ = text;
 }
 
-void ge::AboutAuthors::setBackgroundFile(const std::string &file) {
-    background_file_ = file;
+void ge::AboutAuthors::setBackground(const std::string &background) {
+    background_ = background;
+}
+
+const std::string &ge::AboutAuthors::getBackground() {
+    return background_;
 }
 
 void ge::AboutAuthors::setTitle(const std::wstring &title) {
@@ -55,8 +62,8 @@ bool ge::AboutAuthors::renderSfmlBasis(const sf::Vector2u &window_size) {
     }
     sfml_basis_ = std::make_shared<AboutAuthorsSfmlBasis>();
 
-    if (!sfml_basis_->background_texture.loadFromFile(background_file_)) {
-        std::cerr << "File for background image of AboutAuthors not found: " << background_file_ << std::endl;
+    if (!sfml_basis_->background_texture.loadFromFile(background_)) {
+        std::cerr << "File for background image of AboutAuthors not found: " << background_ << std::endl;
         return false;
     }
     sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);

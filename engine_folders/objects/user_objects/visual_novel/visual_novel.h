@@ -40,6 +40,12 @@ namespace ge {
 
         void setNameStartChapter(const std::wstring& name_start_chapter);
 
+        void setMainMenuBackground(const std::string &main_menu_background);
+
+        void setSettingsBackground(const std::string &settings_background);
+
+        void setAboutAuthorsBackground(const std::string &about_authors_background);
+
         const std::wstring &getAboutAuthors();
 
         const Script &getScript();
@@ -47,6 +53,12 @@ namespace ge {
         const std::wstring &getNameStartChapter();
 
         const Frame &getEndingFrame();
+
+        const std::string &getMainMenuBackground();
+
+        const std::string &getSettingsBackground();
+
+        const std::string &getAboutAuthorsBackground();
 
         bool run();
 
@@ -58,6 +70,9 @@ namespace ge {
         std::wstring about_authors_;
         Script script_;
         Frame ending_frame_;
+        std::string main_menu_background_;
+        std::string settings_background_;
+        std::string about_authors_background_;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;
         std::wstring name_start_chapter_; //TODO: сделать проверку на наличие в мапе

@@ -1,5 +1,7 @@
 #include "main_menu.h"
 
+#include <iostream>
+
 void checkingCorrectness(const unsigned int selected_button, const unsigned int upper_limit_selected_button,
                          const std::wstring &title, const unsigned int upper_limit_title) {
     if (selected_button > upper_limit_selected_button - 1 || title.length() > upper_limit_title) {
@@ -9,17 +11,18 @@ void checkingCorrectness(const unsigned int selected_button, const unsigned int 
 
 ge::MainMenu::MainMenu(const MainMenu &main_menu)
         : title_(main_menu.title_), selected_button_(main_menu.selected_button_), is_rendered_(main_menu.is_rendered_),
-          sfml_basis_(main_menu.sfml_basis_) {
+          sfml_basis_(main_menu.sfml_basis_), background_(main_menu.background_) {
 }
 
 ge::MainMenu::MainMenu(MainMenu &main_menu)
         : title_(main_menu.title_), selected_button_(main_menu.selected_button_), is_rendered_(main_menu.is_rendered_),
-          sfml_basis_(main_menu.sfml_basis_) {
+          sfml_basis_(main_menu.sfml_basis_), background_(main_menu.background_) {
 }
 
 ge::MainMenu::MainMenu(MainMenu &&main_menu) noexcept
         : title_(std::move(main_menu.title_)), selected_button_(main_menu.selected_button_),
-          is_rendered_(main_menu.is_rendered_), sfml_basis_(std::move(main_menu.sfml_basis_)) {
+          is_rendered_(main_menu.is_rendered_), sfml_basis_(std::move(main_menu.sfml_basis_)),
+          background_(std::move(main_menu.background_)) {
 }
 
 ge::MainMenu &ge::MainMenu::operator=(const MainMenu &main_menu) {
@@ -27,6 +30,7 @@ ge::MainMenu &ge::MainMenu::operator=(const MainMenu &main_menu) {
     title_ = main_menu.title_;
     is_rendered_ = main_menu.is_rendered_;
     sfml_basis_ = main_menu.sfml_basis_;
+    background_ = main_menu.background_;
     return *this;
 }
 
@@ -35,7 +39,25 @@ ge::MainMenu &ge::MainMenu::operator=(MainMenu &&main_menu) noexcept {
     title_ = std::move(main_menu.title_);
     is_rendered_ = main_menu.is_rendered_;
     sfml_basis_ = std::move(main_menu.sfml_basis_);
+    background_ = std::move(main_menu.background_);
     return *this;
+}
+
+void ge::MainMenu::setTitle(const std::wstring &title) {
+    checkingCorrectness(selected_button_, QUANTITY_OF_BUTTONS, title, UPPER_BOUND_TITLE_LENGTH);
+    title_ = title;
+}
+
+unsigned int ge::MainMenu::getSelectedButton() const {
+    return selected_button_;
+}
+
+void ge::MainMenu::setBackground(const std::string &background) {
+    background_ = background;
+}
+
+const std::string &ge::MainMenu::getBackground() {
+    return background_;
 }
 
 void ge::MainMenu::moveUp() {
@@ -60,15 +82,6 @@ void ge::MainMenu::moveDown() {
     ++selected_button_;
 }
 
-void ge::MainMenu::setTitle(const std::wstring &title) {
-    checkingCorrectness(selected_button_, QUANTITY_OF_BUTTONS, title, UPPER_BOUND_TITLE_LENGTH);
-    title_ = title;
-}
-
-unsigned int ge::MainMenu::getSelectedButton() const {
-    return selected_button_;
-}
-
 bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_) {
         return true;
@@ -76,7 +89,8 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     sfml_basis_ = std::make_shared<MainMenuSfmlBasis>();
 
-    if (!sfml_basis_->background_texture_.loadFromFile("engine_folders/data/images/locations/abstraction.PNG")) {
+    if (!sfml_basis_->background_texture_.loadFromFile(background_)) {
+        std::cerr << "Can't open main menu background file";
         return false;
     }
     sfml_basis_->background_sprite_.setTexture(sfml_basis_->background_texture_);

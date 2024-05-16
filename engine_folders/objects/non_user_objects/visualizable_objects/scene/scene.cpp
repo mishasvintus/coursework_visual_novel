@@ -306,7 +306,8 @@ void ge::Scene::processNewFrame() {
             action_button_i.setCharacterSize(action_button_size);
             action_button_i.setString(new_actions[i].getText());
             action_button_i.setOutlineThickness(3);
-            action_button_i.setOrigin(action_button_i.getGlobalBounds().getSize() / 2.0f + action_button_i.getLocalBounds().getPosition());
+            action_button_i.setOrigin(action_button_i.getGlobalBounds().getSize() / 2.0f +
+                                      action_button_i.getLocalBounds().getPosition());
             action_button_i.setPosition(action_button_coords);
             action_button_i.setFillColor(sf::Color::White);
             action_button_i.setOutlineColor(sf::Color::Black);

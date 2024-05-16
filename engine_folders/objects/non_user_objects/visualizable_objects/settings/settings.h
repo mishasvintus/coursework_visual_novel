@@ -42,6 +42,10 @@ namespace ge {
 
         [[nodiscard]] unsigned int getSelectedColumn() const;
 
+        void setBackground(const std::string &background);
+
+        const std::string &getBackground();
+
         const unsigned int BACK_BUTTON_ROW = 1;
         const unsigned int LEFT = 0;
         const unsigned int RIGHT = 1;
@@ -57,7 +61,7 @@ namespace ge {
 
         bool is_rendered_ = false;
         std::vector<unsigned int> parameter_values_ = {100, 86};
-        std::string background_file_ = "engine_folders/data/images/locations/abstraction.PNG";
+        std::string background_;
         std::shared_ptr<SettingsSfmlBasis> sfml_basis_ = nullptr;
 
         unsigned int selected_row_button_;

@@ -154,7 +154,7 @@
 
     void setDialogueBox(const DialogueBox &dialogue_box) // устанавливает диалоговое окно
 
-    void setBackgroundFile(const std::string &background_file) // устанавливает путь к фоновому изображению
+    void setBackground(const std::string &background_file) // устанавливает путь к фоновому изображению
 
     void setChoiceOfAction(bool choice_of_action) // устанавливает зависимость от выбора действий
 

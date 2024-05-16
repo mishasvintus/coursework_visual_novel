@@ -24,6 +24,10 @@ namespace ge {
 
         [[nodiscard]] unsigned int getSelectedButton() const;
 
+        void setBackground(const std::string &background);
+
+        const std::string &getBackground();
+
         void moveUp();
 
         void moveDown();
@@ -37,17 +41,18 @@ namespace ge {
 
         std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
-        static constexpr unsigned int TOP_BUTTON_INDEX = 0;
-        static constexpr unsigned int BOTTOM_BUTTON_INDEX = 4;
-        static constexpr unsigned int QUANTITY_OF_BUTTONS = 5;
-        static constexpr unsigned int UPPER_BOUND_TITLE_LENGTH = 40;
-
-        const std::vector<std::wstring> BUTTONS = {
-                L"НОВАЯ ИГРА", L"ЗАГРУЗИТЬ ИГРУ", L"НАСТРОЙКИ", L"ОБ АВТОРАХ", L"ВЫХОД"
-        };
         std::wstring title_ = L"ФИДЕС";
         unsigned int selected_button_ = 0;
         bool is_rendered_ = false;
         std::shared_ptr<MainMenuSfmlBasis> sfml_basis_ = nullptr;
+        std::string background_;
+
+        static constexpr unsigned int TOP_BUTTON_INDEX = 0;
+        static constexpr unsigned int BOTTOM_BUTTON_INDEX = 4;
+        static constexpr unsigned int QUANTITY_OF_BUTTONS = 5;
+        static constexpr unsigned int UPPER_BOUND_TITLE_LENGTH = 40;
+        const std::vector<std::wstring> BUTTONS = {
+                L"НОВАЯ ИГРА", L"ЗАГРУЗИТЬ ИГРУ", L"НАСТРОЙКИ", L"ОБ АВТОРАХ", L"ВЫХОД"
+        };
     };
 }

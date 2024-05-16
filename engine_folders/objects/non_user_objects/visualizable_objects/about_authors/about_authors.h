@@ -24,7 +24,9 @@ namespace ge {
 
         void setText(const std::wstring &text);
 
-        void setBackgroundFile(const std::string &file);
+        void setBackground(const std::string &background);
+
+        const std::string &getBackground();
 
         void setTitle(const std::wstring &title);
 
@@ -41,7 +43,7 @@ namespace ge {
         std::wstring title_ = L"ОБ АВТОРАХ";
         std::wstring text_;
         const std::wstring BACK_BUTTON_TEXT = L"Назад";
-        std::string background_file_ = "engine_folders/data/images/locations/abstraction.PNG";
+        std::string background_;
         std::shared_ptr<AboutAuthorsSfmlBasis> sfml_basis_ = nullptr;
         const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127, 160);
         const sf::Color HIGHLIGHT_COLOR = sf::Color(229,228,226);

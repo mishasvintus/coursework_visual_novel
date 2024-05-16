@@ -51,6 +51,18 @@ void ge::VisualNovel::setNameStartChapter(const std::wstring &name_start_chapter
     name_start_chapter_ = name_start_chapter;
 }
 
+void ge::VisualNovel::setMainMenuBackground(const std::string &main_menu_background) {
+    main_menu_background_ = main_menu_background;
+}
+
+void ge::VisualNovel::setSettingsBackground(const std::string &settings_background) {
+    settings_background_ = settings_background;
+}
+
+void ge::VisualNovel::setAboutAuthorsBackground(const std::string &about_authors_background) {
+    about_authors_background_ = about_authors_background;
+}
+
 const std::wstring &ge::VisualNovel::getAboutAuthors() {
     return about_authors_;
 }
@@ -67,6 +79,18 @@ const std::wstring &ge::VisualNovel::getNameStartChapter() {
     return name_start_chapter_;
 }
 
+const std::string &ge::VisualNovel::getMainMenuBackground() {
+    return main_menu_background_;
+}
+
+const std::string &ge::VisualNovel::getSettingsBackground() {
+    return settings_background_;
+}
+
+const std::string &ge::VisualNovel::getAboutAuthorsBackground() {
+    return about_authors_background_;
+}
+
 bool ge::VisualNovel::run() {
     try {
         sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen,
@@ -80,6 +104,15 @@ bool ge::VisualNovel::run() {
 
         ge::DrawableElements drawable_elements;
         drawable_elements.setMainMenu(std::make_shared<MainMenu>());
+        drawable_elements.getMainMenuPtr()->setBackground(main_menu_background_);
+        drawable_elements.getMainMenuPtr()->setTitle(project_name_);
+
+        drawable_elements.setSettings(std::make_shared<Settings>());
+        drawable_elements.getSettingsPtr()->setBackground(settings_background_);
+
+        drawable_elements.setAboutAuthors(std::make_shared<AboutAuthors>());
+        drawable_elements.getAboutAuthorsPtr()->setBackground(about_authors_background_);
+
 
         while (window.isOpen()) {
             if (!window_managers[current_game_mode_](*this, window, drawable_elements)) {
