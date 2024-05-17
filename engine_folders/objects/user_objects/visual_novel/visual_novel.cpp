@@ -20,7 +20,7 @@ ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
 }
 
 ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
-                             std::wstring name_start_chapter)
+                             std::string name_start_chapter)
         : about_authors_(std::move(about_authors)), script_(std::move(script)), project_name_(std::move(project_name)),
           name_start_chapter_(std::move(name_start_chapter)) {
     checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
@@ -47,7 +47,7 @@ void ge::VisualNovel::setEndingFrame(const Frame &ending_frame) {
     ending_frame_ = ending_frame;
 }
 
-void ge::VisualNovel::setNameStartChapter(const std::wstring &name_start_chapter) {
+void ge::VisualNovel::setNameStartChapter(const std::string &name_start_chapter) {
     name_start_chapter_ = name_start_chapter;
 }
 
@@ -75,7 +75,7 @@ const ge::Script &ge::VisualNovel::getScript() {
     return script_;
 }
 
-const std::wstring &ge::VisualNovel::getNameStartChapter() {
+const std::string &ge::VisualNovel::getNameStartChapter() {
     return name_start_chapter_;
 }
 

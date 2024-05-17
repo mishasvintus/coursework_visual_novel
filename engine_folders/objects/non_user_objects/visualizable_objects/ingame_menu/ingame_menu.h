@@ -55,7 +55,7 @@ namespace ge {
         const unsigned int BOTTOM_BUTTON_INDEX = 4;
         const std::vector<std::wstring> BUTTONS = {L"ГЛАВНОЕ МЕНЮ", L"ПРОДОЛЖИТЬ ИГРУ", L"СОХРАНИТЬ", L"НАСТРОЙКИ",
                                                    L"ВЫХОД"};
-        const sf::Color ABROGATION = sf::Color(90, 90, 90);
+        const sf::Color ABROGATION = sf::Color(105, 105, 105);
         const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127, 240);
     };
 }

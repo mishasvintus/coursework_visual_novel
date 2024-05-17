@@ -1,6 +1,6 @@
 #include "script.h"
 
-ge::Script::Script(const std::unordered_map<std::wstring, Chapter> &chapters)
+ge::Script::Script(const std::unordered_map<std::string, Chapter> &chapters)
         : chapters_(chapters) {
 }
 
@@ -13,11 +13,11 @@ ge::Script &ge::Script::operator=(Script &&script) noexcept {
     return *this;
 }
 
-void ge::Script::addChapter(const std::wstring &name, const ge::Chapter &chapter) {
+void ge::Script::addChapter(const std::string &name, const ge::Chapter &chapter) {
     chapters_[name] = chapter;
 }
 
-bool ge::Script::eraseChapter(const std::wstring &name) {
+bool ge::Script::eraseChapter(const std::string &name) {
     if (chapters_.find(name) == chapters_.end()) {
         return false;
     }

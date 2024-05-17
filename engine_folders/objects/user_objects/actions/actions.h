@@ -9,7 +9,7 @@ namespace ge {
     public:
         Action();
 
-        Action(const sf::Vector2f &coords, std::wstring text, std::wstring chapter_name_to_go);
+        Action(const sf::Vector2f &coords, std::wstring text, std::string chapter_name_to_go);
 
         Action(const Action &action);
 
@@ -29,13 +29,13 @@ namespace ge {
 
         [[nodiscard]] const std::wstring &getText() const;
 
-        [[nodiscard]] const std::wstring &getChapterNameToGo() const;
+        [[nodiscard]] const std::string &getChapterNameToGo() const;
 
         void setRelativeCoords(const sf::Vector2f &relative_coords);
 
         void setText(const std::wstring &text);
 
-        void setChapterNameToGo(const std::wstring &chapter_name_to_go);
+        void setChapterNameToGo(const std::string &chapter_name_to_go);
 
     private:
         const sf::Vector2f COORDS_LOW_LIMIT = {0, 0};
@@ -43,6 +43,6 @@ namespace ge {
 
         sf::Vector2f relative_coords_;
         std::wstring text_;
-        std::wstring chapter_name_to_go_;
+        std::string chapter_name_to_go_;
     };
 }

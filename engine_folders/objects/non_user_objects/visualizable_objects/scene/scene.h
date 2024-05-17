@@ -9,7 +9,7 @@ namespace ge {
     public:
         Scene();
 
-        explicit Scene(const std::shared_ptr<Frame> &frame, std::wstring current_chapter_name,
+        explicit Scene(const std::shared_ptr<Frame> &frame, std::string current_chapter_name,
                        int current_frame_number);
 
         Scene(const Scene &scene);
@@ -72,7 +72,7 @@ namespace ge {
         std::shared_ptr<const Frame> current_frame_ = nullptr;
         std::shared_ptr<const Frame> new_frame_ = nullptr;
 
-        std::wstring current_chapter_name_;
+        std::string current_chapter_name_;
         int current_frame_number_ = -1;
 
         std::shared_ptr<SceneSfmlBasis> sfml_basis_ = nullptr;

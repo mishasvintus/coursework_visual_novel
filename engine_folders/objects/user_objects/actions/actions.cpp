@@ -21,7 +21,7 @@ ge::Action::Action(const Action &action)
     checkingCorrectness(relative_coords_, COORDS_LOW_LIMIT, COORDS_HIGH_LIMIT);
 }
 
-ge::Action::Action(const sf::Vector2f &coords, std::wstring text, std::wstring chapter_name_to_go)
+ge::Action::Action(const sf::Vector2f &coords, std::wstring text, std::string chapter_name_to_go)
         : relative_coords_(coords), text_(std::move(text)), chapter_name_to_go_(std::move(chapter_name_to_go)) {
     checkingCorrectness(relative_coords_, COORDS_LOW_LIMIT, COORDS_HIGH_LIMIT);
 }
@@ -63,7 +63,7 @@ const std::wstring &ge::Action::getText() const {
     return text_;
 }
 
-const std::wstring &ge::Action::getChapterNameToGo() const {
+const std::string &ge::Action::getChapterNameToGo() const {
     return chapter_name_to_go_;
 }
 
@@ -77,7 +77,7 @@ void ge::Action::setText(const std::wstring &text) {
     text_ = text;
 }
 
-void ge::Action::setChapterNameToGo(const std::wstring &chapter_name_to_go) {
+void ge::Action::setChapterNameToGo(const std::string &chapter_name_to_go) {
     /// TODO: проверка текста
     chapter_name_to_go_ = chapter_name_to_go;
 }

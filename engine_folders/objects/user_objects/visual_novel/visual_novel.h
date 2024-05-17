@@ -26,7 +26,7 @@ namespace ge {
         VisualNovel(VisualNovel &&visual_novel) noexcept;
 
         VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
-                    std::wstring  name_start_chapter);
+                    std::string  name_start_chapter);
 
         ~VisualNovel() = default;
 
@@ -38,7 +38,7 @@ namespace ge {
 
         void setEndingFrame(const Frame &ending_frame);
 
-        void setNameStartChapter(const std::wstring& name_start_chapter);
+        void setNameStartChapter(const std::string& name_start_chapter);
 
         void setMainMenuBackground(const std::string &main_menu_background);
 
@@ -50,7 +50,7 @@ namespace ge {
 
         const Script &getScript();
 
-        const std::wstring &getNameStartChapter();
+        const std::string &getNameStartChapter();
 
         const Frame &getEndingFrame();
 
@@ -75,7 +75,7 @@ namespace ge {
         std::string about_authors_background_;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;
-        std::wstring name_start_chapter_; //TODO: сделать проверку на наличие в мапе
+        std::string name_start_chapter_; //TODO: сделать проверку на наличие в мапе
         unsigned int current_frame_number_ = 0;
     };
 }

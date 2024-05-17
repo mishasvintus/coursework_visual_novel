@@ -10,7 +10,7 @@ ge::Scene::Scene()
         : current_frame_(nullptr) {
 }
 
-ge::Scene::Scene(const std::shared_ptr<Frame> &frame, std::wstring current_chapter_name,
+ge::Scene::Scene(const std::shared_ptr<Frame> &frame, std::string current_chapter_name,
                  int current_frame_number)
         : new_frame_(frame), current_chapter_name_(std::move(current_chapter_name)),
           current_frame_number_(current_frame_number) {
