@@ -230,7 +230,10 @@ void ge::Scene::waitNextChapter() {
     current_frame_number_ = 0;
     current_chapter_name_ = current_frame_->getActions()[selected_column_button_].getChapterNameToGo();
     is_waiting_next_frame_ = true;
+}
 
+std::string ge::Scene::getBackground() const {
+    return current_frame_->getBackgroundFile();
 }
 
 void ge::Scene::processNewFrame() {

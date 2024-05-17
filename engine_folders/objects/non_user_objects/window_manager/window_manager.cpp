@@ -146,8 +146,7 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 break;
             }
             if (scene.getSelectedColumn() == scene.COLUMN_MENU) {
-                //return ge::GameMode::IngameMenu;
-                return ge::GameMode::MainMenu;
+                return ge::GameMode::IngameMenu;
             }
             if (scene.getSelectedColumn() == scene.COLUMN_SETTINGS) {
                 //return ge::GameMode::IngameSettings;
@@ -182,9 +181,13 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
                 visual_novel.current_game_mode_ = GameMode::MainMenu;
                 return true;
             }
-            case GameMode::IngameMenu:
-                // TODO : реализовать
+            case GameMode::IngameMenu: {
+                std::shared_ptr<IngameMenu> ingame_menu(new IngameMenu);
+                ingame_menu->setBackground(scene->getBackground());
+                drawable_elements.setIngameMenu(ingame_menu);
+                visual_novel.current_game_mode_ = GameMode::IngameMenu;
                 return true;
+            }
             case GameMode::IngameSettings:
                 // TODO : реализовать
                 return true;
@@ -329,5 +332,82 @@ bool ge::WindowManager::mainSettingsManager(ge::VisualNovel &visual_novel, sf::R
         return false;
     }
     settings->getSfmlBasis()->draw(window);
+    return true;
+}
+
+ge::GameMode ingameMenuHandler(sf::RenderWindow &window, ge::IngameMenu &ingame_menu, sf::Event event) {
+    switch (event.type) {
+        case sf::Event::Closed:
+            window.close();
+            break;
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::Escape) {
+                return ge::GameMode::InGame;
+            }
+            if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
+                ingame_menu.moveUp();
+                break;
+            }
+            if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) {
+                ingame_menu.moveDown();
+                break;
+            }
+            if (event.key.code != sf::Keyboard::Enter) {
+                break;
+            }
+            if (ingame_menu.getSelectedRow() == ingame_menu.MAIN_MENU_INDEX) {
+                return ge::GameMode::MainMenu;
+            }
+            if (ingame_menu.getSelectedRow() == ingame_menu.CONTINUE_INDEX) {
+                return ge::GameMode::InGame;
+            }
+            if (ingame_menu.getSelectedRow() == ingame_menu.SAVES_INDEX) {
+                //TODO
+                break;
+            }
+            if (ingame_menu.getSelectedRow() == ingame_menu.SETTINGS_INDEX) {
+                //TODO
+                break;
+            }
+            if (ingame_menu.getSelectedRow() == ingame_menu.EXIT_INDEX) {
+                window.close();
+                break;
+            }
+            break;
+        default:
+            break;
+    }
+    return ge::GameMode::IngameMenu;
+}
+
+bool ge::WindowManager::ingameMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                          ge::DrawableElements &drawable_elements) {
+    std::shared_ptr<IngameMenu> ingame_menu = drawable_elements.getIngameMenuPtr();
+    if (!ingame_menu) {
+        return false;
+    }
+    if (ingame_menu->is_rendered_) {
+        sf::Event event{};
+        window.waitEvent(event);
+        switch (ingameMenuHandler(window, drawable_elements.putIngameMenu(), event)) {
+            case ge::GameMode::IngameMenu:
+                break;
+            case ge::GameMode::InGame:
+                drawable_elements.resetIngameMenu();
+                visual_novel.current_game_mode_ = ge::GameMode::InGame;
+                return true;
+            case ge::GameMode::MainMenu:
+                drawable_elements.resetScene();
+                visual_novel.current_game_mode_ = ge::GameMode::MainMenu;
+                return true;
+            default:
+                break;
+        }
+    }
+    window.clear();
+    if (!ingame_menu->renderSfmlBasis(window.getSize())) {
+        return false;
+    }
+    ingame_menu->getSfmlBasis()->draw(window);
     return true;
 }

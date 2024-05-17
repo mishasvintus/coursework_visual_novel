@@ -20,6 +20,20 @@ namespace ge {
 
         IngameMenu &operator=(IngameMenu &&ingame_menu) noexcept;
 
+        void setBackground(const std::string &background);
+
+        void moveUp();
+
+        void moveDown();
+
+        [[nodiscard]] unsigned int getSelectedRow() const;
+
+        const unsigned int MAIN_MENU_INDEX = 0;
+        const unsigned int CONTINUE_INDEX = 1;
+        const unsigned int SAVES_INDEX = 2;
+        const unsigned int SETTINGS_INDEX = 3;
+        const unsigned int EXIT_INDEX = 4;
+
     private:
         friend class WindowManager;
 
@@ -36,8 +50,12 @@ namespace ge {
         unsigned int selected_row_ = 0;
 
         const std::wstring TITLE = L"МЕНЮ";
-        const unsigned int BUTTONS_QUANTITY = 1;
-        const std::vector<std::wstring> BUTTONS = {L"ВЫЙТИ В ГЛАВНОЕ МЕНЮ"};
-        const std::wstring BACK_BUTTON_TEXT = L"Назад";
+        const unsigned int BUTTONS_QUANTITY = 5;
+        const unsigned int TOP_BUTTON_INDEX = 0;
+        const unsigned int BOTTOM_BUTTON_INDEX = 4;
+        const std::vector<std::wstring> BUTTONS = {L"ГЛАВНОЕ МЕНЮ", L"ПРОДОЛЖИТЬ ИГРУ", L"СОХРАНИТЬ", L"НАСТРОЙКИ",
+                                                   L"ВЫХОД"};
+        const sf::Color ABROGATION = sf::Color(90, 90, 90);
+        const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127, 240);
     };
 }

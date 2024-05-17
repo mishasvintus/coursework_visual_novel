@@ -38,11 +38,13 @@ namespace ge {
 
         void waitNextChapter();
 
-        unsigned int getSelectedRow() const;
+        [[nodiscard]] unsigned int getSelectedRow() const;
 
-        unsigned int getSelectedColumn() const;
+        [[nodiscard]] unsigned int getSelectedColumn() const;
 
-        bool getChoiceOfActions() const;
+        [[nodiscard]] bool getChoiceOfActions() const;
+
+        [[nodiscard]] std::string getBackground() const;
 
         const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
         const unsigned int ROW_BUTTONS = 1;
