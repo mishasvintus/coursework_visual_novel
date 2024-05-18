@@ -148,8 +148,8 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
             if (scene.getSelectedColumn() == scene.COLUMN_MENU) {
                 return ge::GameMode::IngameMenu;
             }
-            if (scene.getSelectedColumn() == scene.COLUMN_SETTINGS) {
-                //return ge::GameMode::IngameSettings;
+            if (scene.getSelectedColumn() == scene.COLUMN_RECENT_SCRIPT) {
+//                return ge::GameMode::RecentScript;
                 break;
             }
             if (scene.getSelectedColumn() == scene.COLUMN_INFO) {
@@ -355,9 +355,6 @@ ge::GameMode ingameMenuHandler(sf::RenderWindow &window, ge::IngameMenu &ingame_
             if (event.key.code != sf::Keyboard::Enter) {
                 break;
             }
-            if (ingame_menu.getSelectedRow() == ingame_menu.MAIN_MENU_INDEX) {
-                return ge::GameMode::MainMenu;
-            }
             if (ingame_menu.getSelectedRow() == ingame_menu.CONTINUE_INDEX) {
                 return ge::GameMode::InGame;
             }
@@ -370,8 +367,7 @@ ge::GameMode ingameMenuHandler(sf::RenderWindow &window, ge::IngameMenu &ingame_
                 break;
             }
             if (ingame_menu.getSelectedRow() == ingame_menu.EXIT_INDEX) {
-                window.close();
-                break;
+                return ge::GameMode::MainMenu;
             }
             break;
         default:

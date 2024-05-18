@@ -49,7 +49,7 @@ namespace ge {
         const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
         const unsigned int ROW_BUTTONS = 1;
         const unsigned int COLUMN_MENU = 0;
-        const unsigned int COLUMN_SETTINGS = 1;
+        const unsigned int COLUMN_RECENT_SCRIPT = 1;
         const unsigned int COLUMN_INFO = 2;
 
     private:
@@ -79,7 +79,7 @@ namespace ge {
 
         unsigned int selected_row_button_ = 0;
         unsigned int selected_column_button_ = 0;
-        const std::vector<std::wstring> BUTTON_SYMBOLS = {L"М", L"Н", L"И"};
+        const std::vector<std::wstring> BUTTON_SYMBOLS = {L"М", L"С", L"И"};
         const std::wstring NEXT_BUTTON_TEXT = L"Далее";
         const unsigned int BUTTONS_QUANTITY = 3;
         const sf::Color BACKGROUNDS_FILL_COLOR = sf::Color(sf::Color(71,74,81, 120));
