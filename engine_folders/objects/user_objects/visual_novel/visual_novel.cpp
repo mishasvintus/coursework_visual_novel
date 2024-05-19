@@ -4,6 +4,8 @@
 #include <memory>
 #include <utility>
 #include <iostream>
+#include <thread>
+#include <SFML/Audio/Music.hpp>
 
 void checkingCorrectness(const std::wstring &text, const size_t upper_limit_about_authors,
                          const std::wstring &project_name, const size_t upper_limit_project_name) {
@@ -16,12 +18,16 @@ ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
         : about_authors_(std::move(visual_novel.about_authors_)), script_(std::move(visual_novel.script_)),
           project_name_(std::move(visual_novel.project_name_)),
           name_start_chapter_(std::move(visual_novel.name_start_chapter_)),
-          current_frame_number_(visual_novel.current_frame_number_) {
+          current_frame_number_(visual_novel.current_frame_number_),
+          music_files_(visual_novel.music_files_) {
+    sound_volume_ = visual_novel.sound_volume_.load();
 }
 
 ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
                              std::string name_start_chapter)
-        : about_authors_(std::move(about_authors)), script_(std::move(script)), project_name_(std::move(project_name)),
+        : about_authors_(std::move(about_authors)),
+          script_(std::move(script)),
+          project_name_(std::move(project_name)),
           name_start_chapter_(std::move(name_start_chapter)) {
     checkingCorrectness(about_authors_, UPPER_BOUND_LENGTH_ABOUT_AUTHORS, project_name_,
                         UPPER_BOUND_LENGTH_PROJECT_NAME);
@@ -63,6 +69,14 @@ void ge::VisualNovel::setAboutAuthorsBackground(const std::string &about_authors
     about_authors_background_ = about_authors_background;
 }
 
+void ge::VisualNovel::setMusicFiles(const std::vector<std::string> &music_files) {
+    music_files_ = music_files;
+}
+
+void ge::VisualNovel::setSoundVolume(unsigned int sound_volume) {
+    sound_volume_ = sound_volume;
+}
+
 const std::wstring &ge::VisualNovel::getAboutAuthors() {
     return about_authors_;
 }
@@ -91,6 +105,37 @@ const std::string &ge::VisualNovel::getAboutAuthorsBackground() {
     return about_authors_background_;
 }
 
+const std::vector<std::string> &ge::VisualNovel::getMusicFiles() {
+    return music_files_;
+}
+
+const std::atomic<unsigned int> &ge::VisualNovel::getSoundVolume() {
+    return sound_volume_;
+}
+
+//
+void ge::VisualNovel::playMusic(std::vector<std::string> &music_files, std::atomic<bool> &running, std::atomic<unsigned int> &sound_volume) {
+    size_t current_song_index = 0;
+    sf::Music music;
+
+    if (music_files.empty()) {
+        return;
+    }
+
+    while (running) {
+        if (music.getStatus() == sf::Music::Stopped) {
+            if (!music.openFromFile(music_files[current_song_index])) {
+                std::cerr << "Could not load music file " << music_files[current_song_index] << std::endl;
+                return;
+            }
+            music.play();
+            current_song_index = (current_song_index + 1) % music_files.size();
+        }
+        music.setVolume(sound_volume);
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+}
+
 bool ge::VisualNovel::run() {
     try {
         sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen,
@@ -114,6 +159,9 @@ bool ge::VisualNovel::run() {
         drawable_elements.getAboutAuthorsPtr()->setBackground(about_authors_background_);
         drawable_elements.getAboutAuthorsPtr()->setText(about_authors_);
 
+        std::thread musicThread(playMusic, std::ref(music_files_), std::ref(is_running_), std::ref(sound_volume_));
+
+        is_running_ = true;
 
         while (window.isOpen()) {
             if (!window_managers[current_game_mode_](*this, window, drawable_elements)) {
@@ -122,8 +170,12 @@ bool ge::VisualNovel::run() {
             }
             window.display();
         }
+//        musicThread.join();
     } catch (...) {
+        is_running_ = false;
         return false;
     }
+    is_running_ = false;
+
     return true;
 }

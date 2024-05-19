@@ -260,7 +260,7 @@ bool ge::WindowManager::aboutAuthorsManager(ge::VisualNovel &visual_novel, sf::R
 }
 
 
-ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, sf::Event event) {
+ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, sf::Event event, ge::VisualNovel &visual_novel) {
     switch (event.type) {
         case sf::Event::Closed:
             window.close();
@@ -294,10 +294,13 @@ ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, s
                 break;
             }
             if (settings.getSelectedColumn() == settings.LEFT) {
+                visual_novel.setSoundVolume(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]);
                 settings.decreaseParameter();
+
                 break;
             }
             if (settings.getSelectedColumn() == settings.RIGHT) {
+                visual_novel.setSoundVolume(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]);
                 settings.increaseParameter();
                 break;
             }
@@ -317,7 +320,7 @@ bool ge::WindowManager::SettingsManager(ge::VisualNovel &visual_novel, sf::Rende
     if (settings->is_rendered_) {
         sf::Event event{};
         window.waitEvent(event);
-        switch (settingsHandler(window, drawable_elements.putSettings(), event)) {
+        switch (settingsHandler(window, drawable_elements.putSettings(), event, visual_novel)) {
             case GameMode::Settings:
                 break;
             case GameMode::MainMenu: {

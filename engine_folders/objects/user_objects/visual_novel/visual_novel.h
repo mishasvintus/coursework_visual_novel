@@ -3,6 +3,8 @@
 #include "frame.h"
 #include "script.h"
 
+#include <atomic>
+
 namespace ge {
     enum class GameMode {
         MainMenu,
@@ -25,7 +27,7 @@ namespace ge {
         VisualNovel(VisualNovel &&visual_novel) noexcept;
 
         VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
-                    std::string  name_start_chapter);
+                    std::string name_start_chapter);
 
         ~VisualNovel() = default;
 
@@ -37,13 +39,17 @@ namespace ge {
 
         void setEndingFrame(const Frame &ending_frame);
 
-        void setNameStartChapter(const std::string& name_start_chapter);
+        void setNameStartChapter(const std::string &name_start_chapter);
 
         void setMainMenuBackground(const std::string &main_menu_background);
 
         void setSettingsBackground(const std::string &settings_background);
 
         void setAboutAuthorsBackground(const std::string &about_authors_background);
+
+        void setMusicFiles(const std::vector<std::string> &music_files);
+
+        void setSoundVolume(unsigned int sound_volume);
 
         const std::wstring &getAboutAuthors();
 
@@ -59,6 +65,13 @@ namespace ge {
 
         const std::string &getAboutAuthorsBackground();
 
+        const std::vector<std::string> &getMusicFiles();
+
+        const std::atomic<unsigned int> &getSoundVolume();
+
+        static void playMusic(std::vector<std::string> &music_files, std::atomic<bool> &running,
+                              std::atomic<unsigned int> &sound_volume);
+
         bool run();
 
     private:
@@ -72,8 +85,11 @@ namespace ge {
         std::string main_menu_background_;
         std::string settings_background_;
         std::string about_authors_background_;
+        std::vector<std::string> music_files_;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;
+        std::atomic<bool> is_running_ = false;
+        std::atomic<unsigned int> sound_volume_ = 100;
         std::string name_start_chapter_; //TODO: сделать проверку на наличие в мапе
         unsigned int current_frame_number_ = 0;
     };

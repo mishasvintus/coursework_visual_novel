@@ -42,6 +42,8 @@ namespace ge {
 
         [[nodiscard]] unsigned int getSelectedColumn() const;
 
+        [[nodiscard]] const std::vector<unsigned int> &getParameterValues() const;
+
         void setBackground(const std::string &background);
 
         const std::string &getBackground();
@@ -49,7 +51,7 @@ namespace ge {
         const unsigned int BACK_BUTTON_ROW = 1;
         const unsigned int LEFT = 0;
         const unsigned int RIGHT = 1;
-
+        const size_t SOUND_VOLUME_INDEX = 0;
     private:
         friend class WindowManager;
 
@@ -61,7 +63,7 @@ namespace ge {
 
         bool is_rendered_ = false;
         bool is_darkening_ = false;
-        std::vector<unsigned int> parameter_values_ = {100, 86};
+        std::vector<unsigned int> parameter_values_ = {100};
         std::string background_;
         std::shared_ptr<SettingsSfmlBasis> sfml_basis_ = nullptr;
 

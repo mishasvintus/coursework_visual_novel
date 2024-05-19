@@ -73,6 +73,10 @@ void ge::Settings::setParameterValues(const std::vector<unsigned int> &parameter
     parameter_values_ = parameter_values;
 }
 
+const std::vector<unsigned int> &ge::Settings::getParameterValues() const {
+    return parameter_values_;
+}
+
 bool ge::Settings::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_) {
         return true;
