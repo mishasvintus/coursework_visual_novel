@@ -3,7 +3,6 @@
 #include "about_authors.h"
 #include "info.h"
 #include "ingame_menu.h"
-#include "ingame_settings.h"
 #include "main_menu.h"
 #include "recent_script.h"
 #include "settings.h"
@@ -58,16 +57,6 @@ namespace ge {
 
         void resetIngameMenu();
 
-        void setIngameSettings(const std::shared_ptr<ge::IngameSettings> &ingame_settings);
-
-        std::shared_ptr<ge::IngameSettings> getIngameSettingsPtr();
-
-        [[nodiscard]] const ge::IngameSettings &getIngameSettings() const;
-
-        [[nodiscard]] ge::IngameSettings &putIngameSettings() const;
-
-        void resetIngameSettings();
-
         void setMainMenu(const std::shared_ptr<ge::MainMenu> &main_menu);
 
         std::shared_ptr<ge::MainMenu> getMainMenuPtr();
@@ -112,7 +101,6 @@ namespace ge {
         std::shared_ptr<ge::AboutAuthors> about_authors_ = nullptr;
         std::shared_ptr<Info> info_ = nullptr;
         std::shared_ptr<ge::IngameMenu> ingame_menu_ = nullptr;
-        std::shared_ptr<ge::IngameSettings> ingame_settings_ = nullptr;
         std::shared_ptr<ge::MainMenu> main_menu_ = nullptr;
         std::shared_ptr<ge::RecentScript> recent_script_ = nullptr;
         std::shared_ptr<ge::Settings> settings_ = nullptr;

@@ -60,6 +60,7 @@ namespace ge {
         std::shared_ptr<SfmlBasis> getSfmlBasis() override;
 
         bool is_rendered_ = false;
+        bool is_darkening_ = false;
         std::vector<unsigned int> parameter_values_ = {100, 86};
         std::string background_;
         std::shared_ptr<SettingsSfmlBasis> sfml_basis_ = nullptr;
@@ -70,9 +71,10 @@ namespace ge {
         const std::wstring TITLE = L"НАСТРОЙКИ";
         const unsigned int PARAMETERS_QUANTITY = 1;
         const std::vector<std::wstring> PARAMETERS = {L"Громкость звука"};
-        const std::vector<unsigned int> MIN_PARAMETER_VALUES  = {0};
+        const std::vector<unsigned int> MIN_PARAMETER_VALUES = {0};
         const std::vector<unsigned int> MAX_PARAMETER_VALUES = {100};
         const std::wstring BACK_BUTTON_TEXT = L"Назад";
+        const sf::Color DARKENING_COLOR = sf::Color(105, 105, 105);
         const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127, 160);
         const sf::Color HIGHLIGHT_COLOR = sf::Color(229, 228, 226);
     };

@@ -2,24 +2,24 @@
 #include "ingame_menu.h"
 
 ge::IngameMenu::IngameMenu(const ge::IngameMenu &ingame_menu)
-    : is_rendered_(ingame_menu.is_rendered_)
-    , background_(ingame_menu.background_)
-    , sfml_basis_(ingame_menu.sfml_basis_)
-    , selected_row_(ingame_menu.selected_row_) {
+        : is_rendered_(ingame_menu.is_rendered_)
+        , background_(ingame_menu.background_)
+        , sfml_basis_(ingame_menu.sfml_basis_)
+        , selected_row_(ingame_menu.selected_row_) {
 }
 
 ge::IngameMenu::IngameMenu(ge::IngameMenu &ingame_menu)
-    : is_rendered_(ingame_menu.is_rendered_)
-    , background_(ingame_menu.background_)
-    , sfml_basis_(ingame_menu.sfml_basis_)
-    , selected_row_(ingame_menu.selected_row_) {
+        : is_rendered_(ingame_menu.is_rendered_)
+        , background_(ingame_menu.background_)
+        , sfml_basis_(ingame_menu.sfml_basis_)
+        , selected_row_(ingame_menu.selected_row_) {
 }
 
 ge::IngameMenu::IngameMenu(ge::IngameMenu &&ingame_menu) noexcept
-    : is_rendered_(ingame_menu.is_rendered_)
-    , background_(std::move(ingame_menu.background_))
-    , sfml_basis_(std::move(ingame_menu.sfml_basis_))
-    , selected_row_(ingame_menu.selected_row_) {
+        : is_rendered_(ingame_menu.is_rendered_)
+        , background_(std::move(ingame_menu.background_))
+        , sfml_basis_(std::move(ingame_menu.sfml_basis_))
+        , selected_row_(ingame_menu.selected_row_) {
 }
 
 ge::IngameMenu &ge::IngameMenu::operator=(const ge::IngameMenu &ingame_menu) {
@@ -126,7 +126,7 @@ bool ge::IngameMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
         }
 
         sfml_basis_->buttons[i].setOrigin(sfml_basis_->buttons[i].getLocalBounds().width / 2,
-                                           sfml_basis_->buttons[0].getLocalBounds().height / 2);
+                                          sfml_basis_->buttons[0].getLocalBounds().height / 2);
         sf::Vector2f button_position = {
                 0.5f * static_cast<float>(window_size.x),
                 0.39f * static_cast<float>(window_size.y) + 0.075f * static_cast<float>(window_size.y * i)

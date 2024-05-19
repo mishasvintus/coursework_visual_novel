@@ -11,8 +11,8 @@ namespace ge {
         static bool mainMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                     ge::DrawableElements &drawable_elements);
 
-        static bool mainSettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
-                                        ge::DrawableElements &drawable_elements);
+        static bool SettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                    ge::DrawableElements &drawable_elements);
 
         static bool aboutAuthorsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                         ge::DrawableElements &drawable_elements);

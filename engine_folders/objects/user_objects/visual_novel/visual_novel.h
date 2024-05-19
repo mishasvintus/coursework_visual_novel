@@ -6,13 +6,12 @@
 namespace ge {
     enum class GameMode {
         MainMenu,
-        MainSettings,
+        Settings,
         AboutAuthors,
         InGame,
         RecentScript,
         Info,
-        IngameMenu,
-        IngameSettings,
+        IngameMenu
     };
 
     class VisualNovel {

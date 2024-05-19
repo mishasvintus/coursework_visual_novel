@@ -89,6 +89,11 @@ bool ge::Settings::renderSfmlBasis(const sf::Vector2u &window_size) {
                                                  static_cast<float>(window_size.x) / 3840.0f,
                                                  static_cast<float>(window_size.y) / 2160.0f
                                          });
+    if (is_darkening_) {
+        sfml_basis_->background_sprite.setColor(DARKENING_COLOR);
+    } else {
+        sfml_basis_->background_sprite.setColor(sf::Color::White);
+    }
 
     if (!sfml_basis_->font.loadFromFile(FONT_NAME)) {
         return false;

@@ -4,7 +4,6 @@ ge::DrawableElements::DrawableElements(DrawableElements &&other) noexcept
     : about_authors_(std::move(other.about_authors_))
       , info_(std::move(other.info_))
       , ingame_menu_(std::move(other.ingame_menu_))
-      , ingame_settings_(std::move(other.ingame_settings_))
       , main_menu_(std::move(other.main_menu_))
       , recent_script_(std::move(other.recent_script_))
       , settings_(std::move(other.settings_)) {
@@ -14,7 +13,6 @@ ge::DrawableElements &ge::DrawableElements::operator=(DrawableElements &&other) 
     about_authors_ = std::move(other.about_authors_);
     info_ = std::move(other.info_);
     ingame_menu_ = std::move(other.ingame_menu_);
-    ingame_settings_ = std::move(other.ingame_settings_);
     main_menu_ = std::move(other.main_menu_);
     recent_script_ = std::move(other.recent_script_);
     settings_ = std::move(other.settings_);
@@ -79,26 +77,6 @@ ge::IngameMenu &ge::DrawableElements::putIngameMenu() const {
 
 void ge::DrawableElements::resetIngameMenu() {
     ingame_menu_.reset();
-}
-
-void ge::DrawableElements::setIngameSettings(const std::shared_ptr<IngameSettings> &ingame_settings) {
-    ingame_settings_ = ingame_settings;
-}
-
-std::shared_ptr<ge::IngameSettings> ge::DrawableElements::getIngameSettingsPtr() {
-    return ingame_settings_;
-}
-
-const ge::IngameSettings &ge::DrawableElements::getIngameSettings() const {
-    return *ingame_settings_;
-}
-
-ge::IngameSettings &ge::DrawableElements::putIngameSettings() const {
-    return *ingame_settings_;
-}
-
-void ge::DrawableElements::resetIngameSettings() {
-    ingame_settings_.reset();
 }
 
 void ge::DrawableElements::setMainMenu(const std::shared_ptr<MainMenu> &main_menu) {

@@ -7,14 +7,12 @@ std::unordered_map<ge::GameMode, WindowManagerPtr> ge::WindowManager::getMap() {
     std::unordered_map<ge::GameMode, WindowManagerPtr> result;
 
     result[GameMode::MainMenu] = &ge::WindowManager::mainMenuManager;
-    result[GameMode::MainSettings] = &ge::WindowManager::mainSettingsManager;
+    result[GameMode::Settings] = &ge::WindowManager::SettingsManager;
     result[GameMode::AboutAuthors] = &ge::WindowManager::aboutAuthorsManager;
     result[GameMode::InGame] = &ge::WindowManager::inGameManager;
     result[GameMode::RecentScript] = &ge::WindowManager::recentScriptManager;
     result[GameMode::Info] = &ge::WindowManager::infoManager;
     result[GameMode::IngameMenu] = &ge::WindowManager::ingameMenuManager;
-    result[GameMode::IngameSettings] = &ge::WindowManager::ingameSettingsManager;
-
     return result;
 }
 
@@ -44,7 +42,7 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
                 return ge::GameMode::InGame;
             }
             if (selected_button == 2) {
-                return ge::GameMode::MainSettings;
+                return ge::GameMode::Settings;
             }
             if (selected_button == 3) {
                 return ge::GameMode::AboutAuthors;
@@ -85,8 +83,11 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
             }
-            case GameMode::MainSettings: {
-                visual_novel.current_game_mode_ = GameMode::MainSettings;
+            case GameMode::Settings: {
+                drawable_elements.getSettingsPtr()->setBackground(visual_novel.settings_background_);
+                drawable_elements.getSettingsPtr()->is_rendered_ = false;
+                drawable_elements.getSettingsPtr()->is_darkening_ = false;
+                visual_novel.current_game_mode_ = GameMode::Settings;
                 return true;
             }
             case GameMode::AboutAuthors: {
@@ -188,7 +189,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
                 visual_novel.current_game_mode_ = GameMode::IngameMenu;
                 return true;
             }
-            case GameMode::IngameSettings:
+            case GameMode::RecentScript:
                 // TODO : реализовать
                 return true;
             case GameMode::Info:
@@ -304,11 +305,11 @@ ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, s
         default:
             break;
     }
-    return ge::GameMode::MainSettings;
+    return ge::GameMode::Settings;
 }
 
-bool ge::WindowManager::mainSettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
-                                            ge::DrawableElements &drawable_elements) {
+bool ge::WindowManager::SettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                        ge::DrawableElements &drawable_elements) {
     std::shared_ptr<Settings> settings = drawable_elements.getSettingsPtr();
     if (!settings) {
         return false;
@@ -317,7 +318,7 @@ bool ge::WindowManager::mainSettingsManager(ge::VisualNovel &visual_novel, sf::R
         sf::Event event{};
         window.waitEvent(event);
         switch (settingsHandler(window, drawable_elements.putSettings(), event)) {
-            case GameMode::MainSettings:
+            case GameMode::Settings:
                 break;
             case GameMode::MainMenu: {
                 visual_novel.current_game_mode_ = GameMode::MainMenu;
@@ -363,8 +364,7 @@ ge::GameMode ingameMenuHandler(sf::RenderWindow &window, ge::IngameMenu &ingame_
                 break;
             }
             if (ingame_menu.getSelectedRow() == ingame_menu.SETTINGS_INDEX) {
-                //TODO
-                break;
+                return ge::GameMode::Settings;
             }
             if (ingame_menu.getSelectedRow() == ingame_menu.EXIT_INDEX) {
                 return ge::GameMode::MainMenu;
@@ -395,6 +395,12 @@ bool ge::WindowManager::ingameMenuManager(ge::VisualNovel &visual_novel, sf::Ren
             case ge::GameMode::MainMenu:
                 drawable_elements.resetScene();
                 visual_novel.current_game_mode_ = ge::GameMode::MainMenu;
+                return true;
+            case ge::GameMode::Settings:
+                drawable_elements.getSettingsPtr()->setBackground(drawable_elements.getScenePtr()->getBackground());
+                drawable_elements.getSettingsPtr()->is_rendered_ = false;
+                drawable_elements.getSettingsPtr()->is_darkening_ = true;
+                visual_novel.current_game_mode_ = ge::GameMode::Settings;
                 return true;
             default:
                 break;
