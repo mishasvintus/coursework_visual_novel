@@ -340,6 +340,10 @@ unsigned int ge::Settings::getSelectedColumn() const {
     return selected_column_button_;
 }
 
+void ge::Settings::setBackgroundFile(const std::string &file) {
+    background_ = file;
+}
+
 void ge::Settings::setBackground(const std::string &background) {
     background_ = background;
 }

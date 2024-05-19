@@ -14,7 +14,7 @@ namespace ge {
 
         Settings(Settings &&settings) noexcept;
 
-        Settings(const std::vector<unsigned int> &parameter_values);
+        explicit Settings(const std::vector<unsigned int> &parameter_values);
 
         ~Settings() override = default;
 
