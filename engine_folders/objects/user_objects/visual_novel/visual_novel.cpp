@@ -170,12 +170,11 @@ bool ge::VisualNovel::run() {
             }
             window.display();
         }
-//        musicThread.join();
+        is_running_ = false;
+        musicThread.join();
     } catch (...) {
         is_running_ = false;
         return false;
     }
-    is_running_ = false;
-
     return true;
 }
