@@ -74,7 +74,6 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 break;
             }
             case GameMode::InGame: {
-                ge::SaveManager::putSave(visual_novel.getNameStartChapter(), 0, visual_novel.getSavesDir(), 1);
                 Frame &initial_frame = visual_novel.script_.chapters_[visual_novel.getNameStartChapter()].frames_[0];
                 std::shared_ptr<Scene> scene(
                         new Scene(std::make_shared<Frame>(initial_frame),
@@ -154,7 +153,7 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 break;
             }
             if (event.key.code == sf::Keyboard::Escape) {
-                return ge::GameMode::MainMenu;
+                return ge::GameMode::IngameMenu;
             }
             if (event.key.code != sf::Keyboard::Enter) {
                 break;
