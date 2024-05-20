@@ -18,7 +18,8 @@ ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
           name_start_chapter_(std::move(visual_novel.name_start_chapter_)),
           current_frame_number_(visual_novel.current_frame_number_),
           sound_track_(visual_novel.sound_track_),
-          icon_(visual_novel.icon_) {
+          icon_(visual_novel.icon_),
+          saves_dir_() {
 }
 
 ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
@@ -75,6 +76,10 @@ void ge::VisualNovel::setIcon(const std::string &icon) {
     icon_ = icon;
 }
 
+void ge::VisualNovel::setSavesDir(const std::string &saves_dir) {
+    saves_dir_ = saves_dir;
+}
+
 void ge::VisualNovel::setSoundVolume(float sound_volume) {
     music_.setVolume(sound_volume);
 }
@@ -113,6 +118,10 @@ const std::string &ge::VisualNovel::getSoundTrack() const {
 
 const std::string &ge::VisualNovel::getIcon() const {
     return icon_;
+}
+
+const std::string &ge::VisualNovel::getSavesDir() const {
+    return saves_dir_;
 }
 
 bool ge::VisualNovel::run() {

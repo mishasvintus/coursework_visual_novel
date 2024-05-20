@@ -53,6 +53,8 @@ namespace ge {
 
         void setIcon(const std::string &icon);
 
+        void setSavesDir(const std::string &saves_dir);
+
         const std::wstring &getAboutAuthors() const;
 
         const Script &getScript() const;
@@ -71,6 +73,8 @@ namespace ge {
 
         const std::string &getIcon() const;
 
+        const std::string &getSavesDir() const;
+
         bool run();
 
     private:
@@ -86,6 +90,7 @@ namespace ge {
         std::string about_authors_background_;
         std::string sound_track_;
         std::string icon_;
+        std::string saves_dir_;
         sf::Music music_;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;

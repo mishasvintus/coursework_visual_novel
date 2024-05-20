@@ -1,4 +1,5 @@
 #include "window_manager.h"
+#include "save_manager.h"
 
 #include <iostream>
 #include <chrono>
@@ -73,6 +74,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 break;
             }
             case GameMode::InGame: {
+
                 Frame &initial_frame = visual_novel.script_.chapters_[visual_novel.getNameStartChapter()].frames_[0];
                 std::shared_ptr<Scene> scene(
                         new Scene(std::make_shared<Frame>(initial_frame),
