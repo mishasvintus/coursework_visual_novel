@@ -12,3 +12,5 @@ cmake_install.cmake
 coursework_visual_novel.exe
 CMakeCache.txt
 Testing/
+openal32.dll
+OpenAL32.dll
