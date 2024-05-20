@@ -9,6 +9,7 @@ namespace ge {
         RecentScript,
         Info,
         IngameMenu,
-        LoadingSave
+        LoadingSave,
+        UpdatingSave
     };
 }

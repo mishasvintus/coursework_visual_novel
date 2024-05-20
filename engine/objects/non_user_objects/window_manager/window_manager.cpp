@@ -388,8 +388,7 @@ ge::GameMode ingameMenuHandler(sf::RenderWindow &window, ge::IngameMenu &ingame_
                 return ge::GameMode::InGame;
             }
             if (ingame_menu.getSelectedRow() == ingame_menu.SAVES_INDEX) {
-                //TODO
-                break;
+                return ge::GameMode::UpdatingSave;
             }
             if (ingame_menu.getSelectedRow() == ingame_menu.SETTINGS_INDEX) {
                 return ge::GameMode::Settings;
@@ -431,6 +430,11 @@ bool ge::WindowManager::ingameMenuManager(ge::VisualNovel &visual_novel, sf::Ren
                 drawable_elements.getSettingsPtr()->return_point_ = ge::GameMode::IngameMenu;
                 visual_novel.current_game_mode_ = ge::GameMode::Settings;
                 return true;
+            case ge::GameMode::UpdatingSave:
+                ge::SaveManager::putSave(drawable_elements.getScenePtr()->current_chapter_name_,
+                                         drawable_elements.getScenePtr()->current_frame_number_,
+                                         visual_novel.getSavesDir(), 1);
+                break;
             default:
                 break;
         }
