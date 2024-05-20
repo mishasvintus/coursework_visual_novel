@@ -134,6 +134,8 @@ bool ge::VisualNovel::run() {
         }
 
         music_.setLoop(true);
+        music_.setVolume(
+                drawable_elements.getSettingsPtr()->getParameterValues()[drawable_elements.getSettingsPtr()->SOUND_VOLUME_INDEX]);
         music_.play();
 
         while (window.isOpen()) {

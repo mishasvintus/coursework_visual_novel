@@ -63,7 +63,7 @@ namespace ge {
 
         bool is_rendered_ = false;
         bool is_darkening_ = false;
-        std::vector<unsigned int> parameter_values_ = {100};
+        std::vector<unsigned int> parameter_values_ = {80};
         std::string background_;
         std::shared_ptr<SettingsSfmlBasis> sfml_basis_ = nullptr;
 
