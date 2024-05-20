@@ -174,8 +174,7 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 break;
             }
             if (scene.getSelectedColumn() == scene.COLUMN_INFO) {
-                //return ge::GameMode::Info;
-                break;
+                return ge::GameMode::Info;
             }
             break;
         default:
@@ -212,9 +211,14 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
             case GameMode::RecentScript:
                 // TODO : реализовать
                 return true;
-            case GameMode::Info:
-                // TODO : реализовать
+            case GameMode::Info: {
+                std::shared_ptr<Info> info(new Info);
+                info->setBackground(scene->getBackground());
+                info->setInfo(visual_novel.info_);
+                drawable_elements.setInfo(info);
+                visual_novel.current_game_mode_ = GameMode::Info;
                 return true;
+            }
             default:
                 return false;
         }
@@ -443,5 +447,49 @@ bool ge::WindowManager::ingameMenuManager(ge::VisualNovel &visual_novel, sf::Ren
         return false;
     }
     ingame_menu->getSfmlBasis()->draw(window);
+    return true;
+}
+
+ge::GameMode infoHandler(sf::RenderWindow &window, ge::Info &info, sf::Event event) {
+    switch (event.type) {
+        case sf::Event::Closed:
+            window.close();
+            break;
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::Enter) {
+                return ge::GameMode::InGame;
+            }
+            break;
+        default:
+            break;
+    }
+    return ge::GameMode::Info;
+}
+
+bool ge::WindowManager::infoManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                    ge::DrawableElements &drawable_elements) {
+    std::shared_ptr<Info> info = drawable_elements.getInfoPtr();
+    if (!info) {
+        return false;
+    }
+    if (info->is_rendered_) {
+        sf::Event event{};
+        window.waitEvent(event);
+        switch (infoHandler(window, drawable_elements.putInfo(), event)) {
+            case ge::GameMode::Info:
+                return true;
+            case ge::GameMode::InGame:
+                drawable_elements.resetInfo();
+                visual_novel.current_game_mode_ = ge::GameMode::InGame;
+                return true;
+            default:
+                break;
+        }
+    }
+    window.clear();
+    if (!info->renderSfmlBasis(window.getSize())) {
+        return false;
+    }
+    info->getSfmlBasis()->draw(window);
     return true;
 }

@@ -25,6 +25,8 @@ namespace ge {
 
         void setAboutAuthors(const std::wstring &about_authors);
 
+        void setInfo(const std::wstring &info);
+
         void setScript(const Script &script);
 
         void setProjectName(const std::wstring &project_name);
@@ -75,6 +77,7 @@ namespace ge {
         static constexpr size_t UPPER_BOUND_LENGTH_ABOUT_AUTHORS = 5000;
         static constexpr size_t UPPER_BOUND_LENGTH_PROJECT_NAME = 50;
         std::wstring about_authors_;
+        std::wstring info_;
         Script script_;
         Frame ending_frame_;
         std::string main_menu_background_;
