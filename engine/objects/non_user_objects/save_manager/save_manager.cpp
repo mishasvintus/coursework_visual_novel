@@ -11,7 +11,8 @@ void ge::SaveManager::putSave(const std::string &chapter_name, size_t frame_numb
     j["chapter_name"] = chapter_name;
     j["frame_number"] = frame_number;
 
-    std::ofstream file(file_name, std::ios::out | std::ios::trunc);
+    std::ofstream file;
+    file.open(file_name, std::ios::out | std::ios::trunc);
     if (!file.is_open()) {
         std::cerr << "Unable to save progress: unable to open file: " << file_name << std::endl;
         return;

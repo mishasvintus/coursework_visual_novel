@@ -1,9 +1,6 @@
 #include "window_manager.h"
 #include "save_manager.h"
 
-#include <iostream>
-#include <chrono>
-
 std::unordered_map<ge::GameMode, WindowManagerPtr> ge::WindowManager::getMap() {
     std::unordered_map<ge::GameMode, WindowManagerPtr> result;
 
@@ -42,6 +39,9 @@ ge::GameMode mainMenuEventHandler(sf::RenderWindow &window, ge::MainMenu &main_m
             if (selected_button == 0) {
                 return ge::GameMode::InGame;
             }
+            if (selected_button == 1) {
+                return ge::GameMode::LoadingSave;
+            }
             if (selected_button == 2) {
                 return ge::GameMode::Settings;
             }
@@ -74,13 +74,31 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 break;
             }
             case GameMode::InGame: {
-
+                ge::SaveManager::putSave(visual_novel.getNameStartChapter(), 0, visual_novel.getSavesDir(), 1);
                 Frame &initial_frame = visual_novel.script_.chapters_[visual_novel.getNameStartChapter()].frames_[0];
                 std::shared_ptr<Scene> scene(
                         new Scene(std::make_shared<Frame>(initial_frame),
                                   visual_novel.getNameStartChapter(),
                                   0));
 
+                drawable_elements.setScene(scene);
+                visual_novel.current_game_mode_ = GameMode::InGame;
+                return true;
+            }
+            case GameMode::LoadingSave: {
+                std::pair<std::string, size_t> game_point = ge::SaveManager::readSave(visual_novel.getSavesDir(), 1);
+                if (game_point.first.empty()) {
+                    break;
+                }
+                if (!(visual_novel.getScript().chapters_.contains(game_point.first)) ||
+                    visual_novel.script_.chapters_[game_point.first].frames_.size() <= game_point.second) {
+                    break;
+                }
+                Frame &initial_frame = visual_novel.script_.chapters_[game_point.first].frames_[game_point.second];
+                std::shared_ptr<Scene> scene(
+                        new Scene(std::make_shared<Frame>(initial_frame),
+                                  game_point.first,
+                                  game_point.second));
                 drawable_elements.setScene(scene);
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
@@ -203,7 +221,8 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     }
     window.clear();
     if (scene->is_waiting_next_frame_) {
-        if (scene->current_frame_number_ >= visual_novel.script_.chapters_[scene->current_chapter_name_].frames_.size()){
+        if (scene->current_frame_number_ >=
+            visual_novel.script_.chapters_[scene->current_chapter_name_].frames_.size()) {
             scene->setNewFrame(std::make_shared<Frame>(visual_novel.ending_frame_));
         } else {
             scene->setNewFrame(std::make_shared<Frame>(
@@ -262,7 +281,8 @@ bool ge::WindowManager::aboutAuthorsManager(ge::VisualNovel &visual_novel, sf::R
 }
 
 
-ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, sf::Event event, ge::VisualNovel &visual_novel) {
+ge::GameMode
+settingsHandler(sf::RenderWindow &window, ge::Settings &settings, sf::Event event, ge::VisualNovel &visual_novel) {
     switch (event.type) {
         case sf::Event::Closed:
             window.close();
@@ -296,13 +316,15 @@ ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, s
                 break;
             }
             if (settings.getSelectedColumn() == settings.LEFT) {
-                visual_novel.setSoundVolume(static_cast<float>(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]));
+                visual_novel.setSoundVolume(
+                        static_cast<float>(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]));
                 settings.decreaseParameter();
 
                 break;
             }
             if (settings.getSelectedColumn() == settings.RIGHT) {
-                visual_novel.setSoundVolume(static_cast<float>(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]));
+                visual_novel.setSoundVolume(
+                        static_cast<float>(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]));
                 settings.increaseParameter();
                 break;
             }

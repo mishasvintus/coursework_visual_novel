@@ -13,7 +13,8 @@ namespace ge {
         InGame,
         RecentScript,
         Info,
-        IngameMenu
+        IngameMenu,
+        LoadingSave
     };
 
     class VisualNovel {
