@@ -98,7 +98,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 std::shared_ptr<Scene> scene(
                         new Scene(std::make_shared<Frame>(initial_frame),
                                   game_point.first,
-                                  game_point.second));
+                                  static_cast<int>(game_point.second)));
                 drawable_elements.setScene(scene);
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
@@ -107,7 +107,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 drawable_elements.getSettingsPtr()->setBackground(visual_novel.settings_background_);
                 drawable_elements.getSettingsPtr()->is_rendered_ = false;
                 drawable_elements.getSettingsPtr()->is_darkening_ = false;
-                drawable_elements.getSettingsPtr()->is_return_point_menu_ = true;
+                drawable_elements.getSettingsPtr()->return_point_ = ge::GameMode::MainMenu;
                 visual_novel.current_game_mode_ = GameMode::Settings;
                 return true;
             }
@@ -349,8 +349,7 @@ bool ge::WindowManager::SettingsManager(ge::VisualNovel &visual_novel, sf::Rende
             case GameMode::Settings:
                 break;
             case GameMode::MainMenu: {
-                visual_novel.current_game_mode_ = (drawable_elements.getSettingsPtr()->is_return_point_menu_
-                                                   ? GameMode::MainMenu : GameMode::IngameMenu);
+                visual_novel.current_game_mode_ = drawable_elements.getSettingsPtr()->return_point_;
                 return true;
             }
             default:
@@ -429,7 +428,7 @@ bool ge::WindowManager::ingameMenuManager(ge::VisualNovel &visual_novel, sf::Ren
                 drawable_elements.getSettingsPtr()->setBackground(drawable_elements.getScenePtr()->getBackground());
                 drawable_elements.getSettingsPtr()->is_rendered_ = false;
                 drawable_elements.getSettingsPtr()->is_darkening_ = true;
-                drawable_elements.getSettingsPtr()->is_return_point_menu_ = false;
+                drawable_elements.getSettingsPtr()->return_point_ = ge::GameMode::IngameMenu;
                 visual_novel.current_game_mode_ = ge::GameMode::Settings;
                 return true;
             default:

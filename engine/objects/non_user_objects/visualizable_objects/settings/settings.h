@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game_mode.h"
 #include "non_user_objects/visualizable_objects/visualizable.h"
 #include "settings_sfml_basis.h"
 
@@ -28,7 +29,7 @@ namespace ge {
 
         void setBackground(const std::string &background);
 
-        void setReturnPoint(bool return_point);
+        void setReturnPoint(ge::GameMode return_point);
 
         void moveUp();
 
@@ -50,7 +51,7 @@ namespace ge {
 
         const std::string &getBackground();
 
-        [[nodiscard]] bool getReturnPoint() const;
+        [[nodiscard]] ge::GameMode getReturnPoint() const;
 
         const unsigned int BACK_BUTTON_ROW = 1;
         const unsigned int LEFT = 0;
@@ -67,7 +68,7 @@ namespace ge {
 
         bool is_rendered_ = false;
         bool is_darkening_ = false;
-        bool is_return_point_menu_ = true;
+        ge::GameMode return_point_ = ge::GameMode::MainMenu;
         std::vector<unsigned int> parameter_values_ = {80};
         std::string background_;
         std::shared_ptr<SettingsSfmlBasis> sfml_basis_ = nullptr;

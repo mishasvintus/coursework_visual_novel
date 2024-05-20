@@ -1,21 +1,12 @@
 #pragma once
 
+#include "game_mode.h"
 #include "frame.h"
 #include "script.h"
 
 #include <SFML/Audio/Music.hpp>
 
 namespace ge {
-    enum class GameMode {
-        MainMenu,
-        Settings,
-        AboutAuthors,
-        InGame,
-        RecentScript,
-        Info,
-        IngameMenu,
-        LoadingSave
-    };
 
     class VisualNovel {
     public:
