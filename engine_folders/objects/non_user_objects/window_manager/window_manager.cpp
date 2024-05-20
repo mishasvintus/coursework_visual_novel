@@ -294,13 +294,13 @@ ge::GameMode settingsHandler(sf::RenderWindow &window, ge::Settings &settings, s
                 break;
             }
             if (settings.getSelectedColumn() == settings.LEFT) {
-                visual_novel.setSoundVolume(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]);
+                visual_novel.setSoundVolume(static_cast<float>(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]));
                 settings.decreaseParameter();
 
                 break;
             }
             if (settings.getSelectedColumn() == settings.RIGHT) {
-                visual_novel.setSoundVolume(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]);
+                visual_novel.setSoundVolume(static_cast<float>(settings.getParameterValues()[settings.SOUND_VOLUME_INDEX]));
                 settings.increaseParameter();
                 break;
             }

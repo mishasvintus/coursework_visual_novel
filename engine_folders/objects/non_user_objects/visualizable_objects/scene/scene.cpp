@@ -218,7 +218,7 @@ void ge::Scene::waitNextFrame() {
 
 void ge::Scene::waitNextChapter() {
     if (!current_frame_->getChoiceOfAction()) {
-        throw std::runtime_error("can't wait next chapter untill current frame is choice of action");
+        throw std::runtime_error("can't wait next chapter until current frame is choice of action");
     }
     size_t quantity_of_actions = current_frame_->getActions().size();
     if (quantity_of_actions == 0) {
@@ -238,10 +238,10 @@ std::string ge::Scene::getBackground() const {
 
 void ge::Scene::processNewFrame() {
     if (!is_rendered_) {
-        throw std::runtime_error("sfml_basis_ was not rendered\n");
+        throw std::runtime_error("sfml_basis_ was not rendered to render new frame\n");
     }
     if (new_frame_ == nullptr) {
-        throw std::runtime_error("new_frame_ was not set\n");
+        throw std::runtime_error("new_frame_ was not set to process new frame\n");
     }
 
     // Updating background
@@ -340,7 +340,7 @@ void ge::Scene::processNewFrame() {
             }
         }
     } else {
-        if (new_frame_->getDialogueBox().getSpeaker().empty()) {
+        if (new_frame_->getDialogueBox().getSpeaker().empty() || new_frame_->getDialogueBox().getReplica().empty()) {
             sfml_basis_->speaker.setFillColor(sf::Color::Transparent);
             sfml_basis_->speaker.setOutlineColor(sf::Color::Transparent);
             sfml_basis_->speaker_background.setFillColor(sf::Color::Transparent);
@@ -351,7 +351,7 @@ void ge::Scene::processNewFrame() {
             sfml_basis_->speaker_background.setFillColor(BACKGROUNDS_FILL_COLOR);
             sfml_basis_->speaker_background.setOutlineColor(sf::Color::Black);
         }
-        if (new_frame_->getDialogueBox().getSpeaker().empty() && new_frame_->getDialogueBox().getReplica().empty()) {
+        if (new_frame_->getDialogueBox().getReplica().empty()) {
             sfml_basis_->replica.setFillColor(sf::Color::Transparent);
             sfml_basis_->replica.setOutlineColor(sf::Color::Transparent);
             sfml_basis_->replica_background.setFillColor(sf::Color::Transparent);
@@ -362,6 +362,7 @@ void ge::Scene::processNewFrame() {
             sfml_basis_->replica_background.setFillColor(BACKGROUNDS_FILL_COLOR);
             sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
         }
+
         if (current_frame_->getChoiceOfAction()) {
             sfml_basis_->next.setFillColor(sf::Color::White);
             sfml_basis_->next.setOutlineColor(sf::Color::Black);
@@ -520,18 +521,34 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
             }
         }
     } else {
-        sfml_basis_->replica.setFillColor(sf::Color::White);
-        sfml_basis_->replica.setOutlineColor(sf::Color::Black);
-        sfml_basis_->speaker.setFillColor(sf::Color::White);
-        sfml_basis_->speaker.setOutlineColor(sf::Color::Black);
-        sfml_basis_->replica_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-        sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
-        sfml_basis_->speaker_background.setFillColor(BACKGROUNDS_FILL_COLOR);
-        sfml_basis_->speaker_background.setOutlineColor(sf::Color::Black);
         sfml_basis_->next_background.setFillColor(BACKGROUNDS_FILL_COLOR);
         sfml_basis_->next_background.setOutlineColor(HIGHLIGHT_COLOR);
         sfml_basis_->next.setFillColor(sf::Color::White);
         sfml_basis_->next.setOutlineColor(sf::Color::Black);
+
+        if (new_frame_->getDialogueBox().getSpeaker().empty() || new_frame_->getDialogueBox().getReplica().empty()) {
+            sfml_basis_->speaker.setFillColor(sf::Color::Transparent);
+            sfml_basis_->speaker.setOutlineColor(sf::Color::Transparent);
+            sfml_basis_->speaker_background.setFillColor(sf::Color::Transparent);
+            sfml_basis_->speaker_background.setOutlineColor(sf::Color::Transparent);
+        } else {
+            sfml_basis_->speaker.setFillColor(sf::Color::White);
+            sfml_basis_->speaker.setOutlineColor(sf::Color::Black);
+            sfml_basis_->speaker_background.setFillColor(BACKGROUNDS_FILL_COLOR);
+            sfml_basis_->speaker_background.setOutlineColor(sf::Color::Black);
+        }
+        if (new_frame_->getDialogueBox().getReplica().empty()) {
+            sfml_basis_->replica.setFillColor(sf::Color::Transparent);
+            sfml_basis_->replica.setOutlineColor(sf::Color::Transparent);
+            sfml_basis_->replica_background.setFillColor(sf::Color::Transparent);
+            sfml_basis_->replica_background.setOutlineColor(sf::Color::Transparent);
+        } else {
+            sfml_basis_->replica.setFillColor(sf::Color::White);
+            sfml_basis_->replica.setOutlineColor(sf::Color::Black);
+            sfml_basis_->replica_background.setFillColor(BACKGROUNDS_FILL_COLOR);
+            sfml_basis_->replica_background.setOutlineColor(sf::Color::Black);
+        }
+
         for (sf::Text &action_button: sfml_basis_->action_buttons) {
             action_button.setFillColor(sf::Color::Transparent);
             action_button.setOutlineColor(sf::Color::Transparent);
