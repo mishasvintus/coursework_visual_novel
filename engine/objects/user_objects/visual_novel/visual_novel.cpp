@@ -38,6 +38,10 @@ void ge::VisualNovel::setAboutAuthors(const std::wstring &about_authors) {
     about_authors_ = about_authors;
 }
 
+void ge::VisualNovel::setInfo(const std::wstring &info) {
+    info_ = info;
+}
+
 void ge::VisualNovel::setScript(const Script &script) {
     script_ = script;
 }

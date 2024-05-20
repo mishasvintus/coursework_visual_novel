@@ -27,10 +27,7 @@ namespace ge {
         }
 
         static bool infoManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
-                                ge::DrawableElements &drawable_elements) {
-            // TODO
-            return true;
-        }
+                                ge::DrawableElements &drawable_elements);
 
         static bool ingameMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                       ge::DrawableElements &drawable_elements);
