@@ -107,6 +107,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 drawable_elements.getSettingsPtr()->setBackground(visual_novel.settings_background_);
                 drawable_elements.getSettingsPtr()->is_rendered_ = false;
                 drawable_elements.getSettingsPtr()->is_darkening_ = false;
+                drawable_elements.getSettingsPtr()->is_return_point_menu_ = true;
                 visual_novel.current_game_mode_ = GameMode::Settings;
                 return true;
             }
@@ -348,7 +349,8 @@ bool ge::WindowManager::SettingsManager(ge::VisualNovel &visual_novel, sf::Rende
             case GameMode::Settings:
                 break;
             case GameMode::MainMenu: {
-                visual_novel.current_game_mode_ = GameMode::MainMenu;
+                visual_novel.current_game_mode_ = (drawable_elements.getSettingsPtr()->is_return_point_menu_
+                                                   ? GameMode::MainMenu : GameMode::IngameMenu);
                 return true;
             }
             default:
@@ -427,6 +429,7 @@ bool ge::WindowManager::ingameMenuManager(ge::VisualNovel &visual_novel, sf::Ren
                 drawable_elements.getSettingsPtr()->setBackground(drawable_elements.getScenePtr()->getBackground());
                 drawable_elements.getSettingsPtr()->is_rendered_ = false;
                 drawable_elements.getSettingsPtr()->is_darkening_ = true;
+                drawable_elements.getSettingsPtr()->is_return_point_menu_ = false;
                 visual_novel.current_game_mode_ = ge::GameMode::Settings;
                 return true;
             default:

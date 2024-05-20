@@ -28,21 +28,24 @@ ge::Settings::Settings() {
 ge::Settings::Settings(const ge::Settings &settings) : is_rendered_(settings.is_rendered_),
                                                        parameter_values_(settings.parameter_values_),
                                                        sfml_basis_(settings.sfml_basis_),
-                                                       background_(settings.background_) {
+                                                       background_(settings.background_),
+                                                       is_return_point_menu_(settings.is_return_point_menu_) {
     selected_row_button_ = PARAMETERS_QUANTITY;
 }
 
 ge::Settings::Settings(ge::Settings &settings) : is_rendered_(settings.is_rendered_),
                                                  parameter_values_(settings.parameter_values_),
                                                  sfml_basis_(settings.sfml_basis_),
-                                                 background_(settings.background_) {
+                                                 background_(settings.background_),
+                                                 is_return_point_menu_(settings.is_return_point_menu_) {
     selected_row_button_ = PARAMETERS_QUANTITY;
 }
 
 ge::Settings::Settings(ge::Settings &&settings) noexcept: is_rendered_(settings.is_rendered_),
                                                           parameter_values_(std::move(settings.parameter_values_)),
                                                           sfml_basis_(std::move(settings.sfml_basis_)),
-                                                          background_(std::move(settings.background_)) {
+                                                          background_(std::move(settings.background_)),
+                                                          is_return_point_menu_(settings.is_return_point_menu_) {
     selected_row_button_ = PARAMETERS_QUANTITY;
 }
 
@@ -57,6 +60,7 @@ ge::Settings &ge::Settings::operator=(const ge::Settings &settings) {
     parameter_values_ = settings.parameter_values_;
     sfml_basis_ = settings.sfml_basis_;
     background_ = settings.background_;
+    is_return_point_menu_ = settings.is_return_point_menu_;
     return *this;
 }
 
@@ -65,6 +69,7 @@ ge::Settings &ge::Settings::operator=(ge::Settings &&settings) noexcept {
     parameter_values_ = std::move(settings.parameter_values_);
     sfml_basis_ = std::move(settings.sfml_basis_);
     background_ = settings.background_;
+    is_return_point_menu_ = settings.is_return_point_menu_;
     return *this;
 }
 
@@ -359,4 +364,12 @@ void ge::Settings::setBackground(const std::string &background) {
 
 const std::string &ge::Settings::getBackground() {
     return background_;
+}
+
+void ge::Settings::setReturnPoint(bool return_point) {
+    is_return_point_menu_ = return_point;
+}
+
+bool ge::Settings::getReturnPoint() const {
+    return is_return_point_menu_;
 }

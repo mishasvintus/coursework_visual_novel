@@ -26,6 +26,10 @@ namespace ge {
 
         void setBackgroundFile(const std::string &file);
 
+        void setBackground(const std::string &background);
+
+        void setReturnPoint(bool return_point);
+
         void moveUp();
 
         void moveDown();
@@ -44,9 +48,9 @@ namespace ge {
 
         [[nodiscard]] const std::vector<unsigned int> &getParameterValues() const;
 
-        void setBackground(const std::string &background);
-
         const std::string &getBackground();
+
+        [[nodiscard]] bool getReturnPoint() const;
 
         const unsigned int BACK_BUTTON_ROW = 1;
         const unsigned int LEFT = 0;
@@ -63,6 +67,7 @@ namespace ge {
 
         bool is_rendered_ = false;
         bool is_darkening_ = false;
+        bool is_return_point_menu_ = true;
         std::vector<unsigned int> parameter_values_ = {80};
         std::string background_;
         std::shared_ptr<SettingsSfmlBasis> sfml_basis_ = nullptr;
