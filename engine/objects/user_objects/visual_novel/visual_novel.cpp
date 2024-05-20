@@ -81,7 +81,7 @@ void ge::VisualNovel::setSavesDir(const std::string &saves_dir) {
 }
 
 void ge::VisualNovel::setSoundVolume(float sound_volume) {
-    music_.setVolume(sound_volume);
+    music_->setVolume(sound_volume);
 }
 
 const std::wstring &ge::VisualNovel::getAboutAuthors() const {
@@ -135,26 +135,33 @@ bool ge::VisualNovel::run() {
         window.setMouseCursorVisible(false);
         std::unordered_map<GameMode, WindowManagerPtr> window_managers = ge::WindowManager::getMap();
 
+        cache_manager_ = std::make_shared<ge::CacheManager>();
+
         ge::DrawableElements drawable_elements;
         drawable_elements.setMainMenu(std::make_shared<MainMenu>());
+        drawable_elements.getMainMenuPtr()->setCacheManager(cache_manager_);
         drawable_elements.getMainMenuPtr()->setBackground(main_menu_background_);
         drawable_elements.getMainMenuPtr()->setTitle(project_name_);
 
         drawable_elements.setSettings(std::make_shared<Settings>());
+        drawable_elements.getSettingsPtr()->setCacheManager(cache_manager_);
         drawable_elements.getSettingsPtr()->setBackground(settings_background_);
 
         drawable_elements.setAboutAuthors(std::make_shared<AboutAuthors>());
         drawable_elements.getAboutAuthorsPtr()->setBackground(about_authors_background_);
         drawable_elements.getAboutAuthorsPtr()->setText(about_authors_);
 
-        if (!music_.openFromFile(sound_track_)) {
-            std::cerr << "Can't open sound_track " << sound_track_;
-        }
+        if (!sound_track_.empty()) {
+            music_ = std::make_shared<sf::Music>();
+            if (!music_->openFromFile(sound_track_)) {
+                std::cerr << "Can't open sound_track " << sound_track_;
+            }
 
-        music_.setLoop(true);
-        music_.setVolume(
-                static_cast<float>(drawable_elements.getSettingsPtr()->getParameterValues()[drawable_elements.getSettingsPtr()->SOUND_VOLUME_INDEX]));
-        music_.play();
+            music_->setLoop(true);
+            music_->setVolume(
+                    static_cast<float>(drawable_elements.getSettingsPtr()->getParameterValues()[drawable_elements.getSettingsPtr()->SOUND_VOLUME_INDEX]));
+            music_->play();
+        }
 
         while (window.isOpen()) {
             if (!window_managers[current_game_mode_](*this, window, drawable_elements)) {

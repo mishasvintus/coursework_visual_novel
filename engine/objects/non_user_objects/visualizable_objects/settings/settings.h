@@ -3,7 +3,7 @@
 #include "game_mode.h"
 #include "non_user_objects/visualizable_objects/visualizable.h"
 #include "settings_sfml_basis.h"
-
+#include "cache_manager.h"
 namespace ge {
     class Settings : Visualizable {
     public:
@@ -53,6 +53,10 @@ namespace ge {
 
         [[nodiscard]] ge::GameMode getReturnPoint() const;
 
+        void setCacheManager(std::shared_ptr<CacheManager> cache_manager);
+
+        const CacheManager &getCacheManager();
+
         const unsigned int BACK_BUTTON_ROW = 1;
         const unsigned int LEFT = 0;
         const unsigned int RIGHT = 1;
@@ -72,6 +76,7 @@ namespace ge {
         std::vector<unsigned int> parameter_values_ = {80};
         std::string background_;
         std::shared_ptr<SettingsSfmlBasis> sfml_basis_ = nullptr;
+        std::shared_ptr<CacheManager> cache_manager_ = nullptr;
 
         unsigned int selected_row_button_;
         unsigned int selected_column_button_ = 0;

@@ -3,6 +3,7 @@
 #include "game_mode.h"
 #include "frame.h"
 #include "script.h"
+#include "cache_manager.h"
 
 #include <SFML/Audio/Music.hpp>
 
@@ -83,9 +84,10 @@ namespace ge {
         std::string sound_track_;
         std::string icon_;
         std::string saves_dir_;
-        sf::Music music_;
+        std::shared_ptr<sf::Music> music_ = nullptr;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;
+        std::shared_ptr<CacheManager> cache_manager_;
         std::string name_start_chapter_; //TODO: сделать проверку на наличие в мапе
         unsigned int current_frame_number_ = 0;
     };

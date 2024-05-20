@@ -60,6 +60,14 @@ const std::string &ge::MainMenu::getBackground() {
     return background_;
 }
 
+void ge::MainMenu::setCacheManager(std::shared_ptr<ge::CacheManager> cache_manager) {
+    cache_manager_ = cache_manager;
+}
+
+const ge::CacheManager &ge::MainMenu::getCacheManager() {
+    return *cache_manager_;
+}
+
 void ge::MainMenu::moveUp() {
     if (selected_button_ == TOP_BUTTON_INDEX) {
         return;
@@ -86,14 +94,18 @@ bool ge::MainMenu::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_) {
         return true;
     }
-
-    sfml_basis_ = std::make_shared<MainMenuSfmlBasis>();
-
-    if (!sfml_basis_->background_texture_.loadFromFile(background_)) {
-        std::cerr << "Can't open main menu background file";
+    if (!cache_manager_) {
+        std::cerr << "Cache_manager wasn't set in settings";
         return false;
     }
-    sfml_basis_->background_sprite_.setTexture(sfml_basis_->background_texture_);
+    sfml_basis_ = std::make_shared<MainMenuSfmlBasis>();
+
+    if (!cache_manager_->loadImage(background_, true)) {
+        std::cerr << "Can't load main menu background file";
+        return false;
+    }
+
+    sfml_basis_->background_sprite_.setTexture(cache_manager_->getTextureRef(background_));
     sfml_basis_->background_sprite_.scale({
                                                   static_cast<float>(window_size.x) / 3840.0f,
                                                   static_cast<float>(window_size.y) / 2160.0f
