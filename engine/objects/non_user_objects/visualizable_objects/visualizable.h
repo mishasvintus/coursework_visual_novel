@@ -9,7 +9,7 @@ namespace ge {
     public:
         virtual ~Visualizable() = default;
 
-        const std::string FONT_NAME = "engine_folders/data/comic_sans.ttf";
+        const std::string FONT_NAME = "engine/data/comic_sans.ttf";
     private:
         std::vector<std::shared_ptr<sf::Drawable>> drawables_;
 

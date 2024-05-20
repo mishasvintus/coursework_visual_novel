@@ -17,7 +17,8 @@ ge::VisualNovel::VisualNovel(VisualNovel &&visual_novel) noexcept
           project_name_(std::move(visual_novel.project_name_)),
           name_start_chapter_(std::move(visual_novel.name_start_chapter_)),
           current_frame_number_(visual_novel.current_frame_number_),
-          sound_track_(visual_novel.sound_track_) {
+          sound_track_(visual_novel.sound_track_),
+          icon_(visual_novel.icon_) {
 }
 
 ge::VisualNovel::VisualNovel(std::wstring about_authors, Script script, std::wstring project_name,
@@ -70,40 +71,48 @@ void ge::VisualNovel::setSoundTrack(const std::string &sound_track) {
     sound_track_ = sound_track;
 }
 
+void ge::VisualNovel::setIcon(const std::string &icon) {
+    icon_ = icon;
+}
+
 void ge::VisualNovel::setSoundVolume(float sound_volume) {
     music_.setVolume(sound_volume);
 }
 
-const std::wstring &ge::VisualNovel::getAboutAuthors() {
+const std::wstring &ge::VisualNovel::getAboutAuthors() const {
     return about_authors_;
 }
 
-const ge::Frame &ge::VisualNovel::getEndingFrame() {
+const ge::Frame &ge::VisualNovel::getEndingFrame() const {
     return ending_frame_;
 }
 
-const ge::Script &ge::VisualNovel::getScript() {
+const ge::Script &ge::VisualNovel::getScript() const {
     return script_;
 }
 
-const std::string &ge::VisualNovel::getNameStartChapter() {
+const std::string &ge::VisualNovel::getNameStartChapter() const {
     return name_start_chapter_;
 }
 
-const std::string &ge::VisualNovel::getMainMenuBackground() {
+const std::string &ge::VisualNovel::getMainMenuBackground() const {
     return main_menu_background_;
 }
 
-const std::string &ge::VisualNovel::getSettingsBackground() {
+const std::string &ge::VisualNovel::getSettingsBackground() const {
     return settings_background_;
 }
 
-const std::string &ge::VisualNovel::getAboutAuthorsBackground() {
+const std::string &ge::VisualNovel::getAboutAuthorsBackground() const {
     return about_authors_background_;
 }
 
-const std::string &ge::VisualNovel::getSoundTrack() {
+const std::string &ge::VisualNovel::getSoundTrack() const {
     return sound_track_;
+}
+
+const std::string &ge::VisualNovel::getIcon() const {
+    return icon_;
 }
 
 bool ge::VisualNovel::run() {
@@ -111,7 +120,7 @@ bool ge::VisualNovel::run() {
         sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen,
                                 sf::ContextSettings(0, 0, 2));
         sf::Image icon;
-        icon.loadFromFile("engine_folders/data/images/icon128.png");
+        icon.loadFromFile(icon_);
         window.setIcon(128, 128, icon.getPixelsPtr());
         window.setFramerateLimit(60);
         window.setMouseCursorVisible(false);
@@ -135,7 +144,7 @@ bool ge::VisualNovel::run() {
 
         music_.setLoop(true);
         music_.setVolume(
-                drawable_elements.getSettingsPtr()->getParameterValues()[drawable_elements.getSettingsPtr()->SOUND_VOLUME_INDEX]);
+                static_cast<float>(drawable_elements.getSettingsPtr()->getParameterValues()[drawable_elements.getSettingsPtr()->SOUND_VOLUME_INDEX]));
         music_.play();
 
         while (window.isOpen()) {

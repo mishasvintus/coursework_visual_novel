@@ -2459,7 +2459,7 @@ public:
     {
         sf::Clock clock;
 
-        // Start game loop
+        // Start game_data loop
         while (window.isOpen())
         {
             // Process events

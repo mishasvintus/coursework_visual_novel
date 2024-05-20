@@ -482,7 +482,7 @@ public:
 /// }
 /// else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Grave))
 /// {
-///     // open in-game command line (if it's not already open)
+///     // open in-game_data command line (if it's not already open)
 /// }
 /// \endcode
 ///

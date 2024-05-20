@@ -182,7 +182,7 @@ int main()
         // Flag to track whether mipmapping is currently enabled
         bool mipmapEnabled = true;
 
-        // Start game loop
+        // Start game_data loop
         while (window.isOpen())
         {
             // Process events

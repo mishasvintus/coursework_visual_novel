@@ -124,7 +124,7 @@ int main()
     // Create a clock for measuring the time elapsed
     sf::Clock clock;
 
-    // Start the game loop
+    // Start the game_data loop
     while (window.isOpen())
     {
         // Process events

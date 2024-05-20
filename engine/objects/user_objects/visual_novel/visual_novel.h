@@ -51,21 +51,25 @@ namespace ge {
 
         void setSoundVolume(float sound_volume);
 
-        const std::wstring &getAboutAuthors();
+        void setIcon(const std::string &icon);
 
-        const Script &getScript();
+        const std::wstring &getAboutAuthors() const;
 
-        const std::string &getNameStartChapter();
+        const Script &getScript() const;
 
-        const Frame &getEndingFrame();
+        const std::string &getNameStartChapter() const;
 
-        const std::string &getMainMenuBackground();
+        const Frame &getEndingFrame() const;
 
-        const std::string &getSettingsBackground();
+        const std::string &getMainMenuBackground() const;
 
-        const std::string &getAboutAuthorsBackground();
+        const std::string &getSettingsBackground() const;
 
-        const std::string &getSoundTrack();
+        const std::string &getAboutAuthorsBackground() const;
+
+        const std::string &getSoundTrack() const;
+
+        const std::string &getIcon() const;
 
         bool run();
 
@@ -81,6 +85,7 @@ namespace ge {
         std::string settings_background_;
         std::string about_authors_background_;
         std::string sound_track_;
+        std::string icon_;
         sf::Music music_;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;

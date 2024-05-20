@@ -387,7 +387,7 @@ int main()
     instructions.setPosition(280, 555);
     instructions.setFillColor(sf::Color(80, 80, 80));
 
-    // Start the game loop
+    // Start the game_data loop
     sf::Clock clock;
     while (window.isOpen())
     {

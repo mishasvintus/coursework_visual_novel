@@ -43,7 +43,7 @@ int main()
                             sf::Style::Titlebar | sf::Style::Close);
     window.setVerticalSyncEnabled(true);
 
-    // Load the sounds used in the game
+    // Load the sounds used in the game_data
     sf::SoundBuffer ballSoundBuffer;
     if (!ballSoundBuffer.loadFromFile(resourcesDir() + "ball.wav"))
         return EXIT_FAILURE;
@@ -94,9 +94,9 @@ int main()
     pauseMessage.setFillColor(sf::Color::White);
 
     #ifdef SFML_SYSTEM_IOS
-    pauseMessage.setString("Welcome to SFML Tennis!\nTouch the screen to start the game.");
+    pauseMessage.setString("Welcome to SFML Tennis!\nTouch the screen to start the game_data.");
     #else
-    pauseMessage.setString("Welcome to SFML Tennis!\n\nPress space to start the game.");
+    pauseMessage.setString("Welcome to SFML Tennis!\n\nPress space to start the game_data.");
     #endif
 
     // Define the paddles properties
@@ -129,7 +129,7 @@ int main()
             {
                 if (!isPlaying)
                 {
-                    // (re)start the game
+                    // (re)start the game_data
                     isPlaying = true;
                     clock.restart();
 
