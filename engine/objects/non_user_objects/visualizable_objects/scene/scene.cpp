@@ -428,7 +428,6 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
 
     // setting slot pictures
     size_t slots_quantity = new_frame_->getSlots().getQuantityOfSlots();
-    sfml_basis_->slots_textures.resize(slots_quantity);
     sfml_basis_->slots_sprites.resize(slots_quantity);
     if (slots_quantity > 0) {
         const std::vector<std::string> &pictures_in_slots = new_frame_->getSlots().getPicturesInSlots();
