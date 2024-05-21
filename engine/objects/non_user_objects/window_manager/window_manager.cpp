@@ -202,6 +202,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
             }
             case GameMode::IngameMenu: {
                 std::shared_ptr<IngameMenu> ingame_menu(new IngameMenu);
+                ingame_menu->setCacheManager(visual_novel.cache_manager_);
                 ingame_menu->setBackground(scene->getBackground());
                 drawable_elements.setIngameMenu(ingame_menu);
                 visual_novel.current_game_mode_ = GameMode::IngameMenu;
@@ -209,6 +210,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
             }
             case GameMode::RecentScript: {
                 std::shared_ptr<RecentScript> recent_script(new RecentScript);
+                recent_script->setCacheManager(visual_novel.cache_manager_);
                 recent_script->setBackground(scene->getBackground());
                 drawable_elements.setRecentScript(recent_script);
                 visual_novel.current_game_mode_ = GameMode::RecentScript;
@@ -216,6 +218,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
             }
             case GameMode::Info: {
                 std::shared_ptr<Info> info(new Info);
+                info->setCacheManager(visual_novel.cache_manager_);
                 info->setBackground(scene->getBackground());
                 info->setInfo(visual_novel.info_);
                 drawable_elements.setInfo(info);

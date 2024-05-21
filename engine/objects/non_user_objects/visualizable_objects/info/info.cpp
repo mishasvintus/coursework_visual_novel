@@ -73,13 +73,17 @@ bool ge::Info::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_) {
         return true;
     }
-    sfml_basis_ = std::make_shared<InfoSfmlBasis>();
-
-    if (!sfml_basis_->background_texture.loadFromFile(background_)) {
-        std::cerr << "File for background image of Info not found: " << background_ << std::endl;
+    if (!cache_manager_) {
+        std::cerr << "Cache_manager wasn't set in IngameMenu" << std::endl;
         return false;
     }
-    sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
+    sfml_basis_ = std::make_shared<InfoSfmlBasis>();
+
+    if (!cache_manager_->loadImage(background_, false)) {
+        std::cerr << "Can't load file for background image of Info: " << background_ << std::endl;
+        return false;
+    }
+    sfml_basis_->background_sprite.setTexture(cache_manager_->getTextureRef(background_));
     sfml_basis_->background_sprite.scale({
                                                  static_cast<float>(window_size.x) / 3840.0f,
                                                  static_cast<float>(window_size.y) / 2160.0f

@@ -20,15 +20,14 @@ namespace ge {
         }
 
         const std::string FONT_NAME = "engine/data/comic_sans.ttf";
-    private:
+    protected:
+        std::shared_ptr<CacheManager> cache_manager_ = nullptr;
 
+    private:
         virtual bool renderSfmlBasis(const sf::Vector2u &window_size) = 0;
 
         virtual void clearSfmlBasis() = 0;
 
         virtual std::shared_ptr<SfmlBasis> getSfmlBasis() = 0;
-
-    protected:
-        std::shared_ptr<CacheManager> cache_manager_;
     };
 }
