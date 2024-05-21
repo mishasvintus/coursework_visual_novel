@@ -219,8 +219,6 @@ void ge::Scene::waitNextFrame() {
 }
 
 void ge::Scene::waitNextChapter() {
-    selected_row_button_ = 0;
-    selected_column_button_ = 0;
     if (!current_frame_->getChoiceOfAction()) {
         throw std::runtime_error("can't wait next chapter until current frame is choice of action");
     }
@@ -233,6 +231,8 @@ void ge::Scene::waitNextChapter() {
     }
     current_frame_number_ = 0;
     current_chapter_name_ = current_frame_->getActions()[selected_column_button_].getChapterNameToGo();
+    selected_row_button_ = 0;
+    selected_column_button_ = 0;
     is_waiting_next_frame_ = true;
 }
 
