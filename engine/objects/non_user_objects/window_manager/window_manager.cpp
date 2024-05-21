@@ -104,6 +104,9 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                                   game_point.first,
                                   static_cast<int>(game_point.second)));
                 scene->setCacheManager(visual_novel.cache_manager_);
+                visual_novel.loadChapterCache(game_point.first, game_point.second,
+                                              visual_novel.getScript().getChapterSize(
+                                                      visual_novel.getNameStartChapter()) - 1);
                 drawable_elements.setScene(scene);
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
@@ -133,7 +136,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
 }
 
 ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::Event event,
-                                ge::RecentScript &recent_script) {
+                                ge::RecentScript &recent_script, ge::VisualNovel &visual_novel) {
     switch (event.type) {
         case sf::Event::Closed:
             window.close();
@@ -168,7 +171,10 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
             if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE && scene.getChoiceOfActions()) {
                 recent_script.emplaceBack(std::make_pair(recent_script.getActionName(),
                                                          scene.getActions()[scene.getSelectedColumn()].getText()));
+                visual_novel.resetCache(false);
                 scene.waitNextChapter();
+                visual_novel.loadChapterCache(scene.getCurrentChapterName(), 0,
+                                              visual_novel.getScript().getChapterSize(scene.getCurrentChapterName()) - 1);
                 break;
             }
             if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE) {
@@ -202,7 +208,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     if (scene->is_rendered_) {
         sf::Event event{};
         window.waitEvent(event);
-        switch (inGameEventHandler(window, drawable_elements.putScene(), event, drawable_elements.putRecentScript())) {
+        switch (inGameEventHandler(window, drawable_elements.putScene(), event, drawable_elements.putRecentScript(), visual_novel)) {
             case GameMode::InGame: {
                 break;
             }
