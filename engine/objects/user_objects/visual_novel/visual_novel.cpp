@@ -128,6 +128,49 @@ const std::string &ge::VisualNovel::getSavesDir() const {
     return saves_dir_;
 }
 
+bool ge::VisualNovel::loadChapterCache(const std::string &chapter_name, size_t from_frame, size_t to_frame) {
+    if (!cache_manager_) {
+        std::cerr << "Cache_manager wasn't set in VisualNovel" << std::endl;
+        return false;
+    }
+    if (from_frame > to_frame) {
+        std::cerr << "from_frame must be not bigger then to_frame in ge::VisualNove::loadChapterCache" << std::endl;
+        return false;
+    }
+    if (!script_.chapters_.contains(chapter_name)) {
+        std::cerr << "Can't load cache of chapter '" << chapter_name
+                  << "', can't find this chapter in VisualNovel script" << std::endl;
+        return false;
+    }
+
+    const ge::Chapter &chapter = script_.chapters_[chapter_name];
+
+    if (from_frame >= chapter.frames_.size() || to_frame >= chapter.frames_.size()) {
+        std::cerr << "Can't load cache of chapter '" << chapter_name
+                  << "', from_frame or to_frame are out of bounds of frames_ array" << std::endl;
+        return false;
+    }
+
+    for (size_t frame_index = from_frame; frame_index < to_frame; ++frame_index) {
+        const ge::Frame &frame = chapter.frames_[frame_index];
+        if (!cache_manager_->loadImage(frame.getBackgroundFile(), false)) {
+            std::cerr << "Can't load file " << frame.getBackgroundFile() << " for background image of frame "
+                      << frame_index << " in chapter "
+                      << chapter_name << std::endl;
+        }
+        if (!frame.getChoiceOfAction()) {
+            for (const std::string &slot_image: frame.getSlots().getPicturesInSlots()) {
+                if (!cache_manager_->loadImage(slot_image, false)) {
+                    std::cerr << "Can't load file " << slot_image << " of slot image of frame " << frame_index
+                              << " in chapter "
+                              << chapter_name << std::endl;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 bool ge::VisualNovel::run() {
     try {
         sf::RenderWindow window(sf::VideoMode::getDesktopMode(), project_name_, sf::Style::Fullscreen,
