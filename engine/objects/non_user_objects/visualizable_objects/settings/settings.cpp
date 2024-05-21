@@ -82,27 +82,19 @@ const std::vector<unsigned int> &ge::Settings::getParameterValues() const {
     return parameter_values_;
 }
 
-void ge::Settings::setCacheManager(std::shared_ptr<ge::CacheManager> cache_manager) {
-    cache_manager_ = cache_manager;
-}
-
-const ge::CacheManager &ge::Settings::getCacheManager() {
-    return *cache_manager_;
-}
-
 bool ge::Settings::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (is_rendered_) {
         return true;
     }
     if (!cache_manager_) {
-        std::cerr << "Cache_manager wasn't set in settings";
+        std::cerr << "Cache_manager wasn't set in settings" << std::endl;
         return false;
     }
     sfml_basis_ = std::make_shared<SettingsSfmlBasis>();
 
     // setting background
     if (!cache_manager_->loadImage(background_, return_point_ == ge::GameMode::MainMenu)) {
-        std::cerr << "Can't load file for background image of Settings not found: " << background_ << std::endl;
+        std::cerr << "Can't load file for background image of Settings: " << background_ << std::endl;
         return false;
     }
     sfml_basis_->background_sprite.setTexture(cache_manager_->getTextureRef(background_));

@@ -5,7 +5,7 @@
 #include "cache_manager.h"
 
 namespace ge {
-    class MainMenu : Visualizable {
+    class MainMenu : public Visualizable {
     public:
         MainMenu() = default;
 
@@ -29,10 +29,6 @@ namespace ge {
 
         const std::string &getBackground();
 
-        void setCacheManager(std::shared_ptr<CacheManager> cache_manager);
-
-        const CacheManager &getCacheManager();
-
         void moveUp();
 
         void moveDown();
@@ -50,7 +46,6 @@ namespace ge {
         unsigned int selected_button_ = 0;
         bool is_rendered_ = false;
         std::shared_ptr<MainMenuSfmlBasis> sfml_basis_ = nullptr;
-        std::shared_ptr<CacheManager> cache_manager_;
         std::string background_;
 
         static constexpr unsigned int TOP_BUTTON_INDEX = 0;

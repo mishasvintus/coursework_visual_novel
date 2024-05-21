@@ -152,6 +152,7 @@ bool ge::VisualNovel::run() {
         drawable_elements.getSettingsPtr()->setBackground(settings_background_);
 
         drawable_elements.setAboutAuthors(std::make_shared<AboutAuthors>());
+        drawable_elements.getAboutAuthorsPtr()->setCacheManager(cache_manager_);
         drawable_elements.getAboutAuthorsPtr()->setBackground(about_authors_background_);
         drawable_elements.getAboutAuthorsPtr()->setText(about_authors_);
 

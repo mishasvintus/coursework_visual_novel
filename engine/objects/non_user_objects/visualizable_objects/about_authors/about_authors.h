@@ -2,9 +2,10 @@
 
 #include "non_user_objects/visualizable_objects/visualizable.h"
 #include "about_authors_sfml_basis.h"
+#include "cache_manager.h"
 
 namespace ge {
-    class AboutAuthors : Visualizable {
+    class AboutAuthors : public Visualizable {
     public:
         AboutAuthors() = default;
 
