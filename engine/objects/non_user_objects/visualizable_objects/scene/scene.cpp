@@ -279,45 +279,60 @@ bool ge::Scene::processNewFrame() {
     // Updating background
     if (new_frame_->getBackgroundFile() != current_frame_->getBackgroundFile()) {
         if (!cache_manager_->loadImage(new_frame_->getBackgroundFile(), false)) {
-            std::cerr << "Can't load file for background image of Scene: " << new_frame_->getBackgroundFile() << std::endl;
+            std::cerr << "Can't load file for background image of Scene: " << new_frame_->getBackgroundFile()
+                      << std::endl;
             return false;
         }
         sfml_basis_->background_sprite.setTexture(cache_manager_->getTextureRef(new_frame_->getBackgroundFile()));
     }
 
     // Updating frame slots (optimized)
-    std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
-    std::vector<std::string> current_paths = current_frame_->getSlots().getPicturesInSlots();
-    if (current_paths.size() < new_paths.size()) {
-        current_paths.resize(new_paths.size());
-        sfml_basis_->slots_sprites.resize(new_paths.size());
-        sfml_basis_->slots_textures.resize(new_paths.size());
-    }
-    std::unordered_set<size_t> fined;
-    for (size_t i = 0; i < std::min(new_paths.size(), current_paths.size()); ++i) {
-        for (size_t j = 0; j < current_paths.size(); ++j) {
-            if (fined.find(j) != fined.end() || current_paths[j] != new_paths[i]) {
-                continue;
-            }
-            std::swap(current_paths[i], current_paths[j]);
-            std::swap(sfml_basis_->slots_sprites[i], sfml_basis_->slots_sprites[j]);
-            std::swap(sfml_basis_->slots_textures[i], sfml_basis_->slots_textures[j]);
-            fined.insert(i);
-            break;
+//    std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
+//    std::vector<std::string> current_paths = current_frame_->getSlots().getPicturesInSlots();
+//    if (current_paths.size() < new_paths.size()) {
+//        current_paths.resize(new_paths.size());
+//        sfml_basis_->slots_sprites.resize(new_paths.size());
+//        sfml_basis_->slots_textures.resize(new_paths.size());
+//    }
+//    std::unordered_set<size_t> fined;
+//    for (size_t i = 0; i < std::min(new_paths.size(), current_paths.size()); ++i) {
+//        for (size_t j = 0; j < current_paths.size(); ++j) {
+//            if (fined.find(j) != fined.end() || current_paths[j] != new_paths[i]) {
+//                continue;
+//            }
+//            std::swap(current_paths[i], current_paths[j]);
+//            std::swap(sfml_basis_->slots_sprites[i], sfml_basis_->slots_sprites[j]);
+//            std::swap(sfml_basis_->slots_textures[i], sfml_basis_->slots_textures[j]);
+//            fined.insert(i);
+//            break;
+//        }
+//    }
+//    current_paths.resize(new_paths.size());
+//    for (size_t i = 0; i < current_paths.size(); ++i) {
+//        if (fined.find(i) != fined.end() || new_paths[i].empty()) {
+//            continue;
+//        }
+//
+//
+//        if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
+//            std::cerr << "can't load sprite file" <<std::endl;
+//        }
+//        sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
+//    }
+//    sfml_basis_->slots_sprites.resize(new_paths.size());
+//    sfml_basis_->slots_textures.resize(new_paths.size());
+
+    sfml_basis_->slots_sprites.clear();
+    sfml_basis_->slots_sprites.resize(new_frame_->getSlots().getPicturesInSlots().size());
+
+    for (size_t i = 0; i < new_frame_->getSlots().getPicturesInSlots().size(); ++i) {
+        std::string slot_file = new_frame_->getSlots().getPicturesInSlots()[i];
+        if (!cache_manager_->loadImage(slot_file, false)) {
+            std::cerr << "Can't load file for slot image of Scene: " << slot_file << std::endl;
+            return false;
         }
+        sfml_basis_->slots_sprites[i].setTexture(cache_manager_->getTextureRef(slot_file));
     }
-    current_paths.resize(new_paths.size());
-    for (size_t i = 0; i < current_paths.size(); ++i) {
-        if (fined.find(i) != fined.end() || new_paths[i].empty()) {
-            continue;
-        }
-        if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
-            std::cerr << "can't load sprite file" <<std::endl;
-        }
-        sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
-    }
-    sfml_basis_->slots_sprites.resize(new_paths.size());
-    sfml_basis_->slots_textures.resize(new_paths.size());
 
     setSlotSpriteParameters(sfml_basis_->window_size);
 
@@ -450,7 +465,8 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
         const std::vector<std::string> &pictures_in_slots = new_frame_->getSlots().getPicturesInSlots();
         for (size_t i = 0; i < slots_quantity; ++i) {
             if (!cache_manager_->loadImage(pictures_in_slots[i], false)) {
-                std::cerr << "Can't load file for slot image of Scene: " << new_frame_->getBackgroundFile() << std::endl;
+                std::cerr << "Can't load file for slot image of Scene: " << new_frame_->getBackgroundFile()
+                          << std::endl;
                 return false;
             }
             sfml_basis_->slots_sprites[i].setTexture(cache_manager_->getTextureRef(pictures_in_slots[i]));
