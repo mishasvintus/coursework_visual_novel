@@ -148,7 +148,16 @@ bool ge::RecentScript::renderSfmlBasis(const sf::Vector2u &window_size) {
         step.first.setPosition(text_position);
 
         text_position.x += 15;
-        text_position.y += static_cast<float>(window_size.y) * 0.025f;
+        float cnt_rows = 1;
+        {
+            std::string text = step.first.getString();
+            for (char i : text) {
+                if (i == '\n') {
+                    ++cnt_rows;
+                }
+            }
+        }
+        text_position.y += static_cast<float>(window_size.y) * 0.025f * cnt_rows;
 
         step.second.setFont(sfml_basis_->font);
         step.second.setStyle(1 << 1);
@@ -159,8 +168,18 @@ bool ge::RecentScript::renderSfmlBasis(const sf::Vector2u &window_size) {
         step.second.setOutlineThickness(2);
         step.second.setPosition(text_position);
 
+        cnt_rows = 1;
+        {
+            std::string text = step.second.getString();
+            for (char i : text) {
+                if (i == '\n') {
+                    ++cnt_rows;
+                }
+            }
+        }
+
         text_position.x -= 15;
-        text_position.y += static_cast<float>(window_size.y) * 0.04f;
+        text_position.y += static_cast<float>(window_size.y) * 0.025f * (cnt_rows + 1);
         script_step_.push(script_step_.front());
         script_step_.pop();
     }
