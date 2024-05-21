@@ -35,9 +35,9 @@ void ge::CacheManager::resetBuffer(bool delete_service_images) {
     }
     std::unordered_map<std::string, std::shared_ptr<sf::Texture> > new_images_buffer;
     for (const std::string &service_image:service_image_names_) {
-        new_images_buffer[service_image] = images_buffer[service_image];
+        new_images_buffer[service_image] = std::move(images_buffer[service_image]);
     }
-    images_buffer = new_images_buffer;
+    images_buffer = std::move(new_images_buffer);
 }
 
 const sf::Texture &ge::CacheManager::getTextureRef(const std::string &image) {
