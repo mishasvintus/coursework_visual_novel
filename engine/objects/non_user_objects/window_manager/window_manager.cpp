@@ -90,24 +90,29 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 return true;
             }
             case GameMode::LoadingSave: {
-                std::pair<std::string, size_t> game_point = ge::SaveManager::readSave(visual_novel.getSavesDir(), 1);
-                if (game_point.first.empty()) {
+                std::vector<std::variant<std::string, size_t, std::queue<std::pair<std::wstring, std::wstring>>>> game_point = ge::SaveManager::readSave(
+                        visual_novel.getSavesDir(), 1);
+                if (std::get<std::string>(game_point[0]).empty()) {
                     break;
                 }
-                if (!(visual_novel.getScript().chapters_.contains(game_point.first)) ||
-                    visual_novel.script_.chapters_[game_point.first].frames_.size() <= game_point.second) {
+                if (!(visual_novel.getScript().chapters_.contains(std::get<std::string>(game_point[0]))) ||
+                    visual_novel.script_.chapters_[std::get<std::string>(game_point[0])].frames_.size() <=
+                    std::get<size_t>(game_point[1])) {
                     break;
                 }
-                Frame &initial_frame = visual_novel.script_.chapters_[game_point.first].frames_[game_point.second];
+                Frame &initial_frame = visual_novel.script_.chapters_[std::get<std::string>(
+                        game_point[0])].frames_[std::get<size_t>(game_point[1])];
                 std::shared_ptr<Scene> scene(
                         new Scene(std::make_shared<Frame>(initial_frame),
-                                  game_point.first,
-                                  static_cast<int>(game_point.second)));
+                                  std::get<std::string>(game_point[0]),
+                                  static_cast<int>(std::get<size_t>(game_point[1]))));
                 scene->setCacheManager(visual_novel.cache_manager_);
-                visual_novel.loadChapterCache(game_point.first, game_point.second,
+                visual_novel.loadChapterCache(std::get<std::string>(game_point[0]), std::get<size_t>(game_point[1]),
                                               visual_novel.getScript().getChapterSize(
                                                       visual_novel.getNameStartChapter()) - 1);
                 drawable_elements.setScene(scene);
+                drawable_elements.getRecentScriptPtr()->setScript(
+                        std::get<std::queue<std::pair<std::wstring, std::wstring>>>(game_point[2]));
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
             }
@@ -174,7 +179,8 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 visual_novel.resetCache(false);
                 scene.waitNextChapter();
                 visual_novel.loadChapterCache(scene.getCurrentChapterName(), 0,
-                                              visual_novel.getScript().getChapterSize(scene.getCurrentChapterName()) - 1);
+                                              visual_novel.getScript().getChapterSize(scene.getCurrentChapterName()) -
+                                              1);
                 break;
             }
             if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE) {
@@ -208,7 +214,8 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     if (scene->is_rendered_) {
         sf::Event event{};
         window.waitEvent(event);
-        switch (inGameEventHandler(window, drawable_elements.putScene(), event, drawable_elements.putRecentScript(), visual_novel)) {
+        switch (inGameEventHandler(window, drawable_elements.putScene(), event, drawable_elements.putRecentScript(),
+                                   visual_novel)) {
             case GameMode::InGame: {
                 break;
             }
@@ -452,6 +459,7 @@ bool ge::WindowManager::ingameMenuManager(ge::VisualNovel &visual_novel, sf::Ren
             case ge::GameMode::UpdatingSave:
                 ge::SaveManager::putSave(drawable_elements.getScenePtr()->current_chapter_name_,
                                          drawable_elements.getScenePtr()->current_frame_number_,
+                                         drawable_elements.getRecentScriptPtr()->getScript(),
                                          visual_novel.getSavesDir(), 1);
                 break;
             default:

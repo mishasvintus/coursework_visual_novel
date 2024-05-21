@@ -4,12 +4,26 @@
 #include <fstream>
 #include <iostream>
 
-void ge::SaveManager::putSave(const std::string &chapter_name, size_t frame_number, const std::string &saves_dir, size_t save_index) {
+void ge::SaveManager::putSave(const std::string &chapter_name, size_t frame_number,
+                              std::queue<std::pair<std::wstring, std::wstring>> recent_script,
+                              const std::string &saves_dir, size_t save_index) {
     std::string file_name = saves_dir + "/save" + std::to_string(save_index) + ".txt";
 
     nlohmann::json j;
     j["chapter_name"] = chapter_name;
     j["frame_number"] = frame_number;
+    for (size_t i = 0; i < 6; ++i) {
+        std::string key_first = "recent_script" + std::to_string(i) + "first";
+        std::string key_second = "recent_script" + std::to_string(i) + "second";
+        if (!recent_script.empty()) {
+            j[key_first] = recent_script.front().first;
+            j[key_second] = recent_script.front().second;
+            recent_script.pop();
+            continue;
+        }
+        j["script_size"] = i;
+        break;
+    }
 
     std::ofstream file;
     file.open(file_name, std::ios::out | std::ios::trunc);
@@ -24,13 +38,16 @@ void ge::SaveManager::putSave(const std::string &chapter_name, size_t frame_numb
 }
 
 
-std::pair<std::string, size_t> ge::SaveManager::readSave(const std::string &saves_dir, size_t save_index) {
+std::vector<std::variant<std::string, size_t, std::queue<std::pair<std::wstring, std::wstring>>>>
+ge::SaveManager::readSave(const std::string &saves_dir, size_t save_index) {
     std::string file_name = saves_dir + "/save" + std::to_string(save_index) + ".txt";
+    std::vector<std::variant<std::string, size_t, std::queue<std::pair<std::wstring, std::wstring>>>> error = {"",
+                                                                                                               static_cast<size_t>(0)};
 
     std::ifstream file(file_name);
     if (!file.is_open()) {
         std::cerr << "Unable to read save: unable to open file: " << file_name << std::endl;
-        return {"", 0};
+        return error;
     }
 
     std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
@@ -42,20 +59,29 @@ std::pair<std::string, size_t> ge::SaveManager::readSave(const std::string &save
         j = nlohmann::json::parse(content);
     } catch (const nlohmann::json::parse_error &e) {
         std::cerr << "Unable to read save: JSON parse error in file " << file_name << ": " << e.what() << std::endl;
-        return {"", 0}; // Возвращаем пустую строку и 0, если произошла ошибка парсинга
+        return error; // Возвращаем пустую строку и 0, если произошла ошибка парсинга
     }
 
     std::string chapter_name;
     size_t frame_number;
+    std::queue<std::pair<std::wstring, std::wstring>> recent_script;
     try {
         chapter_name = j.at("chapter_name").get<std::string>();
         frame_number = j.at("frame_number").get<size_t>();
+        size_t script_size = j.at("script_size");
+        for (size_t i = 0; i < script_size; ++i) {
+            std::string key_first = "recent_script" + std::to_string(i) + "first";
+            std::string key_second = "recent_script" + std::to_string(i) + "second";
+            std::wstring value_first = j.at(key_first);
+            std::wstring value_second = j.at(key_second);
+            recent_script.push(std::make_pair(value_first, value_second));
+        }
     } catch (const nlohmann::json::type_error &e) {
         std::cerr << "Unable to read save: JSON type error in file " << file_name << ": " << e.what() << std::endl;
-        return {"", 0};
+        return error;
     }
 
-    return {chapter_name, frame_number};
+    return {chapter_name, frame_number, recent_script};
 }
 
 void ge::SaveManager::resetSave(const std::string &saves_dir, size_t save_index) {

@@ -1,14 +1,22 @@
-#include <cstdint>
-#include <string>
-namespace ge {
-     class SaveManager {
-    public:
-        static void putSave(const std::string &chapter_name, size_t frame_number, const std::string &saves_dir,  size_t save_index);
-        static std::pair<std::string, size_t> readSave(const std::string &saves_dir, size_t save_index);
-        static void resetSave(const std::string &saves_dir, size_t save_index);
+#pragma once
 
-        static void putRecentScript(const std::string &recent_script);
-        static std::string &readRecentScript(const std::string& recent_script);
-        static void resetRecentScript(size_t save_index);
+#include <cstdint>
+#include <queue>
+#include <string>
+#include <variant>
+#include <vector>
+
+namespace ge {
+    class SaveManager {
+    public:
+        static void
+        putSave(const std::string &chapter_name, size_t frame_number,
+                std::queue<std::pair<std::wstring, std::wstring>> recent_script,
+                const std::string &saves_dir, size_t save_index);
+
+        static std::vector<std::variant<std::string, size_t, std::queue<std::pair<std::wstring, std::wstring>>>>
+        readSave(const std::string &saves_dir, size_t save_index);
+
+        static void resetSave(const std::string &saves_dir, size_t save_index);
     };
 }
