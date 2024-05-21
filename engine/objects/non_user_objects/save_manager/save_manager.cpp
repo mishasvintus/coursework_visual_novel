@@ -12,6 +12,7 @@ void ge::SaveManager::putSave(const std::string &chapter_name, size_t frame_numb
     nlohmann::json j;
     j["chapter_name"] = chapter_name;
     j["frame_number"] = frame_number;
+    j["script_size"] = recent_script.size();
     for (size_t i = 0; i < 6; ++i) {
         std::string key_first = "recent_script" + std::to_string(i) + "first";
         std::string key_second = "recent_script" + std::to_string(i) + "second";
@@ -21,7 +22,6 @@ void ge::SaveManager::putSave(const std::string &chapter_name, size_t frame_numb
             recent_script.pop();
             continue;
         }
-        j["script_size"] = i;
         break;
     }
 
