@@ -80,9 +80,12 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                         new Scene(std::make_shared<Frame>(initial_frame),
                                   visual_novel.getNameStartChapter(),
                                   0));
-
+                scene->setCacheManager(visual_novel.cache_manager_);
                 drawable_elements.setScene(scene);
                 drawable_elements.getRecentScriptPtr()->setScript({});
+                visual_novel.loadChapterCache(visual_novel.getNameStartChapter(), 0,
+                                              visual_novel.getScript().getChapterSize(
+                                                      visual_novel.getNameStartChapter()) - 1);
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
             }
@@ -100,6 +103,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                         new Scene(std::make_shared<Frame>(initial_frame),
                                   game_point.first,
                                   static_cast<int>(game_point.second)));
+                scene->setCacheManager(visual_novel.cache_manager_);
                 drawable_elements.setScene(scene);
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
@@ -201,11 +205,6 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
         switch (inGameEventHandler(window, drawable_elements.putScene(), event, drawable_elements.putRecentScript())) {
             case GameMode::InGame: {
                 break;
-            }
-            case GameMode::MainMenu: {
-                drawable_elements.resetScene();
-                visual_novel.current_game_mode_ = GameMode::MainMenu;
-                return true;
             }
             case GameMode::IngameMenu: {
                 std::shared_ptr<IngameMenu> ingame_menu(new IngameMenu);
@@ -434,6 +433,7 @@ bool ge::WindowManager::ingameMenuManager(ge::VisualNovel &visual_novel, sf::Ren
                 return true;
             case ge::GameMode::MainMenu:
                 drawable_elements.resetScene();
+                visual_novel.resetCache(false);
                 visual_novel.current_game_mode_ = ge::GameMode::MainMenu;
                 return true;
             case ge::GameMode::Settings:

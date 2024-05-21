@@ -74,7 +74,7 @@ bool ge::Info::renderSfmlBasis(const sf::Vector2u &window_size) {
         return true;
     }
     if (!cache_manager_) {
-        std::cerr << "Cache_manager wasn't set in IngameMenu" << std::endl;
+        std::cerr << "Cache_manager wasn't set in Info" << std::endl;
         return false;
     }
     sfml_basis_ = std::make_shared<InfoSfmlBasis>();

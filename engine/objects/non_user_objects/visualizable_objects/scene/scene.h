@@ -67,7 +67,7 @@ namespace ge {
 
         bool renderSfmlBasis(const sf::Vector2u &window_size) override;
 
-        void processNewFrame();
+        bool processNewFrame();
 
         void clearSfmlBasis() override;
 

@@ -236,8 +236,16 @@ void ge::Scene::waitNextChapter() {
     is_waiting_next_frame_ = true;
 }
 
-std::string ge::Scene::getBackground() const {
+const std::string &ge::Scene::getBackground() const {
     return current_frame_->getBackgroundFile();
+}
+
+const std::string &ge::Scene::getCurrentChapterName() const {
+    return current_chapter_name_;
+}
+
+size_t ge::Scene::getCurrentFrameNumber() const {
+    return current_frame_number_;
 }
 
 const std::vector<ge::Action> &ge::Scene::getActions() const {
@@ -254,20 +262,27 @@ const ge::DialogueBox &ge::Scene::getDialogueBox() const {
     return current_frame_->getDialogueBox();
 }
 
-void ge::Scene::processNewFrame() {
+bool ge::Scene::processNewFrame() {
     if (!is_rendered_) {
-        throw std::runtime_error("sfml_basis_ was not rendered to render new frame\n");
+        std::cerr << "sfml_basis_ was not rendered to render new frame" << std::endl;
+        return false;
     }
     if (new_frame_ == nullptr) {
-        throw std::runtime_error("new_frame_ was not set to process new frame\n");
+        std::cerr << "new_frame_ was not set to process new frame" << std::endl;
+        return false;
+    }
+    if (!cache_manager_) {
+        std::cerr << "cache_manager wasn't set in Scene" << std::endl;
+        return false;
     }
 
     // Updating background
     if (new_frame_->getBackgroundFile() != current_frame_->getBackgroundFile()) {
-        if (!sfml_basis_->background_texture.loadFromFile(new_frame_->getBackgroundFile())) {
-            throw std::runtime_error("can't load background file\n");
+        if (!cache_manager_->loadImage(new_frame_->getBackgroundFile(), false)) {
+            std::cerr << "Can't load file for background image of Scene: " << new_frame_->getBackgroundFile() << std::endl;
+            return false;
         }
-        sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
+        sfml_basis_->background_sprite.setTexture(cache_manager_->getTextureRef(new_frame_->getBackgroundFile()));
     }
 
     // Updating frame slots (optimized)
@@ -297,7 +312,7 @@ void ge::Scene::processNewFrame() {
             continue;
         }
         if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
-            throw std::runtime_error("can't load sprite file\n");
+            std::cerr << "can't load sprite file" <<std::endl;
         }
         sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
     }
@@ -396,6 +411,7 @@ void ge::Scene::processNewFrame() {
     new_frame_ = nullptr;
     new_frame_is_processed_ = true;
     is_waiting_next_frame_ = false;
+    return true;
 }
 
 bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
@@ -406,16 +422,21 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
         processNewFrame();
         return true;
     }
+    if (!cache_manager_) {
+        std::cerr << "Cache_manager wasn't set in Scene" << std::endl;
+        return false;
+    }
 
     sfml_basis_ = std::make_shared<SceneSfmlBasis>();
 
     sfml_basis_->window_size = window_size;
 
     // setting background
-    if (!sfml_basis_->background_texture.loadFromFile(new_frame_->getBackgroundFile())) {
+    if (!cache_manager_->loadImage(new_frame_->getBackgroundFile(), false)) {
+        std::cerr << "Can't load file for background image of Scene: " << new_frame_->getBackgroundFile() << std::endl;
         return false;
     }
-    sfml_basis_->background_sprite.setTexture(sfml_basis_->background_texture);
+    sfml_basis_->background_sprite.setTexture(cache_manager_->getTextureRef(new_frame_->getBackgroundFile()));
     sfml_basis_->background_sprite.scale({
                                                  static_cast<float>(window_size.x) / 3840.0f,
                                                  static_cast<float>(window_size.y) / 2160.0f
@@ -428,8 +449,11 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     if (slots_quantity > 0) {
         const std::vector<std::string> &pictures_in_slots = new_frame_->getSlots().getPicturesInSlots();
         for (size_t i = 0; i < slots_quantity; ++i) {
-            sfml_basis_->slots_textures[i].loadFromFile(pictures_in_slots[i]);
-            sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
+            if (!cache_manager_->loadImage(pictures_in_slots[i], false)) {
+                std::cerr << "Can't load file for slot image of Scene: " << new_frame_->getBackgroundFile() << std::endl;
+                return false;
+            }
+            sfml_basis_->slots_sprites[i].setTexture(cache_manager_->getTextureRef(pictures_in_slots[i]));
         }
         setSlotSpriteParameters(window_size);
     }
