@@ -1,3 +1,4 @@
+#include <iostream>
 #include "window_manager.h"
 #include "save_manager.h"
 
@@ -81,6 +82,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                                   0));
 
                 drawable_elements.setScene(scene);
+                drawable_elements.getRecentScriptPtr()->setScript({});
                 visual_novel.current_game_mode_ = GameMode::InGame;
                 return true;
             }
@@ -126,7 +128,8 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
     return true;
 }
 
-ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::Event event) {
+ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::Event event,
+                                ge::RecentScript &recent_script) {
     switch (event.type) {
         case sf::Event::Closed:
             window.close();
@@ -159,10 +162,14 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 break;
             }
             if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE && scene.getChoiceOfActions()) {
+                recent_script.emplaceBack(std::make_pair(recent_script.getActionName(),
+                                                         scene.getActions()[scene.getSelectedColumn()].getText()));
                 scene.waitNextChapter();
                 break;
             }
             if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE) {
+                recent_script.emplaceBack(
+                        std::make_pair(scene.getDialogueBox().getSpeaker(), scene.getDialogueBox().getReplica()));
                 scene.waitNextFrame();
                 break;
             }
@@ -191,7 +198,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     if (scene->is_rendered_) {
         sf::Event event{};
         window.waitEvent(event);
-        switch (inGameEventHandler(window, drawable_elements.putScene(), event)) {
+        switch (inGameEventHandler(window, drawable_elements.putScene(), event, drawable_elements.putRecentScript())) {
             case GameMode::InGame: {
                 break;
             }
@@ -209,10 +216,7 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
                 return true;
             }
             case GameMode::RecentScript: {
-                std::shared_ptr<RecentScript> recent_script(new RecentScript);
-                recent_script->setCacheManager(visual_novel.cache_manager_);
-                recent_script->setBackground(scene->getBackground());
-                drawable_elements.setRecentScript(recent_script);
+                drawable_elements.getRecentScriptPtr()->setBackground(scene->getBackground());
                 visual_novel.current_game_mode_ = GameMode::RecentScript;
                 return true;
             }
@@ -500,7 +504,7 @@ bool ge::WindowManager::infoManager(ge::VisualNovel &visual_novel, sf::RenderWin
     return true;
 }
 
-ge::GameMode recentScriptHandler(sf::RenderWindow &window, ge::RecentScript& recent_script, sf::Event event) {
+ge::GameMode recentScriptHandler(sf::RenderWindow &window, ge::RecentScript &recent_script, sf::Event event) {
     switch (event.type) {
         case sf::Event::Closed:
             window.close();
@@ -529,7 +533,6 @@ bool ge::WindowManager::recentScriptManager(ge::VisualNovel &visual_novel, sf::R
             case GameMode::RecentScript:
                 return true;
             case GameMode::InGame:
-                drawable_elements.resetRecentScript();
                 visual_novel.current_game_mode_ = ge::GameMode::InGame;
                 return true;
             default:

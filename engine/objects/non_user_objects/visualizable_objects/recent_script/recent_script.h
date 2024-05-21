@@ -5,7 +5,7 @@
 #include "recent_script_sfml_basis.h"
 
 namespace ge {
-    class RecentScript : Visualizable {
+    class RecentScript : public Visualizable {
     public:
         RecentScript() = default;
 
@@ -34,6 +34,8 @@ namespace ge {
         [[nodiscard]] const std::string& getBackground() const;
 
         [[nodiscard]] const std::queue<std::pair<std::wstring, std::wstring>>& getScript() const;
+
+        [[nodiscard]] const std::wstring &getActionName() const;
 
     private:
         friend class WindowManager;

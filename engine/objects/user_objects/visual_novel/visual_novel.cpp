@@ -199,6 +199,9 @@ bool ge::VisualNovel::run() {
         drawable_elements.getAboutAuthorsPtr()->setBackground(about_authors_background_);
         drawable_elements.getAboutAuthorsPtr()->setText(about_authors_);
 
+        drawable_elements.setRecentScript(std::make_shared<RecentScript>());
+        drawable_elements.getRecentScriptPtr()->setCacheManager(cache_manager_);
+
         if (!sound_track_.empty()) {
             music_ = std::make_shared<sf::Music>();
             if (!music_->openFromFile(sound_track_)) {
