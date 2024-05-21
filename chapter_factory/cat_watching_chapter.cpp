@@ -1,7 +1,8 @@
 #include "chapter_factory.h"
 
 ge::Chapter ChapterFactory::makeCatWatchingChapter() {
-    ge::DialogueBox dialogue_box_1(L"", L"О, Фидес у меня снова у меня в комнате спал. Такой он ласковый, такой мягкий и теплый. Очень его люблю, хоть и кусается иногда.");
+    ge::DialogueBox dialogue_box_1(L"", L"О, Фидес у меня снова у меня в комнате спал. \n"
+                                        "Такой он ласковый, такой мягкий и теплый. Очень его люблю, хоть и кусается иногда.");
     ge::FrameSlots frame_slots_1({CAT});
     ge::Frame frame_1(dialogue_box_1, ROOM, frame_slots_1);
 
