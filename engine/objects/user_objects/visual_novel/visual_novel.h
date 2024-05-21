@@ -50,6 +50,8 @@ namespace ge {
 
         void setSavesDir(const std::string &saves_dir);
 
+        void setIsEndingFrame(bool is_ending_frame);
+
         const std::wstring &getAboutAuthors() const;
 
         const Script &getScript() const;
@@ -69,6 +71,8 @@ namespace ge {
         const std::string &getIcon() const;
 
         const std::string &getSavesDir() const;
+
+        bool getIsEndingFrame() const;
 
         bool loadChapterCache(const std::string &chapter_name, size_t from_frame, size_t to_frame);
 
@@ -94,6 +98,7 @@ namespace ge {
         std::shared_ptr<sf::Music> music_ = nullptr;
         std::wstring project_name_ = L"Visual Novel";
         GameMode current_game_mode_ = GameMode::MainMenu;
+        bool is_ending_frame_ = false;
         std::shared_ptr<CacheManager> cache_manager_;
         std::string name_start_chapter_; //TODO: сделать проверку на наличие в мапе
         unsigned int current_frame_number_ = 0;

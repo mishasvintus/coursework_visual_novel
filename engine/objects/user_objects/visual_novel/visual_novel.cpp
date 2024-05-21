@@ -84,6 +84,10 @@ void ge::VisualNovel::setSavesDir(const std::string &saves_dir) {
     saves_dir_ = saves_dir;
 }
 
+void ge::VisualNovel::setIsEndingFrame(bool is_ending_frame) {
+    is_ending_frame_ = is_ending_frame;
+}
+
 void ge::VisualNovel::setSoundVolume(float sound_volume) {
     music_->setVolume(sound_volume);
 }
@@ -126,6 +130,10 @@ const std::string &ge::VisualNovel::getIcon() const {
 
 const std::string &ge::VisualNovel::getSavesDir() const {
     return saves_dir_;
+}
+
+bool ge::VisualNovel::getIsEndingFrame() const {
+    return is_ending_frame_;
 }
 
 bool ge::VisualNovel::loadChapterCache(const std::string &chapter_name, size_t from_frame, size_t to_frame) {

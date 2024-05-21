@@ -174,8 +174,13 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 break;
             }
             if (scene.getSelectedRow() == scene.ROW_ACTION_OR_DIALOGUE && scene.getChoiceOfActions()) {
-                recent_script.emplaceBack(std::make_pair(recent_script.getActionName(),
-                                                         scene.getActions()[scene.getSelectedColumn()].getText()));
+                if (visual_novel.getIsEndingFrame()) {
+                    break;
+                }
+                if (!scene.getActions().empty()) {
+                    recent_script.emplaceBack(std::make_pair(recent_script.getActionName(),
+                                                             scene.getActions()[scene.getSelectedColumn()].getText()));
+                }
                 visual_novel.resetCache(false);
                 scene.waitNextChapter();
                 visual_novel.loadChapterCache(scene.getCurrentChapterName(), 0,
@@ -227,6 +232,10 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
                 visual_novel.current_game_mode_ = GameMode::IngameMenu;
                 return true;
             }
+            case GameMode::MainMenu:
+                drawable_elements.resetScene();
+                visual_novel.current_game_mode_ = GameMode::MainMenu;
+                return true;
             case GameMode::RecentScript: {
                 drawable_elements.getRecentScriptPtr()->setBackground(scene->getBackground());
                 visual_novel.current_game_mode_ = GameMode::RecentScript;
@@ -249,7 +258,9 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
     if (scene->is_waiting_next_frame_) {
         if (scene->current_frame_number_ >=
             visual_novel.script_.chapters_[scene->current_chapter_name_].frames_.size()) {
+
             scene->setNewFrame(std::make_shared<Frame>(visual_novel.ending_frame_));
+            visual_novel.is_ending_frame_ = true;
         } else {
             scene->setNewFrame(std::make_shared<Frame>(
                     visual_novel.script_.chapters_[scene->current_chapter_name_].frames_[scene->current_frame_number_]));

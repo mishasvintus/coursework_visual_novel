@@ -28,7 +28,7 @@ void ge::SaveManager::putSave(const std::string &chapter_name, size_t frame_numb
     std::ofstream file;
     file.open(file_name, std::ios::out | std::ios::trunc);
     if (!file.is_open()) {
-        std::cerr << "Unable to save progress: unable to open file: " << file_name << std::endl;
+        std::cerr << "Unable to save progress: unable to open file: " << file_name << " maybe its save directory doesn't exist" << std::endl;
         return;
     }
 
@@ -46,7 +46,7 @@ ge::SaveManager::readSave(const std::string &saves_dir, size_t save_index) {
 
     std::ifstream file(file_name);
     if (!file.is_open()) {
-        std::cerr << "Unable to read save: unable to open file: " << file_name << std::endl;
+        std::cerr << "Unable to read save: unable to open file: " << file_name << " maybe its save directory doesn't exist" << std::endl;
         return error;
     }
 
