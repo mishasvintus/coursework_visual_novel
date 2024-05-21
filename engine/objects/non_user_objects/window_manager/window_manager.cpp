@@ -170,8 +170,7 @@ ge::GameMode inGameEventHandler(sf::RenderWindow &window, ge::Scene &scene, sf::
                 return ge::GameMode::IngameMenu;
             }
             if (scene.getSelectedColumn() == scene.COLUMN_RECENT_SCRIPT) {
-//                return ge::GameMode::RecentScript;
-                break;
+                return ge::GameMode::RecentScript;
             }
             if (scene.getSelectedColumn() == scene.COLUMN_INFO) {
                 return ge::GameMode::Info;
@@ -208,9 +207,13 @@ bool ge::WindowManager::inGameManager(ge::VisualNovel &visual_novel, sf::RenderW
                 visual_novel.current_game_mode_ = GameMode::IngameMenu;
                 return true;
             }
-            case GameMode::RecentScript:
-                // TODO : реализовать
+            case GameMode::RecentScript: {
+                std::shared_ptr<RecentScript> recent_script(new RecentScript);
+                recent_script->setBackground(scene->getBackground());
+                drawable_elements.setRecentScript(recent_script);
+                visual_novel.current_game_mode_ = GameMode::RecentScript;
                 return true;
+            }
             case GameMode::Info: {
                 std::shared_ptr<Info> info(new Info);
                 info->setBackground(scene->getBackground());
@@ -491,5 +494,49 @@ bool ge::WindowManager::infoManager(ge::VisualNovel &visual_novel, sf::RenderWin
         return false;
     }
     info->getSfmlBasis()->draw(window);
+    return true;
+}
+
+ge::GameMode recentScriptHandler(sf::RenderWindow &window, ge::RecentScript& recent_script, sf::Event event) {
+    switch (event.type) {
+        case sf::Event::Closed:
+            window.close();
+            break;
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::Enter) {
+                return ge::GameMode::InGame;
+            }
+            break;
+        default:
+            break;
+    }
+    return ge::GameMode::RecentScript;
+}
+
+bool ge::WindowManager::recentScriptManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
+                                            ge::DrawableElements &drawable_elements) {
+    std::shared_ptr<RecentScript> recent_script = drawable_elements.getRecentScriptPtr();
+    if (!recent_script) {
+        return false;
+    }
+    if (recent_script->is_rendered_) {
+        sf::Event event{};
+        window.waitEvent(event);
+        switch (recentScriptHandler(window, drawable_elements.putRecentScript(), event)) {
+            case GameMode::RecentScript:
+                return true;
+            case GameMode::InGame:
+                drawable_elements.resetRecentScript();
+                visual_novel.current_game_mode_ = ge::GameMode::InGame;
+                return true;
+            default:
+                break;
+        }
+    }
+    window.clear();
+    if (!recent_script->renderSfmlBasis(window.getSize())) {
+        return false;
+    }
+    recent_script->getSfmlBasis()->draw(window);
     return true;
 }

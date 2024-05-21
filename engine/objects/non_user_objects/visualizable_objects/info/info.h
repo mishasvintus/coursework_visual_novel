@@ -47,6 +47,7 @@ namespace ge {
         const std::wstring BACK_BUTTON_TEXT = L"Назад";
         std::string background_;
         std::shared_ptr<InfoSfmlBasis> sfml_basis_ = nullptr;
+        const sf::Color ABROGATION = sf::Color(105, 105, 105);
         const sf::Color BACKGROUND_FILL_COLOR = sf::Color(66, 84, 127, 240);
         const sf::Color HIGHLIGHT_COLOR = sf::Color(229,228,226);
     };

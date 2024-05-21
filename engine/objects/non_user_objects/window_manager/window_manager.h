@@ -21,22 +21,13 @@ namespace ge {
                                   ge::DrawableElements &drawable_elements);
 
         static bool recentScriptManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
-                                        ge::DrawableElements &drawable_elements) {
-            // TODO
-            return true;
-        }
+                                        ge::DrawableElements &drawable_elements);
 
         static bool infoManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                 ge::DrawableElements &drawable_elements);
 
         static bool ingameMenuManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
                                       ge::DrawableElements &drawable_elements);
-
-        static bool ingameSettingsManager(ge::VisualNovel &visual_novel, sf::RenderWindow &window,
-                                          ge::DrawableElements &drawable_elements) {
-            // TODO
-            return true;
-        }
 
         static std::unordered_map<GameMode, WindowManagerPtr> getMap();
     };
