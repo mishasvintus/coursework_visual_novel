@@ -287,41 +287,6 @@ bool ge::Scene::processNewFrame() {
     }
 
     // Updating frame slots (optimized)
-//    std::vector<std::string> new_paths = new_frame_->getSlots().getPicturesInSlots();
-//    std::vector<std::string> current_paths = current_frame_->getSlots().getPicturesInSlots();
-//    if (current_paths.size() < new_paths.size()) {
-//        current_paths.resize(new_paths.size());
-//        sfml_basis_->slots_sprites.resize(new_paths.size());
-//        sfml_basis_->slots_textures.resize(new_paths.size());
-//    }
-//    std::unordered_set<size_t> fined;
-//    for (size_t i = 0; i < std::min(new_paths.size(), current_paths.size()); ++i) {
-//        for (size_t j = 0; j < current_paths.size(); ++j) {
-//            if (fined.find(j) != fined.end() || current_paths[j] != new_paths[i]) {
-//                continue;
-//            }
-//            std::swap(current_paths[i], current_paths[j]);
-//            std::swap(sfml_basis_->slots_sprites[i], sfml_basis_->slots_sprites[j]);
-//            std::swap(sfml_basis_->slots_textures[i], sfml_basis_->slots_textures[j]);
-//            fined.insert(i);
-//            break;
-//        }
-//    }
-//    current_paths.resize(new_paths.size());
-//    for (size_t i = 0; i < current_paths.size(); ++i) {
-//        if (fined.find(i) != fined.end() || new_paths[i].empty()) {
-//            continue;
-//        }
-//
-//
-//        if (!sfml_basis_->slots_textures[i].loadFromFile(new_paths[i])) {
-//            std::cerr << "can't load sprite file" <<std::endl;
-//        }
-//        sfml_basis_->slots_sprites[i].setTexture(sfml_basis_->slots_textures[i]);
-//    }
-//    sfml_basis_->slots_sprites.resize(new_paths.size());
-//    sfml_basis_->slots_textures.resize(new_paths.size());
-
     sfml_basis_->slots_sprites.clear();
     sfml_basis_->slots_sprites.resize(new_frame_->getSlots().getPicturesInSlots().size());
 
@@ -339,6 +304,13 @@ bool ge::Scene::processNewFrame() {
     // Updating dialogue box
     sfml_basis_->replica.setString(new_frame_->getDialogueBox().getReplica());
     sfml_basis_->speaker.setString(new_frame_->getDialogueBox().getSpeaker());
+
+    sfml_basis_->speaker.setOrigin(0, 0);
+    sfml_basis_->speaker.setOrigin(0, sfml_basis_->speaker.getGlobalBounds().getSize().y / 2.f +
+                                      sfml_basis_->speaker.getLocalBounds().getPosition().y);
+    sf::Vector2f new_speaker_position = {sfml_basis_->speaker_background.getPosition().x + sfml_basis_->speaker_background.getSize().x * 0.02f,
+    sfml_basis_->speaker_background.getPosition().y + (sfml_basis_->speaker_background.getSize().y / 2.f)};
+    sfml_basis_->speaker.setPosition(new_speaker_position);
 
     // Updating actions
     if (new_frame_->getActions() != current_frame_->getActions()) {
@@ -510,8 +482,6 @@ bool ge::Scene::renderSfmlBasis(const sf::Vector2u &window_size) {
     sfml_basis_->speaker.setString(new_frame_->getDialogueBox().getSpeaker());
     sfml_basis_->speaker.setOutlineThickness(2);
     sfml_basis_->speaker.setCharacterSize(static_cast<unsigned int>(static_cast<float>(window_size.y) * 0.0256f));
-    sf::Vector2f speaker_size = {sfml_basis_->speaker.getLocalBounds().width,
-                                 sfml_basis_->speaker.getLocalBounds().height};
     sfml_basis_->speaker.setOrigin(0, sfml_basis_->speaker.getGlobalBounds().getSize().y / 2.f +
                                       sfml_basis_->speaker.getLocalBounds().getPosition().y);
     sfml_basis_->speaker.setPosition(speaker_background_position.x + speaker_background_size.x * 0.02f,
