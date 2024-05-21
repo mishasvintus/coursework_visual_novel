@@ -168,7 +168,7 @@ void ge::Scene::moveDown() {
 
 void ge::Scene::moveLeft() {
     if ((selected_row_button_ == ROW_ACTION_OR_DIALOGUE &&
-         (!current_frame_->getChoiceOfAction() || current_frame_->getActions().empty())) ||
+         (!current_frame_->getChoiceOfAction() || current_frame_->getActions().size() <= 1)) ||
         selected_column_button_ == 0) {
         return;
     }
@@ -187,7 +187,7 @@ void ge::Scene::moveLeft() {
 
 void ge::Scene::moveRight() {
     if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE &&
-        (!current_frame_->getChoiceOfAction() || current_frame_->getActions().empty())) {
+        (!current_frame_->getChoiceOfAction() || current_frame_->getActions().size() <= 1)) {
         return;
     }
     if (selected_row_button_ == ROW_ACTION_OR_DIALOGUE) {
@@ -212,11 +212,15 @@ void ge::Scene::moveRight() {
 }
 
 void ge::Scene::waitNextFrame() {
+    selected_row_button_ = 0;
+    selected_column_button_ = 0;
     ++current_frame_number_;
     is_waiting_next_frame_ = true;
 }
 
 void ge::Scene::waitNextChapter() {
+    selected_row_button_ = 0;
+    selected_column_button_ = 0;
     if (!current_frame_->getChoiceOfAction()) {
         throw std::runtime_error("can't wait next chapter until current frame is choice of action");
     }
@@ -232,16 +236,22 @@ void ge::Scene::waitNextChapter() {
     is_waiting_next_frame_ = true;
 }
 
-const std::string & ge::Scene::getBackground() const {
+std::string ge::Scene::getBackground() const {
     return current_frame_->getBackgroundFile();
 }
 
-const std::string &ge::Scene::getCurrentChapterName() const {
-    return current_chapter_name_;
+const std::vector<ge::Action> &ge::Scene::getActions() const {
+    if (!current_frame_ || !current_frame_->getChoiceOfAction()) {
+        throw std::runtime_error("current frame not exists\n");
+    }
+    return current_frame_->getActions();
 }
 
-size_t ge::Scene::getCurrentFrameNumber() const {
-    return current_frame_number_;
+const ge::DialogueBox &ge::Scene::getDialogueBox() const {
+    if (!current_frame_ || current_frame_->getChoiceOfAction()) {
+        throw std::runtime_error("current frame not exists\n");
+    }
+    return current_frame_->getDialogueBox();
 }
 
 void ge::Scene::processNewFrame() {

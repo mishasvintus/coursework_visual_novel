@@ -49,10 +49,12 @@ void ge::RecentScript::setTitle(const std::wstring &title) {
 
 void ge::RecentScript::setBackground(const std::string &background) {
     background_ = background;
+    is_rendered_ = false;
 }
 
 void ge::RecentScript::setScript(const std::queue<std::pair<std::wstring, std::wstring>> &script) {
     script_step_ = script;
+    is_rendered_ = false;
 }
 
 void ge::RecentScript::emplaceBack(const std::pair<std::wstring, std::wstring> &step) {
@@ -60,6 +62,7 @@ void ge::RecentScript::emplaceBack(const std::pair<std::wstring, std::wstring> &
         script_step_.pop();
     }
     script_step_.push(step);
+    is_rendered_ = false;
 }
 
 const std::wstring &ge::RecentScript::getTitle() const {
@@ -72,6 +75,10 @@ const std::string &ge::RecentScript::getBackground() const {
 
 const std::queue<std::pair<std::wstring, std::wstring>> &ge::RecentScript::getScript() const {
     return script_step_;
+}
+
+const std::wstring &ge::RecentScript::getActionName() const {
+    return ACTION;
 }
 
 bool ge::RecentScript::renderSfmlBasis(const sf::Vector2u &window_size) {
@@ -134,7 +141,7 @@ bool ge::RecentScript::renderSfmlBasis(const sf::Vector2u &window_size) {
     for (std::pair<sf::Text, sf::Text>& step : sfml_basis_->script_step) {
         step.first.setFont(sfml_basis_->font);
         step.first.setCharacterSize(static_cast<unsigned int>(window_size.y * 0.02));
-        step.first.setString((script_step_.front().first == ACTION ? L"\t" : script_step_.front().first + L":"));
+        step.first.setString((script_step_.front().first == ACTION ? L"Вы выбрали:" : script_step_.front().first + L":"));
         step.first.setFillColor(sf::Color::White);
         step.first.setOutlineColor(sf::Color::Black);
         step.first.setOutlineThickness(3);

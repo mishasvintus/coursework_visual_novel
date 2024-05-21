@@ -50,6 +50,10 @@ namespace ge {
 
         [[nodiscard]] size_t getCurrentFrameNumber() const;
 
+        [[nodiscard]] const std::vector<ge::Action> &getActions() const;
+
+        [[nodiscard]] const ge::DialogueBox &getDialogueBox() const;
+
         const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
         const unsigned int ROW_BUTTONS = 1;
         const unsigned int COLUMN_MENU = 0;
