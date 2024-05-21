@@ -11,12 +11,10 @@ namespace ge {
 
         void draw(sf::RenderWindow &window) override;
 
-        sf::Texture background_texture;
         sf::Sprite background_sprite;
 
         sf::Font font;
 
-        std::vector<sf::Texture> slots_textures;
         std::vector<sf::Sprite> slots_sprites;
 
         sf::Text replica;

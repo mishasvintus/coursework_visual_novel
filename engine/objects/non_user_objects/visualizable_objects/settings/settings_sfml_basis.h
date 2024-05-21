@@ -11,7 +11,6 @@ namespace ge {
 
         void draw(sf::RenderWindow &window) override;
 
-        sf::Texture background_texture;
         sf::Sprite background_sprite;
         sf::Font font;
         sf::Text title;

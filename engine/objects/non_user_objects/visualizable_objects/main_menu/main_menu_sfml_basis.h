@@ -15,7 +15,6 @@ namespace ge {
 
         sf::Font font_;
         sf::Sprite background_sprite_;
-        sf::Texture background_texture_;
         sf::RectangleShape title_background_;
         sf::Text title_;
         std::vector<sf::Text> buttons_;

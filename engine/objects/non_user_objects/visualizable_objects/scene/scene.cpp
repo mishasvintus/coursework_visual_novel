@@ -81,9 +81,6 @@ void ge::Scene::setNewFrame(const std::shared_ptr<Frame> &frame) {
 }
 
 void ge::Scene::setSlotSpriteParameters(const sf::Vector2u &window_size) {
-    if (sfml_basis_->slots_sprites.size() != sfml_basis_->slots_textures.size()) {
-        return;
-    }
     size_t slots_quantity = sfml_basis_->slots_sprites.size();
     if (slots_quantity > 0) {
         float distance_between_slots =
