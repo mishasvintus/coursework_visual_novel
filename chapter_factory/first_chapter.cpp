@@ -1,8 +1,9 @@
-#include "first_chapter.h"
+#include "chapter_factory.h"
 
 ge::Chapter ChapterFactory::makeFirstChapter() {
     ge::DialogueBox dream_dialogue_1(L"Свадебный регистратор",
-                                     L"Согласны ли Вы взять этого пацана в мужья? Клянетесь быть с ним в богатстве и бедности,\n на дискотеках и стрелках с другими группировками?");
+                                     L"Согласны ли Вы взять этого пацана в мужья? Клянетесь быть с ним в богатстве и бедности,\n"
+                                     "на дискотеках и стрелках с другими группировками?");
     ge::FrameSlots dream_slots_1({NATALYA_NIKOLAEVNA_WEDDING_MUTELY, OLEG_GOP_MUTELY});
     ge::Frame dream_frame_1(dream_dialogue_1, ABSTRACTION, dream_slots_1);
 
