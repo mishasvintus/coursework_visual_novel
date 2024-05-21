@@ -283,8 +283,8 @@ bool ge::Scene::processNewFrame() {
                       << std::endl;
             return false;
         }
-        sfml_basis_->background_sprite.setTexture(cache_manager_->getTextureRef(new_frame_->getBackgroundFile()));
     }
+    sfml_basis_->background_sprite.setTexture(cache_manager_->getTextureRef(new_frame_->getBackgroundFile()));
 
     // Updating frame slots (optimized)
     sfml_basis_->slots_sprites.clear();

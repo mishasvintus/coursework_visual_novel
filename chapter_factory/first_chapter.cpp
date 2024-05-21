@@ -45,7 +45,7 @@ ge::Chapter ChapterFactory::makeFirstChapter() {
     ge::Action wake_action_1({0.15, 0.35}, L"Осмотреть кота", "cat_watching");
     ge::Action wake_action_2({0.4, 0.55}, L"Поиграть на гитаре", "guitar_playing");
     ge::Action wake_action_3({0.65, 0.65}, L"Осмотреть плакат с человеком-пауком", "spider_man_watching");
-    ge::Action wake_action_4({0.9, 0.85}, L"Выйти на кухню", "chapter2");
+    ge::Action wake_action_4({0.9, 0.85}, L"Выйти на кухню", "kitchen_chapter");
     ge::Frame wake_frame_6({wake_action_1, wake_action_2, wake_action_3, wake_action_4}, ROOM, wake_slots);
     return ge::Chapter("chapter1",
                        {dream_frame_1, dream_frame_2, dream_frame_3, dream_frame_4, wake_frame_1, wake_frame_2,
