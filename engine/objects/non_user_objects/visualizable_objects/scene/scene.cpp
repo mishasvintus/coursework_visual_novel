@@ -232,8 +232,16 @@ void ge::Scene::waitNextChapter() {
     is_waiting_next_frame_ = true;
 }
 
-std::string ge::Scene::getBackground() const {
+const std::string & ge::Scene::getBackground() const {
     return current_frame_->getBackgroundFile();
+}
+
+const std::string &ge::Scene::getCurrentChapterName() const {
+    return current_chapter_name_;
+}
+
+size_t ge::Scene::getCurrentFrameNumber() const {
+    return current_frame_number_;
 }
 
 void ge::Scene::processNewFrame() {

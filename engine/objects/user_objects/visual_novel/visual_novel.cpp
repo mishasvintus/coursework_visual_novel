@@ -151,7 +151,7 @@ bool ge::VisualNovel::loadChapterCache(const std::string &chapter_name, size_t f
         return false;
     }
 
-    for (size_t frame_index = from_frame; frame_index < to_frame; ++frame_index) {
+    for (size_t frame_index = from_frame; frame_index <= to_frame; ++frame_index) {
         const ge::Frame &frame = chapter.frames_[frame_index];
         if (!cache_manager_->loadImage(frame.getBackgroundFile(), false)) {
             std::cerr << "Can't load file " << frame.getBackgroundFile() << " for background image of frame "
@@ -169,6 +169,10 @@ bool ge::VisualNovel::loadChapterCache(const std::string &chapter_name, size_t f
         }
     }
     return true;
+}
+
+void ge::VisualNovel::resetCache(bool delete_service_images) {
+    cache_manager_->resetBuffer(delete_service_images);
 }
 
 bool ge::VisualNovel::run() {

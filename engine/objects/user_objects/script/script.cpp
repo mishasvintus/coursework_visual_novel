@@ -24,3 +24,10 @@ bool ge::Script::eraseChapter(const std::string &name) {
     chapters_.erase(name);
     return true;
 }
+
+size_t ge::Script::getChapterSize(const std::string &chapter_name) const {
+    if (!chapters_.contains(chapter_name)) {
+        return 0;
+    }
+    return chapters_.at(chapter_name).frames_.size();
+}

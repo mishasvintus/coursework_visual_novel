@@ -24,6 +24,8 @@ namespace ge {
 
         bool eraseChapter(const std::string& name);
 
+        size_t getChapterSize(const std::string &chapter_name) const;
+
         std::unordered_map<std::string, Chapter> chapters_;
     };
 }

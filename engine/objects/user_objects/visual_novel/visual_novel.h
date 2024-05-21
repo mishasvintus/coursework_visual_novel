@@ -72,6 +72,8 @@ namespace ge {
 
         bool loadChapterCache(const std::string &chapter_name, size_t from_frame, size_t to_frame);
 
+        void resetCache(bool delete_service_images);
+
         bool run();
 
     private:

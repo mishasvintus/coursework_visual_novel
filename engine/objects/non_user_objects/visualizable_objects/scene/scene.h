@@ -44,7 +44,11 @@ namespace ge {
 
         [[nodiscard]] bool getChoiceOfActions() const;
 
-        [[nodiscard]] std::string getBackground() const;
+        [[nodiscard]] const std::string &getBackground() const;
+
+        [[nodiscard]] const std::string &getCurrentChapterName() const;
+
+        [[nodiscard]] size_t getCurrentFrameNumber() const;
 
         const unsigned int ROW_ACTION_OR_DIALOGUE = 0;
         const unsigned int ROW_BUTTONS = 1;
