@@ -4,13 +4,21 @@
 
 struct ChapterFactory {
     ge::Chapter makeFirstChapter();
+
     ge::Chapter makeCatWatchingChapter();
+
     ge::Chapter makeGuitarChapter();
+
     ge::Chapter makeSpiderManChapter();
+
     ge::Chapter makeKitchenChapter();
+
     ge::Chapter makePart2Chapter1();
+
     ge::Chapter makeTakeBookChapter();
+
     ge::Chapter makeFindPoline();
+
     ge::Chapter makeDontFindPoline();
 
     const std::string ABSTRACTION = "game/game_data/images/locations/abstraction.PNG";
@@ -59,6 +67,7 @@ struct ChapterFactory {
     const std::string KATE_BASE_TALKING = "game/game_data/images/character_models/katerina/base_talking.png";
     const std::string KATE_ANGRY_MUTELY = "game/game_data/images/character_models/katerina/angry_mutely.png";
     const std::string KATE_ANGRY_TALKING = "game/game_data/images/character_models/katerina/angry_talking.png";
+
 
     const std::string KATE_SURPRISED_MUTELY = "game/game_data/images/character_models/katerina/surprised_mutely.png";
     const std::string KATE_SURPRISED_TALKING = "game/game_data/images/character_models/katerina/surprised_talking.png";
