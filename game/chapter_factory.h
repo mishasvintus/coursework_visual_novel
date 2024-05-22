@@ -8,11 +8,16 @@ struct ChapterFactory {
     ge::Chapter makeGuitarChapter();
     ge::Chapter makeSpiderManChapter();
     ge::Chapter makeKitchenChapter();
+    ge::Chapter makeTakeBookChapter();
+    ge::Chapter makeFindPoline();
+    ge::Chapter makeDontFindPoline();
 
     const std::string ABSTRACTION = "game/game_data/images/locations/abstraction.PNG";
     const std::string ROOM = "game/game_data/images/locations/room.PNG";
     const std::string KITCHEN = "game/game_data/images/locations/kitchen.PNG";
     const std::string STREET = "game/game_data/images/locations/street.PNG";
+    const std::string SCHOOL = "game/game_data/images/locations/yard.PNG";
+    const std::string HALLWAY = "game/game_data/images/locations/hallway.PNG";
 
     const std::string NATALYA_NIKOLAEVNA_WEDDING_MUTELY = "game/game_data/images/character_models/natalya_nikolaevna/wedding_mutely.png";
     const std::string NATALYA_NIKOLAEVNA_WEDDING_TALKING = "game/game_data/images/character_models/natalya_nikolaevna/wedding_talking.png";
@@ -28,6 +33,8 @@ struct ChapterFactory {
 
     const std::string POLINA_BASE_MUTELY = "game/game_data/images/character_models/polina/base_mutely.png";
     const std::string POLINA_BASE_TALKING = "game/game_data/images/character_models/polina/base_talking.png";
+
+    const std::string KATE_BASE_MUTELY = "game/game_data/images/character_models/katerina/base_mutely.png";
 
     const std::string CAT = "game/game_data/images/mascot/cat.png";
 };

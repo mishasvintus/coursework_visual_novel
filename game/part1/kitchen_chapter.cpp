@@ -100,8 +100,14 @@ ge::Chapter ChapterFactory::makeKitchenChapter() {
                                                "а ты не меняешься. ");
     ge::Frame frame_26(dialogue_box_26, STREET, frame_slots_20);
 
+    ge::DialogueBox dialogue_box_27(L"Полина", L"Ладно, мне несложно. Возьми тетрадь, а перед уроком вернёшь.");
+    ge::Frame frame_27(dialogue_box_27, STREET, frame_slots_20);
+
+    ge::Action action({0.5, 0.85}, L"Взять тетрадь", "take_book_chapter");
+    ge::Frame frame_28({action}, STREET, frame_slots_18);
+
     return ge::Chapter("kitchen_chapter",
                        {frame_1, frame_2, frame_3, frame_4, frame_5, frame_6, frame_7, frame_8, frame_9, frame_10,
                         frame_11, frame_12, frame_13, frame_14, frame_15, frame_16, frame_17, frame_18, frame_19,
-                        frame_20, frame_21, frame_22, frame_23, frame_24, frame_25, frame_26});
+                        frame_20, frame_21, frame_22, frame_23, frame_24, frame_25, frame_26, frame_27, frame_28});
 }
