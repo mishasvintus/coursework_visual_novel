@@ -21,8 +21,12 @@ struct ChapterFactory {
     const std::string HALLWAY = "game/game_data/images/locations/hallway.PNG";
     const std::string CABINET = "game/game_data/images/locations/cabinet.PNG";
 
+    const std::string NATALYA_NIKOLAEVNA_BASE_MUTELY = "game/game_data/images/character_models/natalya_nikolaevna/base_mutely.png";
+    const std::string NATALYA_NIKOLAEVNA_BASE_TALKING = "game/game_data/images/character_models/natalya_nikolaevna/base_talking.png";
     const std::string NATALYA_NIKOLAEVNA_WEDDING_MUTELY = "game/game_data/images/character_models/natalya_nikolaevna/wedding_mutely.png";
     const std::string NATALYA_NIKOLAEVNA_WEDDING_TALKING = "game/game_data/images/character_models/natalya_nikolaevna/wedding_talking.png";
+    const std::string NATALYA_NIKOLAEVNA_ANGRY_MUTELY = "game/game_data/images/character_models/natalya_nikolaevna/angry_mutely.png";
+    const std::string NATALYA_NIKOLAEVNA_ANGRY_TALKING = "game/game_data/images/character_models/natalya_nikolaevna/angry_talking.png";
 
     const std::string OLEG_GOP_MUTELY = "game/game_data/images/character_models/oleg/gop_mutely.png";
     const std::string OLEG_GOP_TALKING = "game/game_data/images/character_models/oleg/gop_talking.png";
@@ -39,11 +43,26 @@ struct ChapterFactory {
     const std::string POLINA_BASE_TALKING = "game/game_data/images/character_models/polina/base_talking.png";
     const std::string POLINA_SURPRISED_MUTELY = "game/game_data/images/character_models/polina/surprised_mutely.png";
     const std::string POLINA_SURPRISED_TALKING = "game/game_data/images/character_models/polina/surprised_talking.png";
+    const std::string POLINA_HAPPY_MUTELY = "game/game_data/images/character_models/polina/happy_mutely.png";
+    const std::string POLINA_HAPPY_TALKING = "game/game_data/images/character_models/polina/happy_talking.png";
+    const std::string POLINA_SAD_MUTELY = "game/game_data/images/character_models/polina/sad_mutely.png";
+    const std::string POLINA_SAD_TALKING = "game/game_data/images/character_models/polina/sad_talking.png";
 
     const std::string SASHA_BASE_MUTELY = "game/game_data/images/character_models/male_character/base_mutely.png";
     const std::string SASHA_BASE_TALKING = "game/game_data/images/character_models/male_character/base_talking.png";
+    const std::string SASHA_HAPPY_MUTELY = "game/game_data/images/character_models/male_character/happy_mutely.png";
+    const std::string SASHA_HAPPY_TALKING = "game/game_data/images/character_models/male_character/happy_talking.png";
+    const std::string SASHA_SURPRISED_MUTELY = "game/game_data/images/character_models/male_character/surprised_mutely.png";
+    const std::string SASHA_SURPRISED_TALKING = "game/game_data/images/character_models/male_character/surprised_talking.png";
 
     const std::string KATE_BASE_MUTELY = "game/game_data/images/character_models/katerina/base_mutely.png";
+    const std::string KATE_BASE_TALKING = "game/game_data/images/character_models/katerina/base_talking.png";
+    const std::string KATE_ANGRY_MUTELY = "game/game_data/images/character_models/katerina/angry_mutely.png";
+    const std::string KATE_ANGRY_TALKING = "game/game_data/images/character_models/katerina/angry_talking.png";
+
+    const std::string KATE_SURPRISED_MUTELY = "game/game_data/images/character_models/katerina/surprised_mutely.png";
+    const std::string KATE_SURPRISED_TALKING = "game/game_data/images/character_models/katerina/surprised_talking.png";
+
 
     const std::string CAT = "game/game_data/images/mascot/cat.png";
 };
