@@ -48,7 +48,33 @@ ge::Chapter ChapterFactory::makeDontFindPoline() {
     ge::DialogueBox dialogue_box_12(L"", L"Я поспешил в свой класс, где вот-вот должна была начаться математика. ");
     ge::Frame frame_12(dialogue_box_12, CABINET, frame_slots_1);
 
+    ge::DialogueBox dialogue_box_13(L"", L"До начала первого урока оставалась всего пара-тройка минут, поэтому я как никогда\n"
+                                         " быстро забежал в кабинет, раскрыл тетрадь по математике и начал переносить в неё\n"
+                                         " Полинино решение под непрекращающийся гул голосов одноклассников.");
+    ge::Frame frame_13(dialogue_box_13, CABINET, frame_slots_1);
+
+    ge::DialogueBox dialogue_box_14(L"", L"Не понимаю, что она там написала, но выглядит правильно ");
+    ge::Frame frame_14(dialogue_box_14, CABINET, frame_slots_1);
+
+    ge::DialogueBox dialogue_box_15(L"", L"Вроде, правильно");
+    ge::Frame frame_15(dialogue_box_15, CABINET, frame_slots_1);
+
+    ge::DialogueBox dialogue_box_16(L"", L"В любой другой день я бы с радостью обсудил с одноклассниками прошедшие выходные,\n"
+                                      "но сейчас нельзя было медлить - на горизонте маячила двойка за домашнюю работу.\n"
+                                      "Этого нельзя было допустить!");
+    ge::Frame frame_16(dialogue_box_16, CABINET, frame_slots_1);
+
+    ge::DialogueBox dialogue_box_17(L"", L"Увлекшись заданием, я не заметил, как на плечо легла чья-то рука,\n"
+                                         "а шум в кабинете затих. Даже Димас, самый отпетый задира, перестал громко\n"
+                                         "выкрикивать шутки. ");
+    ge::Frame frame_17(dialogue_box_17, CABINET, frame_slots_1);
+
+    ge::DialogueBox dialogue_box_18(L"", L"Обернувшись, я понял, что Наталья Николаевна, наша учительница по математике\n,"
+                                         "смотрит прямо на меня. И смотрит весьма недобро: она заметила,\n"
+                                         "как я списываю домашнее задание.");
+
+
     return ge::Chapter("dont_find_poline",
                        {frame_1, frame_2, frame_3, frame_4, frame_5, frame_6, frame_7, frame_8, frame_9, frame_10,
-                        frame_11, frame_12});
+                        frame_11, frame_12, frame_13, frame_14, frame_15, frame_16, frame_17});
 }

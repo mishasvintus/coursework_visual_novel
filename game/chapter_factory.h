@@ -8,7 +8,7 @@ struct ChapterFactory {
     ge::Chapter makeGuitarChapter();
     ge::Chapter makeSpiderManChapter();
     ge::Chapter makeKitchenChapter();
-    ge::Chapter makePart2Chapter1();
+    ge::Chapter makePart2Chapter1() {}
     ge::Chapter makeTakeBookChapter();
     ge::Chapter makeFindPoline();
     ge::Chapter makeDontFindPoline();
@@ -23,6 +23,8 @@ struct ChapterFactory {
 
     const std::string NATALYA_NIKOLAEVNA_WEDDING_MUTELY = "game/game_data/images/character_models/natalya_nikolaevna/wedding_mutely.png";
     const std::string NATALYA_NIKOLAEVNA_WEDDING_TALKING = "game/game_data/images/character_models/natalya_nikolaevna/wedding_talking.png";
+    const std::string NATALYA_NIKOLAEVNA_ANGRY_MUTELY = "game/game_data/images/character_models/natalya_nikolaevna/angry_mutely.png";
+
 
     const std::string OLEG_GOP_MUTELY = "game/game_data/images/character_models/oleg/gop_mutely.png";
     const std::string OLEG_GOP_TALKING = "game/game_data/images/character_models/oleg/gop_talking.png";
