@@ -19,6 +19,7 @@ struct ChapterFactory {
     const std::string STREET = "game/game_data/images/locations/street.PNG";
     const std::string SCHOOL = "game/game_data/images/locations/yard.PNG";
     const std::string HALLWAY = "game/game_data/images/locations/hallway.PNG";
+    const std::string CABINET = "game/game_data/images/locations/cabinet.PNG";
 
     const std::string NATALYA_NIKOLAEVNA_WEDDING_MUTELY = "game/game_data/images/character_models/natalya_nikolaevna/wedding_mutely.png";
     const std::string NATALYA_NIKOLAEVNA_WEDDING_TALKING = "game/game_data/images/character_models/natalya_nikolaevna/wedding_talking.png";
