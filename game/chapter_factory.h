@@ -13,13 +13,17 @@ struct ChapterFactory {
 
     ge::Chapter makeKitchenChapter();
 
-    ge::Chapter makePart2Chapter1();
+    ge::Chapter makePart2Chapter1() {}
 
     ge::Chapter makeTakeBookChapter();
 
     ge::Chapter makeFindPoline();
 
     ge::Chapter makeDontFindPoline();
+
+    ge::Chapter makePassPoline();
+
+    ge::Chapter makeDontPassPoline();
 
     const std::string ABSTRACTION = "game/game_data/images/locations/abstraction.PNG";
     const std::string ROOM = "game/game_data/images/locations/room.PNG";

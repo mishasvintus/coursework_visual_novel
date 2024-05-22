@@ -48,9 +48,10 @@ ge::Chapter ChapterFactory::makeDontFindPoline() {
     ge::DialogueBox dialogue_box_12(L"", L"Я поспешил в свой класс, где вот-вот должна была начаться математика. ");
     ge::Frame frame_12(dialogue_box_12, CABINET, frame_slots_1);
 
-    ge::DialogueBox dialogue_box_13(L"", L"До начала первого урока оставалась всего пара-тройка минут, поэтому я как никогда\n"
-                                         " быстро забежал в кабинет, раскрыл тетрадь по математике и начал переносить в неё\n"
-                                         " Полинино решение под непрекращающийся гул голосов одноклассников.");
+    ge::DialogueBox dialogue_box_13(L"",
+                                    L"До начала первого урока оставалась всего пара-тройка минут, поэтому я как никогда\n"
+                                    " быстро забежал в кабинет, раскрыл тетрадь по математике и начал переносить в неё\n"
+                                    " Полинино решение под непрекращающийся гул голосов одноклассников.");
     ge::Frame frame_13(dialogue_box_13, CABINET, frame_slots_1);
 
     ge::DialogueBox dialogue_box_14(L"", L"Не понимаю, что она там написала, но выглядит правильно ");
@@ -59,9 +60,10 @@ ge::Chapter ChapterFactory::makeDontFindPoline() {
     ge::DialogueBox dialogue_box_15(L"", L"Вроде, правильно");
     ge::Frame frame_15(dialogue_box_15, CABINET, frame_slots_1);
 
-    ge::DialogueBox dialogue_box_16(L"", L"В любой другой день я бы с радостью обсудил с одноклассниками прошедшие выходные,\n"
-                                      "но сейчас нельзя было медлить - на горизонте маячила двойка за домашнюю работу.\n"
-                                      "Этого нельзя было допустить!");
+    ge::DialogueBox dialogue_box_16(L"",
+                                    L"В любой другой день я бы с радостью обсудил с одноклассниками прошедшие выходные,\n"
+                                    "но сейчас нельзя было медлить - на горизонте маячила двойка за домашнюю работу.\n"
+                                    "Этого нельзя было допустить!");
     ge::Frame frame_16(dialogue_box_16, CABINET, frame_slots_1);
 
     ge::DialogueBox dialogue_box_17(L"", L"Увлекшись заданием, я не заметил, как на плечо легла чья-то рука,\n"
@@ -69,12 +71,34 @@ ge::Chapter ChapterFactory::makeDontFindPoline() {
                                          "выкрикивать шутки. ");
     ge::Frame frame_17(dialogue_box_17, CABINET, frame_slots_1);
 
-    ge::DialogueBox dialogue_box_18(L"", L"Обернувшись, я понял, что Наталья Николаевна, наша учительница по математике\n,"
-                                         "смотрит прямо на меня. И смотрит весьма недобро: она заметила,\n"
-                                         "как я списываю домашнее задание.");
+    ge::DialogueBox dialogue_box_18(L"",
+                                    L"Обернувшись, я понял, что Наталья Николаевна, наша учительница по математике\n,"
+                                    "смотрит прямо на меня. И смотрит весьма недобро: она заметила,\n"
+                                    "как я списываю домашнее задание.");
+    ge::FrameSlots frame_slots_18({NATALYA_NIKOLAEVNA_ANGRY_MUTELY});
+    ge::Frame frame_18(dialogue_box_18, CABINET, frame_slots_18);
 
+    ge::DialogueBox dialogue_box_19(L"", L"Теперь и мне, и соседке по парте несдобровать. Классная руководительница\n"
+                                         "взглянула на обложку Полининой тетради и равнодушно бросила:");
+    ge::Frame frame_19(dialogue_box_19, CABINET, frame_slots_18);
+
+    ge::DialogueBox dialogue_box_20(L"Наталья Николавна",
+                                    L"И Виноградов, и Третьякова получают два за домашнюю работу.\n Поощрять списывание я не буду");
+    ge::FrameSlots frame_slots_20({NATALYA_NIKOLAEVNA_ANGRY_TALKING});
+    ge::Frame frame_20(dialogue_box_20, CABINET, frame_slots_20);
+
+    ge::DialogueBox dialogue_box_21(L"", L"Я обернулся и увидел испуганное лицо Полины, застывшей в дверях.");
+    ge::Frame frame_21(dialogue_box_21, CABINET, frame_slots_18);
+
+    ge::DialogueBox dialogue_box_22(L"", L"Словно олень в свете фар она застыла в ожидании моего ответа Наталье Николаевне.");
+    ge::Frame frame_22(dialogue_box_22, CABINET, frame_slots_18);
+
+    ge::Action action_1({0.25, 0.65}, L"Не сдавать Полину", "dont_pass_poline");
+    ge::Action action_2({0.75, 0.75}, L"Сдать Полину", "pass_poline");
+    ge::Frame frame_23({action_1, action_2}, CABINET, frame_slots_18);
 
     return ge::Chapter("dont_find_poline",
                        {frame_1, frame_2, frame_3, frame_4, frame_5, frame_6, frame_7, frame_8, frame_9, frame_10,
-                        frame_11, frame_12, frame_13, frame_14, frame_15, frame_16, frame_17});
+                        frame_11, frame_12, frame_13, frame_14, frame_15, frame_16, frame_17, frame_18, frame_19,
+                        frame_20, frame_21, frame_22, frame_23});
 }
