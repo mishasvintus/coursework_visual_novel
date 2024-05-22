@@ -6,7 +6,8 @@ ge::Chapter ChapterFactory::makeDontFindPoline() {
     ge::FrameSlots frame_slots_1;
     ge::Frame frame_1(dialogue_box_1, HALLWAY, frame_slots_1);
 
-    ge::DialogueBox dialogue_box_2(L"", L"Проходя мимо дверей классов, я становился невольным свидетелей\n жизни других школьников. ");
+    ge::DialogueBox dialogue_box_2(L"",
+                                   L"Проходя мимо дверей классов, я становился невольным свидетелей\n жизни других школьников. ");
     ge::Frame frame_2(dialogue_box_2, HALLWAY, frame_slots_1);
 
     ge::DialogueBox dialogue_box_3(L"", L"Среди малознакомых лиц я заметил её.");
@@ -29,8 +30,25 @@ ge::Chapter ChapterFactory::makeDontFindPoline() {
                                         "у меня дома на рабочем столе ноутбука. Рисунки Кати абсолютно точно особенные. ");
     ge::Frame frame_7(dialogue_box_7, HALLWAY, frame_slots_4);
 
-    ge::DialogueBox dialogue_box_8(L"", L"Невольно я замедлился возле её класса. В какой-то момент наши взгляды встретились.");
+    ge::DialogueBox dialogue_box_8(L"",
+                                   L"Невольно я замедлился возле её класса. В какой-то момент наши взгляды встретились.");
     ge::Frame frame_8(dialogue_box_8, HALLWAY, frame_slots_4);
 
-    return ge::Chapter("dont_find_poline", {frame_1, frame_2, frame_3, frame_4, frame_5, frame_6, frame_7, frame_8});
+    ge::DialogueBox dialogue_box_9(L"",
+                                   L"Я сразу сделал вид, что совершенно не смотрю в её сторону, нелепо потупив взор. ");
+    ge::Frame frame_9(dialogue_box_9, HALLWAY, frame_slots_4);
+
+    ge::DialogueBox dialogue_box_10(L"", L"Заметила ли она, что я смотрел на неё? Наверное,\n"
+                                         "пялятся на незнакомых девушек только “странные”...");
+    ge::Frame frame_10(dialogue_box_10, HALLWAY, frame_slots_4);
+
+    ge::DialogueBox dialogue_box_11(L"", L"Неловкость и смятение начали вгонять меня в краску.");
+    ge::Frame frame_11(dialogue_box_11, HALLWAY, frame_slots_4);
+
+    ge::DialogueBox dialogue_box_12(L"", L"Я поспешил в свой класс, где вот-вот должна была начаться математика. ");
+    ge::Frame frame_12(dialogue_box_12, CABINET, frame_slots_1);
+
+    return ge::Chapter("dont_find_poline",
+                       {frame_1, frame_2, frame_3, frame_4, frame_5, frame_6, frame_7, frame_8, frame_9, frame_10,
+                        frame_11, frame_12});
 }
