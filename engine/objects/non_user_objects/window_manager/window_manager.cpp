@@ -109,7 +109,7 @@ bool ge::WindowManager::mainMenuManager(ge::VisualNovel &visual_novel, sf::Rende
                 scene->setCacheManager(visual_novel.cache_manager_);
                 visual_novel.loadChapterCache(std::get<std::string>(game_point[0]), std::get<size_t>(game_point[1]),
                                               visual_novel.getScript().getChapterSize(
-                                                      visual_novel.getNameStartChapter()) - 1);
+                                                      std::get<std::string>(game_point[0])) - 1);
                 drawable_elements.setScene(scene);
                 drawable_elements.getRecentScriptPtr()->setScript(
                         std::get<std::queue<std::pair<std::wstring, std::wstring>>>(game_point[2]));
